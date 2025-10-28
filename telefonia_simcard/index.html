@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Todo el <head> se conserva igual para mantener estilos y librerías --><link rel="icon" href="favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- El título de la página se actualiza --><title>Telefonia Sim Card - Cool Mobile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fuente 'Roboto' agregada para los nuevos estilos de pestañas --><link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    
+    <!-- Todos los estilos se conservan --><style>
+        html {
+            height: 100%;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Fondo degradado conservado */
+            background: linear-gradient(180deg,  #57C5B6, #BCEAD5, #6bd6c8, #57C5B6, #BCEAD5, #CBE4DE);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+            color: #BCEAD5;
+        }
+
+        [x-cloak] { display: none !important; }
+        
+        /* Estilos de Swiper (slider) - Se pueden dejar, no afectan */
+        .swiper-button-next,
+        .swiper-button-prev { display: none; }
+        .swiper-pagination-bullet-active { background-color: #57C5B6; }
+        .swiper-slide { background-size: cover; background-position: center; }
+
+        /* Estilos de Título Conservados */
+        .text-3d, .title-outline {
+            text-shadow:
+                -1.5px -1.5px 0 #2C3333, 1.5px -1.5px 0 #2C3333,
+                -1.5px 1.5px 0 #2C3333, 1.5px 1.5px 0 #2C3333,
+                4px 4px 8px rgba(0,0,0,0.5);
+        }
+        
+        /* Estilos del Chat (modal) Conservados */
+        #chat-modal #chatbox {
+            border: 1px solid #4B5563; padding: 1rem; height: 400px;
+            overflow-y: scroll; margin-bottom: 1rem; background-color: #3C4248;
+            border-radius: 0.5rem;
+        }
+        #chat-modal .message-user { text-align: right; color: #57C5B6; }
+        #chat-modal .message-bot { text-align: left; color: #BCEAD5; }
+        #chat-modal #userInput {
+            width: calc(100% - 6rem); padding: 0.75rem; border-radius: 9999px;
+            border: 1px solid #4B5563; background-color: #4A5568;
+            color: white; outline: none;
+        }
+        #chat-modal #userInput:focus { border-color: #57C5B6; }
+        #chat-modal #chat-button {
+            background-color: #0E8388; color: white; padding: 0.75rem 1.5rem;
+            border-radius: 9999px; font-weight: bold; transition: all 0.2s;
+        }
+        #chat-modal #chat-button:hover { background-color: #57C5B6; transform: scale(1.05); }
+
+        /* Estilos de Imagen Interactiva (no se usa, pero no afecta) */
+        .cursor-follow-container {
+            width: 100%; max-width: 600px; height: 380px; overflow: hidden;
+            position: relative; margin: auto; border-radius: 0.75rem;
+            transition: transform 0.3s ease; 
+        }
+         .cursor-follow-container:hover {
+            transform: scale(1.05); 
+        }
+        .cursor-follow-image {
+            width: 100%; height: 100%; transition: transform 0.1s ease;
+            position: absolute; top: 0; left: 0; object-fit: cover;
+        }
+
+        /* Estilos Carrusel 3D (no se usa, pero no afecta) */
+        .mi-carrusel-widget {
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .mi-carrusel-widget .icon-cards {
+            position: relative; width: 300px; height: 480px;
+            perspective: 1000px; transform-origin: center; cursor: grab;
+        }
+        .mi-carrusel-widget .icon-cards__content {
+            position: absolute; width: 100%; height: 100%;
+            transform-style: preserve-3d;
+            transform: translateZ(-150px) rotateY(0);
+            transition: transform 0.5s ease-out;
+        }
+        .mi-carrusel-widget .icon-cards__item {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            transform-origin: center; display: flex; align-items: center;
+            justify-content: center; overflow: hidden; border-radius: 10px;
+        }
+        .mi-carrusel-widget .icon-cards__item a { display: block; width: 100%; height: 100%; }
+        .mi-carrusel-widget .icon-cards__item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s ease; pointer-events: none;
+        }
+        .mi-carrusel-widget .icon-cards__item:nth-child(1) { transform: rotateY(0deg) translateZ(150px); }
+        .mi-carrusel-widget .icon-cards__item:nth-child(2) { transform: rotateY(120deg) translateZ(150px); }
+        .mi-carrusel-widget .icon-cards__item:nth-child(3) { transform: rotateY(240deg) translateZ(150px); }
+        
+        /* Estilos Bloque de Video (no se usa, pero no afecta) */
+        .video-bloque { width: 450px; text-align: center; transition: transform 0.3s ease; }
+        .video-bloque:hover { transform: scale(1.05); }
+        .video-bloque video { width: 100%; border-radius: 12px; display: block; }
+        .video-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 90px; }
+        
+        /* Estilos Cool Mobile (no se usa, pero no afecta) */
+        #cool-mobile-section h2 {
+            color: #CBE4DE; font-size: 1.75rem; line-height: 1.2;
+            font-family: 'Poppins', sans-serif !important;
+        }
+        @media (min-width: 640px) { #cool-mobile-section h2 { font-size: 2.25rem; } }
+        @media (min-width: 768px) { #cool-mobile-section h2 { font-size: 2.75rem; } }
+        #cool-mobile-section .text-blue-400 { color: #57C5B6; }
+        #cool-mobile-section .cool-mobile-btn {
+            background-color: #0E8388; color: #ffffff; font-weight: 500;
+            padding: 0.75rem 1.5rem; border-radius: 9999px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: background-color 0.3s ease-in-out; text-transform: uppercase;
+            border: 2px solid transparent; white-space: nowrap;
+        }
+        #cool-mobile-section .cool-mobile-btn:hover { background-color: #57C5B6; }
+
+        /* Estilos Puntos de Recarga (no se usa, pero no afecta) */
+        #recharge-widget { font-family: 'Montserrat', sans-serif; }
+        #recharge-widget h3 {
+            font-family: 'Montserrat', sans-serif !important;
+            color: #CBE4DE;
+        }
+        .logo-carousel { display: flex; overflow: hidden; width: 100%; white-space: nowrap; }
+        .logo-carousel-inner { display: flex; animation: carousel 20s linear infinite; }
+        .logo-carousel-item {
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; width: 150px; margin: 0 1rem;
+        }
+        .logo-carousel-item img {
+            max-height: 50px; width: auto; object-fit: contain;
+            filter: grayscale(100%) invert(90%) sepia(10%) saturate(150%) hue-rotate(120deg) brightness(100%) contrast(90%);
+            transition: filter 0.3s ease;
+        }
+        .logo-carousel-item img:hover { filter: grayscale(0%); }
+        @keyframes carousel {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Estilos App Download (no se usa, pero no afecta) */
+        #app-download-section h3 {
+            font-family: 'Poppins', sans-serif !important;
+            color: #CBE4DE;
+        }
+        #app-download-section ul li svg { color: #57C5B6; }
+        .store-button { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .store-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Estilos Footer Conservados */
+        .footer {
+            background-color: #2E4F4F;
+            color: #BCEAD5;
+            padding: 4rem 0;
+            border-top: 2px solid #0E8388;
+        }
+        .footer-link {
+            transition: color 0.2s ease-in-out;
+        }
+        .footer-link:hover {
+            color: #57C5B6;
+        }
+        .footer-title {
+            color: #CBE4DE;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Estilos Burbuja Chat Conservados */
+        .chat-bubble-options {
+            transition: all 0.3s ease-out;
+        }
+
+        /* Estilos Modal Chat Conservados */
+        .chat-modal-overlay {
+             background-color: rgba(0, 0, 0, 0.6);
+             z-index: 999; /* Lower than modal content */
+        }
+        .chat-modal-content {
+            z-index: 9999;
+            max-height: 90vh; /* Limit modal height */
+        }
+
+
+        /* Estilos Mobile Responsive Conservados */
+        @media (max-width: 768px) {
+            .video-bloque { width: 90%; }
+            .video-container { gap: 20px; }
+            #app-download-section .grid {
+                align-items: center; 
+            }
+             #app-download-section .text-content-column {
+                 align-items: center; /* Center text content */
+            }
+             .interactive-carousel-grid {
+                 grid-template-columns: 1fr; /* Una columna en móvil */
+            }
+            /* Ajustar el padding-top del main en móvil */
+            main {
+                padding-top: 8rem; /* Más espacio para el header fijo */
+            }
+            /* Ajustar grid de Tiendas/App en móvil */
+            .tiendas-app-grid {
+                grid-template-columns: 1fr; /* Una columna en móvil */
+            }
+            /* Ajustar botones de pestañas en móvil */
+            .tab-buttons {
+                flex-wrap: wrap; /* Permitir que los botones pasen a la siguiente línea */
+                gap: 5px; /* Reducir espacio */
+            }
+            .tab-buttons button {
+                font-size: 14px; /* Reducir tamaño de fuente */
+                padding: 8px 12px;
+            }
+        }
+         @media (max-width: 640px) {
+            .logo-carousel-item { width: 120px; margin: 0 0.5rem; }
+            .chat-modal-content {
+                width: 95%; /* Make modal wider on small screens */
+            }
+             .chat-modal-container {
+                align-items: flex-start; /* Align modal top on mobile */
+                padding-top: 4rem; /* Add some top padding */
+            }
+        }
+
+        /* Estilos para la imagen de promoción ELIMINADOS */
+        /* .promo-img-box { ... } */
+        /* .promo-img-box img { ... } */
+
+        /* Ajustar el padding superior del main para que la imagen no quede bajo el header */
+        main {
+            padding-top: 6rem; /* Ajustar según la altura de tu header si es necesario */
+        }
+
+        /* INICIO: Estilos para las nuevas pestañas */
+        .tab-container {
+          text-align: center;
+          font-family: sans-serif;
+          position: relative;
+          /* Asegura que el contenedor ocupe el espacio vertical de su contenido activo */
+          min-height: 400px; /* Ajustar si es necesario */
+        }
+
+        .tab-buttons {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          margin-bottom: 30px;
+        }
+
+        .tab-buttons button {
+          padding: 10px 15px;
+          border: none;
+          cursor: pointer;
+          background-color: #2E4F4F;
+          color: white;
+          border-radius: 30px;
+          font-size: 18px;
+          font-family: 'Roboto', serif;
+          transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .tab-buttons button:hover {
+          background-color: #0E8388; /* Color hover del header */
+          transform: translateY(-2px);
+        }
+
+        .tab-buttons button:focus {
+          outline: none;
+          box-shadow: none;
+        }
+
+        .tab-buttons button.active {
+          background-color: #dbd89f; /* Color activo de ejemplo */
+          color: #2E4F4F;
+        }
+
+        .tab-content {
+          display: none;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 20px;
+          opacity: 0;
+          transition: opacity 0.5s ease;
+          pointer-events: none;
+          position: absolute; /* Oculta los inactivos sin ocupar espacio */
+          width: 100%;
+          left: 0;
+          top: 100px; /* Posición inicial debajo de los botones */
+        }
+
+        .tab-content.active {
+          display: flex;
+          opacity: 1;
+          pointer-events: auto;
+          position: relative; /* El activo ocupa espacio */
+          top: 0; /* Resetea la posición */
+        }
+
+        .plan-card {
+          max-width: 250px;
+          border-radius: 20px;
+          overflow: hidden;
+          opacity: 0;
+          transform: translateY(30px);
+          animation: slideIn 0.6s ease forwards;
+        }
+
+        .tab-content.active .plan-card {
+          animation: slideIn 0.6s ease forwards;
+        }
+
+        .plan-card:nth-child(1) { animation-delay: 0.1s; }
+        .plan-card:nth-child(2) { animation-delay: 0.2s; }
+        .plan-card:nth-child(3) { animation-delay: 0.3s; }
+        .plan-card:nth-child(4) { animation-delay: 0.4s; }
+        .plan-card:nth-child(5) { animation-delay: 0.5s; }
+        /* Añadir más si es necesario */
+
+        @keyframes slideIn {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .plan-card a {
+          display: block;
+          text-decoration: none;
+        }
+
+        .plan-card img {
+          max-width: 100%;
+          border-radius: 10px;
+          transition: transform 0.3s ease;
+        }
+
+        .plan-card img:hover {
+          transform: scale(1.03);
+        }
+        /* FIN: Estilos para las nuevas pestañas */
+
+        /* Estilos de las cajas cristalinas */
+        .glass-box {
+            background-color: rgba(46, 79, 79, 0.7); /* Fondo color base con transparencia */
+            backdrop-filter: blur(10px); /* Efecto cristal */
+            border: 1px solid rgba(203, 228, 222, 0.3); /* Borde con color del tema */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Sombra */
+            border-radius: 15px; /* Bordes redondeados */
+            padding: 2rem;
+            transition: all 0.3s ease;
+            height: 100%; /* Asegura que ocupe toda la altura */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Asegurar que el contenido dentro de .glass-box tenga el color adecuado */
+        .glass-box h3, .glass-box p, .glass-box a {
+            color: #000000; /* O un color que contraste bien con la transparencia */
+        }
+        .glass-box .text-gray-800, .glass-box .text-gray-900 {
+             color: #000000; /* Sobreescribir colores de texto específicos */
+        }
+
+
+        /* Estilos para el nuevo input de IMEI */
+        #imei-input::placeholder {
+            color: #BCEAD5;
+            opacity: 0.7;
+        }
+
+        /* INICIO: Estilos para el modal de resultado IMEI */
+        .fade-in {
+          animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        .boton-resultado {
+          margin-top: 15px;
+          background-color: #0E8388; /* Color base */
+          color: white;
+          padding: 10px 25px;
+          font-size: 16px;
+          border: none;
+          border-radius: 5px;
+          text-decoration: none;
+          display: inline-block;
+          font-weight: bold;
+          transition: background-color 0.2s ease, transform 0.2s ease;
+          margin-left: 5px; /* Espacio entre botones */
+          margin-right: 5px;
+          cursor: pointer; /* Añadir cursor pointer */
+        }
+        .boton-resultado:hover {
+          background-color: #57C5B6; /* Color hover */
+          transform: translateY(-2px);
+        }
+
+        .respuesta-imagen {
+          max-width: 180px;
+          margin-top: 15px;
+          border-radius: 10px;
+        }
+
+        /* Estilos para el contenido del modal de resultado */
+        #resultado-imei {
+            color: #CBE4DE; /* Color de texto base para el modal */
+            font-size: 18px; 
+            min-height: 40px;
+        }
+        #resultado-imei p {
+            color: #CBE4DE; /* Párrafos dentro del modal */
+            margin-bottom: 0.75rem;
+        }
+        /* FIN: Estilos para el modal de resultado IMEI */
+
+    </style>
+</head>
+<body>
+    <!-- Contenedor principal de Alpine.js CONSERVADO Y ACTUALIZADO --><!-- Se añade el listener @open-result-modal.window y @close-result-modal.window --><div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false, isResultModalOpen: false }" 
+         @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false"
+         @open-result-modal.window="isResultModalOpen = true"
+         @close-result-modal.window="isResultModalOpen = false">
+        
+        <!-- Header (encabezado) CONSERVADO --><header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
+                :class="{ 'bg-[#2E4F4F] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-24">
+                    <a href="#" class="flex-shrink-0">
+                        <img src="logo.png" alt="Logo Dalefon" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                    </a>
+                    <div class="hidden lg:flex lg:space-x-8">
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Telefonía
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
+                                <!-- Enlace actualizado para esta página --><a href="telefonia-sim-card.html" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia-simcard</a> 
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia eSIM</a>
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
+                            </div>
+                        </div>
+                        <a href="#" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet de Casa</a>
+                        <a href="#" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet Móvil</a>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Consulta
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Portabilidad</a>
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Compatibilidad</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Contacto
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Faqs</a>
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Contactos</a>
+                            </div>
+                        </div>
+                        <a href="#" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Facturación</a>
+                    </div>
+
+                    <a href="#" class="hidden lg:block bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105">
+                        Recargas
+                    </a>
+
+                    <div class="lg:hidden flex items-center">
+                        <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                            <span class="sr-only">Abrir menú principal</span>
+                            <svg class="h-6 w-6" x-show="!openMenu" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                            <svg class="h-6 w-6" x-show="openMenu" x-cloak fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menú móvil CONSERVADO --><div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#2E4F4F] z-40"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95">
+                <div class="px-2 pt-20 pb-3 space-y-1 sm:px-3">
+                    <div class="absolute top-4 right-4">
+                        <button @click="openMenu = false" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                            <span class="sr-only">Cerrar menú principal</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Telefonía</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <!-- Enlace actualizado para esta página --><a href="telefonia-sim-card.html" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia-simcard</a>
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia eSIM</a>
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Promociones</a>
+                        </div>
+                    </div>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet de Casa</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet Móvil</a>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Consulta</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Portabilidad</a>
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Compatibilidad</a>
+                        </div>
+                    </div>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Contacto</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Faqs</a>
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Contactos</a>
+                        </div>
+                    </div>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Facturación</a>
+                    <div class="pt-4 border-t border-[#BCEAD5]">
+                        <a href="#" class="block text-center bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 w-full">
+                            Recargas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- INICIO: Nuevo contenido principal para la página "Telefonia Sim Card" --><main class="pt-24 pb-16 min-h-screen"> <!-- pt-24 para dejar espacio al header, min-h-screen para que el footer baje --><!-- INICIO: Imagen de Promoción ELIMINADA -->
+            <!-- <div class="promo-img-box"> ... </div> -->
+            <!-- FIN: Imagen de Promoción ELIMINADA --><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <!-- INICIO: Nueva sección 2 Columnas (Info eSIM + Imagen) --><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-8">
+                    <!-- Columna 1: Texto y Formulario -->
+                    <div class="text-white md:text-left">
+                        <h1 class="text-4xl lg:text-4xl font-bold title-outline mb-4">Escoge tu recarga ideal, ahora todas aplican:</h1>
+                        <p class="text-lg text-[#2C3333] mb-6">✅ Llamadas y SMS <span class="font-bold text-black">ILIMITADAS</span></p>
+                        <p class="text-lg text-[#2C3333] mb-6">✅ Redes sociales <span class="font-bold text-black">ILIMITADAS</span></p>
+                        <p class="text-lg text-[#2C3333] mb-6">✅ Todos comparten <span class="font-bold text-black">DATOS</span></p>
+                        <p class="text-lg text-[#2C3333] mb-6">✅ <span class="font-bold text-black">Sin planes</span> forzosos</p>                     
+                        <p class="text-lg text-[#2C3333] mb-6">✅ <span class="font-bold text-black">Acumulación</span> de GB</p>
+                        <p class="text-sm text-[#2C3333] mb-4">Revisa tu compatibilidad. Obtén el IMEI de tu teléfono marcando al <span class="font-bold text-black">*#06#</span></p>
+                        
+                        <!-- Formulario IMEI --><div class="flex flex-col sm:flex-row gap-3">
+                            <input type="tel" id="imei-input" placeholder="Ingresa tu IMEI (15 dígitos)" class="flex-grow p-3 rounded-full bg-[#2E4F4F] border border-[#0E8388] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#57C5B6]" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="15">
+                            <button onclick="consultarIMEI()" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 whitespace-nowrap">
+                                Verificar Compatibilidad
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Columna 2: Imagen -->
+                    <div class="flex justify-center items-center">
+                        <img src="https://coolmobile.mx/wp-content/uploads/2025/08/Coolbit-4.png" alt="Promoción eSIM" class="rounded-lg  w-full max-w-md">
+                    </div>
+                </div>
+                <!-- FIN: Nueva sección 2 Columnas -->
+
+                <!-- INICIO: Nuevo módulo de Pestañas --><div class="mt-8">
+                  <div class="tab-container" id="planes-sim-fisica"> <!-- ID añadido para el scroll -->
+                    <div class="tab-buttons">
+                      <button onclick="showTab(event, 'dias')">7 DÍAS</button>
+                      <button onclick="showTab(event, 'semanal')">15 DÍAS</button>
+                      <button onclick="showTab(event, 'mensual')" class="active">30 DÍAS</button>
+                      <!-- Nuevos botones -->
+                      <button onclick="showTab(event, '3meses')">3 MESES</button>
+                      <button onclick="showTab(event, '6meses')">6 MESES</button>
+                      <button onclick="showTab(event, '12meses')">12 MESES</button>
+                    </div>
+                  
+                    <div id="dias" class="tab-content">
+                      <div class="plan-card">
+                        <a href="https://crmxpace.com/coolmobile/activation?service=mbb&product_id=452" target="_blank">
+                          <img src="img/mix.png" alt="Plan Mix">
+                        </a>
+                      </div>
+                      <div class="plan-card">
+                        <a href="https://crmxpace.com/coolmobile/activation?service=mbb&product_id=394" target="_blank">
+                          <img src="img/wtf.png" alt="Plan WTF">
+                        </a>
+                      </div>
+                    </div>
+                  
+                    <div id="semanal" class="tab-content">
+                      <div class="plan-card">
+                        <a href="https://crmxpace.com/coolmobile/activation?service=mbb&product_id=395" target="_blank">
+                          <img src="img/xoxo.png" alt="Plan xoxo">
+                        </a>
+                      </div>
+                      <div class="plan-card">
+                        <a href="https://crmxpace.com/coolmobile/activation?service=mbb&product_id=392" target="_blank">
+                          <img src="img/omg.png" alt="Plan omg">
+                        </a>
+                      </div>
+                    </div>
+                  
+                    <div id="mensual" class="tab-content active">
+                      <div class="plan-card">
+                        <a href="https://crmxpace.com/coolmobile/activation?service=mbb&product_id=453" target="_blank">
+                          <img src="img/kids.png" alt="Plan kids">
+                        </a>
+                      </div>
+                      <div class="plan-card">
+                        <a href="https://crmxpace.com/coolmobile/activation?service=mbb&product_id=393" target="_blank">
+                          <img src="img/teens.png" alt="Plan teens">
+                        </a>
+                      </div>
+                      <div class="plan-card">
+                        <a href="https://crmxpace.com/coolmobile/activation?service=mbb&product_id=441" target="_blank">
+                          <img src="img/flexible.png" alt="Plan Flexible">
+                        </a>
+                      </div>
+                      <div class="plan-card">
+                        <a href="https://crmxpace.com/coolmobile/activation?service=mbb&product_id=391" target="_blank">
+                          <img src="img/total.png" alt="Plan Total">
+                        </a>
+                      </div>
+                      <div class="plan-card">
+                        <a href="https://crmxpace.com/coolmobile/activation?service=mbb&product_id=396" target="_blank">
+                          <img src="img/power.png" alt="Plan Power">
+                        </a>
+                      </div>
+                    </div>
+
+                    <!-- Nuevos contenidos de pestañas -->
+                    <div id="3meses" class="tab-content">
+                        <div class="plan-card">
+                          <a href="#" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                            <img src="img/kids3meses.png" alt="Plan 3 Meses kids">
+                          </a>
+                        </div>
+                        <div class="plan-card">
+                          <a href="#" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                            <img src="img/teens3meses.png" alt="Plan 3 Meses teens">
+                          </a>
+                        </div>
+                    </div>
+                    <div id="6meses" class="tab-content">
+                        <div class="plan-card">
+                          <a href="#" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                            <img src="img/kids6meses.png" alt="Plan 6 Meses kids">
+                          </a>
+                        </div>
+                        <div class="plan-card">
+                           <a href="#" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                            <img src="img/teens6meses.png" alt="Plan 6 Meses 2">
+                          </a>
+                        </div>
+                    </div>
+                    <div id="12meses" class="tab-content">
+                         <div class="plan-card">
+                           <a href="#" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                            <img src="img/kids12meses.png" alt="Plan 12 Meses 1">
+                          </a>
+                        </div>
+                        <div class="plan-card">
+                           <a href="#" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                            <img src="img/teens12meses.png" alt="Plan 12 Meses 2">
+                          </a>
+                        </div>
+                    </div>
+
+
+                  </div> <!-- Cierre de tab-container --><!-- INICIO: Leyenda de Términos y Condiciones --><p class="text-center text-xs text-[#2C3333] opacity-80 mt-8">
+                    *REDES SOCIALES ILIMITADOS CON POLÍTICA DE USO JUSTO, CONSULTE TÉRMINOS Y CONDICIONES, MÁS INFORMACIÓN EN COOLMOBILE.MX / TARIFAS REGISTRADAS en IFT
+                  </p>
+                  <!-- FIN: Leyenda de Términos y Condiciones --></div>
+                <!-- FIN: Nuevo módulo de Pestañas --></div>
+        </main>
+        <!-- FIN: Nuevo contenido principal --><!-- INICIO: Nueva sección de 2 columnas (Tiendas y App) --><section class="bg-transparent py-16">
+            <div class="container mx-auto px-4">
+                <!-- Grid principal de 2 columnas --><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start tiendas-app-grid">
+                    
+                    <!-- Columna 1: Tiendas Afiliadas --><!-- Aplica la clase glass-box aquí --><div id="recharge-widget">
+                        <div class="w-full flex flex-col items-center text-center">
+                            <a href="https://www.paynet.com.mx" target="_blank">
+                                <img src="img/paynet.png" alt="Logo de Paynet" class="mb-4 max-w-full h-auto">
+                            </a>
+                            <h3 class="text-2xl sm:text-3xl font-bold mb-6 title-outline">TIENDAS AFILIADAS</h3>
+                            <a href="https://www.paynet.com.mx" target="_blank">
+                                <p class="text-lg text-[#2C3333] mb-8">Genera tu código y realiza tus recargas</p>
+                                <p class="text-lg text-[#2C3333] mb-8">Conoce todo lo que puedes comprar en línea y pagar con efectivo</p>
+                            </a>
+                            <div class="logo-carousel">
+                                <div class="logo-carousel-inner">
+                                    <div class="logo-carousel-item"><img src="img/circle.png" alt="circle"></div>
+                                    <div class="logo-carousel-item"><img src="img/extra.png" alt="extra"></div>
+                                    <div class="logo-carousel-item"><img src="img/farmacia.png" alt="farmacia"></div>
+                                    <div class="logo-carousel-item"><img src="img/seven.png" alt="seven"></div>
+                                    <div class="logo-carousel-item"><img src="img/waldo.png" alt="waldo"></div>
+                                    <div class="logo-carousel-item"><img src="img/walmart.png" alt="walmart"></div>
+                                    <div class="logo-carousel-item"><img src="img/bodega.png" alt="bodega"></div>
+                                    <!-- Repetición para el efecto continuo --><div class="logo-carousel-item"><img src="img/circle.png" alt="circle"></div>
+                                    <div class="logo-carousel-item"><img src="img/extra.png" alt="extra"></div>
+                                    <div class="logo-carousel-item"><img src="img/farmacia.png" alt="farmacia"></div>
+                                    <div class="logo-carousel-item"><img src="img/seven.png" alt="seven"></div>
+                                    <div class="logo-carousel-item"><img src="img/waldo.png" alt="waldo"></div>
+                                    <div class="logo-carousel-item"><img src="img/walmart.png" alt="walmart"></div>
+                                    <div class="logo-carousel-item"><img src="img/bodega.png" alt="bodega"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna 2: Descarga App --><!-- Aplica la clase glass-box aquí --><div id="app-download-section" >
+                        <!-- Contenido simplificado: Título e Imagen --><h3 class="text-2xl text-center sm:text-3xl font-bold mb-6 title-outline">Descarga Nuestra Nueva App</h3>
+                        
+                        <div class="flex justify-center items-center p-4 md:p-6 rounded-2xl ">
+                            <img src="img/appcool.png" alt="App Preview" class="rounded-lg w-full h-full object-contain" style="max-height: 250px;">
+                        
+                        </div>
+                        <div class="flex justify-center space-x-4 mx-auto max-w-md">
+                            <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
+                                <img src="img/appstore.png" class="rounded-lg" alt="Download on the App Store">
+                            </a>
+                            <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button">
+                                <img src="img/googleplay.png" class="rounded-lg" alt="Get it on Google Play">
+                            </a>
+                        </div>
+                    </div>
+
+                </div> <!-- Fin del grid principal de 2 columnas --></div>
+        </section>
+        <!-- FIN: Nueva sección de 2 columnas --><!-- Footer (pie de página) CONSERVADO --><footer class="footer">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Columna 1: Contacto --><div>
+                        <img src="footer.png" alt="Cool Mobile Logo" class="mb-4">
+                        <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
+                        <p class="mb-2">Atención las 24 horas del día en los 365 días del año.</p>
+                        <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
+                        <p>C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
+                    </div>
+                    <!-- Columna 2: Mapa del Sitio --><div>
+                        <h4 class="footer-title">Mapa del Sitio</h4>
+                        <ul class="space-y-2">
+                            <li><a href="https://coolmobile.mx" class="footer-link">Inicio</a></li>
+                            <li><a href="#" class="footer-link">Recargas</a></li>
+                            <li><a href="#" class="footer-link">Consultas</a></li>
+                            <li><a href="#" class="footer-link">Cobertura</a></li>
+                            <li><a href="#" class="footer-link">Revisar Compatibilidad</a></li>
+                            <li><a href="#" class="footer-link">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <!-- Columna 3: Acerca de y Legal --><div>
+                        <h4 class="footer-title">Acerca</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="footer-link">Nosotros</a></li>
+                            <li><a href="#" class="footer-link">FAQs</a></li>
+                            <li><a href="#" class="footer-link">Avisos de Privacidad</a></li>
+                            <li><a href="#" class="footer-link">Términos y Condiciones</a></li>
+                             <div x-data="{ open: false }">
+                                <button @click="open = !open" class="flex items-center footer-link w-full">
+                                    <span>Legal</span>
+                                    <svg class="w-4 h-4 ml-1 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2">
+                                     <a href="#" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
+                                     <a href="#" class="block footer-link text-sm">Contrato de Adhesión Pospago</a>
+                                     <a href="#" class="block footer-link text-sm">Contrato de Pospago Indefinido</a>
+                                     <a href="#" class="block footer-link text-sm">Política de Uso Justo</a>
+                                     <a href="#" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
+                                     <a href="#" class="block footer-link text-sm">Registro de Tarifas</a>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                    <!-- Columna 4: Descarga App --><div>
+                        <h4 class="footer-title">Descarga Nuestras Apps</h4>
+                        <div class="space-y-6">
+                             <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
+                                <img src="img/appstore.png" class="rounded-lg" alt="Get it on Google Play">
+                            </a>
+                            <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button">
+                                <img src="img/googleplay.png" class="rounded-lg" alt="Download on the App Store">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+        <!-- Iconos de Redes Sociales (Desktop) CONSERVADOS --><div class="hidden md:flex flex-col space-y-4 fixed left-4 top-1/2 -translate-y-1/2 z-20">
+            <a href="#" class="p-2 hover:scale-110 transition-transform">
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+            </a>
+            <a href="#" class="p-2 hover:scale-110 transition-transform">
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+            </a>
+            <a href="#" class="p-2 hover:scale-110 transition-transform">
+                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+            </a>
+        </div>
+        
+        <!-- Iconos de Redes Sociales (Móvil) CONSERVADOS --><div class="md:hidden flex justify-center items-center space-x-6 fixed bottom-0 left-0 right-0 bg-[#2C3333] bg-opacity-50 backdrop-blur-sm p-3 z-20">
+            <a href="#" class="p-2">
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+            </a>
+            <a href="#" class="p-2">
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+            </a>
+            <a href="#" class="p-2">
+                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+            </a>
+        </div>
+
+        <!-- Burbuja Flotante de Chat CONSERVADA --><div class="fixed bottom-5 right-5 z-50">
+            <!-- Menú de Opciones --><div x-show="chatOptionsOpen" 
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 translate-y-2"
+                 class="chat-bubble-options absolute bottom-16 right-0 mb-2 w-60 bg-[#2E4F4F] rounded-lg shadow-xl py-2"
+                 @click.outside="chatOptionsOpen = false"
+                 x-cloak>
+                <!-- Opción WhatsApp --><a href="https://wa.me/5215593314200" target="_blank" class="flex items-center px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
+                   <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M13.545 6.455a4.49 4.49 0 00-6.35 0L6.455 7.19a4.5 4.5 0 106.357 6.357l.735-.735a4.49 4.49 0 000-6.35l-.735.735zm-.707 5.643l-4.95-4.95a3.5 3.5 0 114.95 4.95zm2.121-2.121a1.5 1.5 0 11-2.121-2.121 1.5 1.5 0 012.121 2.121zM10 18.25a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5zm0-1.5a6.75 6.75 0 110-13.5 6.75 6.75 0 010 13.5z"></path></svg>
+                   Chat WhatsApp
+                </a>
+                <!-- Opción Asistente Virtual --><button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                    Asistente Virtual
+                </button>
+            </div>
+
+            <!-- Botón de la Burbuja --><button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none">
+                <svg x-show="!chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                <svg x-show="chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Modal del Chat CONSERVADO --><div x-show="isChatOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="chat-modal-container fixed inset-0 flex items-start justify-center pt-20 p-4 z-[100]" 
+             x-cloak>
+            <!-- Overlay --><div class="chat-modal-overlay fixed inset-0" @click="isChatOpen = false"></div>
+            
+            <!-- Contenido del Modal --><div id="chat-modal" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col" @click.stop>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-[#57C5B6] title-outline">Asistente Virtual</h3>
+                    <button @click="isChatOpen = false" class="text-gray-400 hover:text-white">&times;</button>
+                </div>
+                 <div id="chatbox" class="flex-grow">
+                     <p class="message-bot"><strong>Agente:</strong> ¡Hola! Estoy aquí para ayudarte con cualquier duda sobre nuestros servicios de telecomunicaciones. 😊</p>
+                 </div>
+                 <div class="flex items-center mt-4">
+                     <input type="text" id="userInput" placeholder="Escribe tu mensaje..." class="flex-grow mr-2" onkeypress="if(event.key === 'Enter') sendMessage()">
+                     <button id="chat-button" onclick="sendMessage()">Enviar</button>
+                 </div>
+            </div>
+        </div>
+
+        <!-- INICIO: Modal de Resultado IMEI --><div x-show="isResultModalOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="chat-modal-container fixed inset-0 flex items-center justify-center p-4 z-[100]" 
+             x-cloak>
+            <!-- Overlay --><div class="chat-modal-overlay fixed inset-0" @click="isResultModalOpen = false"></div>
+            
+            <!-- Contenido del Modal --><div id="resultado-modal-content" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col relative" @click.stop>
+                <button @click="isResultModalOpen = false" class="text-gray-400 hover:text-white absolute top-4 right-4 text-3xl">&times;</button>
+                 <div id="resultado-imei" class="text-center p-4">
+                     <!-- El contenido se insertará aquí por JavaScript -->
+                 </div>
+            </div>
+        </div>
+        <!-- FIN: Modal de Resultado IMEI --></div> <!-- Fin del div x-data principal --><!-- La librería Swiper se mantiene por si se usa en otro lado, pero la inicialización se elimina --><script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Scripts --><script>
+        // ELIMINADO: Swiper Initialization
+        // var swiper = new Swiper(...);
+
+        // Chatbot Script (CONSERVADO)
+        const apiKey = ""; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const chatbox = document.getElementById('chatbox'); 
+        const userInput = document.getElementById('userInput'); 
+        
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('p');
+            messageDiv.classList.add('mb-2'); 
+            messageDiv.innerHTML = `<strong>${sender === 'user' ? 'Tú' : 'Agente'}:</strong> <span class="block">${text}</span>`; // Make text wrap
+            messageDiv.classList.add(sender === 'user' ? 'message-user' : 'message-bot');
+            chatbox.appendChild(messageDiv);
+            chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
+        }
+
+
+        async function sendMessage() {
+            const userMessage = userInput.value.trim();
+            if (userMessage === '') return;
+            addMessage(userMessage, 'user');
+            userInput.value = '';
+
+            const typingIndicator = document.createElement('p');
+            typingIndicator.className = 'message-bot mb-2'; // Added margin-bottom
+            typingIndicator.innerHTML = '<strong>Agente:</strong> Escribiendo...';
+            chatbox.appendChild(typingIndicator);
+             chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
+
+
+            const payload = {
+                contents: [{ parts: [{ text: userMessage }] }],
+                systemInstruction: { parts: [{ text: "Eres un agente de soporte de telecomunicaciones para la empresa Cool Mobile. Tu objetivo es resolver dudas sobre planes, recargas, cobertura y promociones." }] }
+            };
+
+            let retryCount = 0;
+            const maxRetries = 3;
+            const initialDelay = 1000; // 1 second
+
+            while (retryCount <= maxRetries) {
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429 || response.status >= 500) {
+                         if (retryCount === maxRetries) {
+                            throw new Error(`API error after ${maxRetries} retries. Status: ${response.status}`);
+                        }
+                        const delay = initialDelay * Math.pow(2, retryCount);
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        retryCount++;
+                        continue; // Retry the fetch
+                    }
+                    
+                    if (!response.ok) {
+                       const errorBody = await response.json();
+                       console.error('Error from API:', errorBody);
+                       throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    const botResponse = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (botResponse) {
+                        typingIndicator.remove();
+                        addMessage(botResponse, 'bot');
+                    } else {
+                        console.error('Unexpected API response structure:', result);
+                        throw new Error('Invalid response structure from API.');
+                    }
+                    
+                    break; // Exit loop on success
+
+                } catch (error) {
+                    console.error('Failed to fetch from Gemini API:', error);
+                    typingIndicator.remove();
+                    addMessage('Lo siento, encontré un error. Por favor, inténtalo de nuevo más tarde.', 'bot');
+                    break; // Exit loop on error
+                }
+            }
+        }
+
+        // INICIO: Script para Pestañas
+        function showTab(event, tabId) {
+          // Oculta todos los contenidos
+          document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+            tab.style.display = "none"; // Asegura que esté oculto
+          });
+
+          // Muestra el seleccionado
+          const nextTab = document.getElementById(tabId);
+          if (nextTab) { // Comprueba si existe
+            nextTab.style.display = "flex"; // Muestra como flex
+
+            // Reinicia animaciones de las tarjetas
+            nextTab.querySelectorAll('.plan-card').forEach(card => {
+              card.style.animation = 'none';
+              card.offsetHeight; // forzar reflow
+              card.style.animation = '';
+            });
+
+            // Aplica clase activa para animaciones
+            // Usar un pequeño timeout para asegurar que el display:flex se aplique antes de la clase
+            setTimeout(() => {
+                nextTab.classList.add('active');
+            }, 10); 
+          }
+
+          // Cambia estilo del botón activo
+          document.querySelectorAll('.tab-buttons button').forEach(button => {
+            button.classList.remove('active');
+          });
+
+          if (event && event.target) {
+            event.target.classList.add('active');
+          }
+        }
+
+        // Mostrar el tab "mensual" al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+          const initialButton = document.querySelector('.tab-buttons button[onclick*="mensual"]');
+          if (initialButton) {
+            showTab({ target: initialButton }, 'mensual');
+          }
+        });
+        // FIN: Script para Pestañas
+
+        // INICIO: Script de consulta IMEI (Modificado para nuevos resultados y botones)
+        function consultarIMEI() {
+            const input = document.getElementById("imei-input");
+            const imei = input.value.trim();
+            const resultadoDiv = document.getElementById("resultado-imei");
+            
+            resultadoDiv.innerHTML = "";
+            resultadoDiv.classList.remove("fade-in");
+
+            // Validación
+            if (imei.length < 14 || imei.length > 15) {
+                resultadoDiv.innerHTML = "<span style='color: #F87171;'>⚠️ El IMEI debe tener entre 14 y 15 dígitos.</span>";
+                resultadoDiv.classList.add("fade-in");
+                window.dispatchEvent(new CustomEvent('open-result-modal'));
+                return;
+            }
+
+            // Muestra "Consultando" y abre el modal
+            resultadoDiv.innerHTML = "⏳ Consultando compatibilidad...";
+            resultadoDiv.classList.add("fade-in");
+            window.dispatchEvent(new CustomEvent('open-result-modal'));
+
+            // URL del endpoint
+            fetch(`https://coolmobile.mx/wp-json/consulta-esim/v1/verificar/?imei=${imei}`)
+                .then(response => {
+                    if (!response.ok) {
+                        // Si la respuesta no es OK (ej. 404, 500), asumimos NO compatible
+                        return Promise.resolve({ error: 'No compatible o error de servidor' }); 
+                    }
+                    return response.json(); // Si es OK, procesa el JSON
+                })
+                .then(data => {
+                    resultadoDiv.classList.remove("fade-in");
+                    let htmlContent = '';
+
+                    // Escenario de Error o No Compatible directamente por la API
+                    // O si la API devuelve algo inesperado pero sin 'Sí' o 'No' explícito
+                    if (data.error || (data.esim && data.esim.trim().toLowerCase() !== "sí" && data.esim.trim().toLowerCase() !== "si" && data.esim.trim().toLowerCase() !== "no")) {
+                         htmlContent = `
+                            <div class="fade-in">
+                                <p style="color: #F59E0B;">⚠️ Este dispositivo no es compatible.</p>
+                                <p>Pero no te preocupes, contamos con equipos compatibles y MiFi.</p>
+                                <a href="https://wa.me/5215593314200?text=Hola,%20quisiera%20consultar%20equipos%20compatibles." target="_blank" class="boton-resultado">Consultar equipos compatibles</a>
+                                <a href="/internetmovil" class="boton-resultado">¿Qué es MiFi?</a>
+                            </div>
+                         `;
+                    } else {
+                        const soportaESIM = data.esim.trim().toLowerCase() === "sí" || data.esim.trim().toLowerCase() === "si";
+
+                        // Escenario Compatible + Soporta eSIM
+                        if (soportaESIM) {
+                            htmlContent = `
+                              <div class="fade-in">
+                                <p style="color: #34D399; font-weight: bold;">🎉 ¡Felicidades!</p>
+                                <p>Cuentas con un equipo <strong>compatible y soporta eSIM</strong>.</p>
+                                <button onclick="scrollToPlans()" class="boton-resultado">Comprar SIM Física</button>
+                                <a href="/telefonia/esim" class="boton-resultado">Comprar eSIM</a>
+                              </div>
+                            `;
+                        } 
+                        // Escenario Compatible + NO Soporta eSIM (asumiendo 'No' significa compatible pero sin eSIM)
+                        else { 
+                             htmlContent = `
+                              <div class="fade-in">
+                                <p style="color: #34D399; font-weight: bold;">🎉 ¡Felicidades!</p> 
+                                <p>Cuentas con un equipo <strong>compatible</strong> (pero no soporta eSIM).</p>
+                                <button onclick="scrollToPlans()" class="boton-resultado">Comprar SIM Física</button>
+                              </div>
+                            `;
+                        }
+                    }
+
+                    resultadoDiv.innerHTML = htmlContent;
+                    resultadoDiv.classList.add("fade-in");
+                })
+                .catch((error) => {
+                    console.error("Error en fetch:", error); // Log para depuración
+                    resultadoDiv.innerHTML = "<span style='color: #F87171;'>❌ Error al consultar. Intenta más tarde.</span>";
+                    resultadoDiv.classList.add("fade-in");
+                });
+        }
+        
+        // Función para hacer scroll suave a la sección de planes y cerrar modal
+        function scrollToPlans() {
+            // Dispara el evento para que Alpine cierre el modal
+             window.dispatchEvent(new CustomEvent('close-result-modal'));
+
+            // Espera un poco a que el modal se cierre visualmente y luego hace scroll
+             setTimeout(() => {
+                 const plansSection = document.getElementById('planes-sim-fisica');
+                 if (plansSection) {
+                    plansSection.scrollIntoView({ behavior: 'smooth' });
+                 }
+             }, 300); // 300ms espera, ajusta si es necesario
+        }
+
+        // FIN: Script de consulta IMEI
+
+
+        // ELIMINADO: Interactive Image Script
+        
+        // ELIMINADO: 3D Carousel Script
+       
+        // Scrolling Gradient Script (CONSERVADO)
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                const backgroundPositionPercentage = Math.min(scrollPercentage, 100); 
+                bg.style.backgroundPosition = `50% ${backgroundPositionPercentage}%`;
+            } else {
+                 bg.style.backgroundPosition = `50% 0%`;
+            }
+        });
+
+        // ELIMINADO: Adjust image height on app download section...
+    </script>
+</body>
+</html>
+

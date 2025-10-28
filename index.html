@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Mobile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg,  #2E4F4F, #CBE4DE, #0E8388, #cbf9f9, #BCEAD5, #57C5B6);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+            color: #BCEAD5;
+        }
+
+        [x-cloak] { display: none !important; }
+        
+        /* Swiper Styles */
+        .swiper-button-next,
+        .swiper-button-prev { display: none; }
+        .swiper-pagination-bullet-active { background-color: #57C5B6; }
+        .swiper-slide { background-size: cover; background-position: center; }
+
+        /* Title Outline Styles */
+        .text-3d, .title-outline {
+            text-shadow:
+                -1.5px -1.5px 0 #2C3333, 1.5px -1.5px 0 #2C3333,
+                -1.5px 1.5px 0 #2C3333, 1.5px 1.5px 0 #2C3333,
+                4px 4px 8px rgba(0,0,0,0.5);
+        }
+        
+        /* Original Chat Styles (now inside modal) */
+        #chat-modal #chatbox { /* Target chatbox inside modal */
+            border: 1px solid #4B5563; padding: 1rem; height: 400px;
+            overflow-y: scroll; margin-bottom: 1rem; background-color: #3C4248;
+            border-radius: 0.5rem;
+        }
+        #chat-modal .message-user { text-align: right; color: #57C5B6; }
+        #chat-modal .message-bot { text-align: left; color: #BCEAD5; }
+        #chat-modal #userInput {
+            width: calc(100% - 6rem); padding: 0.75rem; border-radius: 9999px;
+            border: 1px solid #4B5563; background-color: #4A5568;
+            color: white; outline: none;
+        }
+        #chat-modal #userInput:focus { border-color: #57C5B6; }
+        #chat-modal #chat-button {
+            background-color: #0E8388; color: white; padding: 0.75rem 1.5rem;
+            border-radius: 9999px; font-weight: bold; transition: all 0.2s;
+        }
+        #chat-modal #chat-button:hover { background-color: #57C5B6; transform: scale(1.05); }
+
+        /* Interactive Image Styles */
+        .cursor-follow-container {
+            width: 100%; max-width: 600px; height: 380px; overflow: hidden;
+            position: relative; margin: auto; border-radius: 0.75rem;
+            transition: transform 0.3s ease; /* Added for hover effect */
+        }
+         .cursor-follow-container:hover {
+            transform: scale(1.05); /* Apply scale on container hover */
+        }
+        .cursor-follow-image {
+            width: 100%; height: 100%; transition: transform 0.1s ease;
+            position: absolute; top: 0; left: 0; object-fit: cover;
+        }
+
+        /* 3D Carousel Styles */
+        .mi-carrusel-widget {
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .mi-carrusel-widget .icon-cards {
+            position: relative; width: 300px; height: 480px;
+            perspective: 1000px; transform-origin: center; cursor: grab;
+        }
+        .mi-carrusel-widget .icon-cards__content {
+            position: absolute; width: 100%; height: 100%;
+            transform-style: preserve-3d;
+            transform: translateZ(-150px) rotateY(0);
+            transition: transform 0.5s ease-out;
+        }
+        .mi-carrusel-widget .icon-cards__item {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            transform-origin: center; display: flex; align-items: center;
+            justify-content: center; overflow: hidden; border-radius: 10px;
+        }
+        .mi-carrusel-widget .icon-cards__item a { display: block; width: 100%; height: 100%; }
+        .mi-carrusel-widget .icon-cards__item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s ease; pointer-events: none;
+        }
+        /* Remove hover scale effect from image itself */
+        /* .mi-carrusel-widget .icon-cards__item:hover img { transform: scale(1.05); } */
+        .mi-carrusel-widget .icon-cards__item:nth-child(1) { transform: rotateY(0deg) translateZ(150px); }
+        .mi-carrusel-widget .icon-cards__item:nth-child(2) { transform: rotateY(120deg) translateZ(150px); }
+        .mi-carrusel-widget .icon-cards__item:nth-child(3) { transform: rotateY(240deg) translateZ(150px); }
+        
+        /* Video Block Styles */
+        .video-bloque { width: 450px; text-align: center; transition: transform 0.3s ease; }
+        .video-bloque:hover { transform: scale(1.05); }
+        .video-bloque video { width: 100%; border-radius: 12px; display: block; }
+        .video-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 90px; }
+        
+        /* Cool Mobile Section Styles */
+        #cool-mobile-section h2 {
+            color: #CBE4DE; font-size: 1.75rem; line-height: 1.2;
+            font-family: 'Poppins', sans-serif !important;
+        }
+        @media (min-width: 640px) { #cool-mobile-section h2 { font-size: 2.25rem; } }
+        @media (min-width: 768px) { #cool-mobile-section h2 { font-size: 2.75rem; } }
+        #cool-mobile-section .text-blue-400 { color: #57C5B6; }
+        #cool-mobile-section .cool-mobile-btn {
+            background-color: #0E8388; color: #ffffff; font-weight: 500;
+            padding: 0.75rem 1.5rem; border-radius: 9999px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: background-color 0.3s ease-in-out; text-transform: uppercase;
+            border: 2px solid transparent; white-space: nowrap;
+        }
+        #cool-mobile-section .cool-mobile-btn:hover { background-color: #57C5B6; }
+
+        /* Recharge Points Section Styles */
+        #recharge-widget { font-family: 'Montserrat', sans-serif; }
+        #recharge-widget h3 {
+            font-family: 'Montserrat', sans-serif !important;
+            color: #CBE4DE;
+        }
+        .logo-carousel { display: flex; overflow: hidden; width: 100%; white-space: nowrap; }
+        .logo-carousel-inner { display: flex; animation: carousel 20s linear infinite; }
+        .logo-carousel-item {
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; width: 150px; margin: 0 1rem;
+        }
+        .logo-carousel-item img {
+            max-height: 50px; width: auto; object-fit: contain;
+            filter: grayscale(100%) invert(90%) sepia(10%) saturate(150%) hue-rotate(120deg) brightness(100%) contrast(90%);
+            transition: filter 0.3s ease;
+        }
+        .logo-carousel-item img:hover { filter: grayscale(0%); }
+        @keyframes carousel {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* App Download Section Styles */
+        #app-download-section h3 {
+            font-family: 'Poppins', sans-serif !important;
+            color: #CBE4DE;
+        }
+        #app-download-section ul li svg { color: #57C5B6; }
+        .store-button { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .store-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Footer Styles */
+        .footer {
+            background-color: #2E4F4F;
+            color: #BCEAD5;
+            padding: 4rem 0;
+            border-top: 2px solid #0E8388;
+        }
+        .footer-link {
+            transition: color 0.2s ease-in-out;
+        }
+        .footer-link:hover {
+            color: #57C5B6;
+        }
+        .footer-title {
+            color: #CBE4DE;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Floating Chat Bubble Styles */
+        .chat-bubble-options {
+            transition: all 0.3s ease-out;
+        }
+
+        /* Chat Modal Styles */
+        .chat-modal-overlay {
+             background-color: rgba(0, 0, 0, 0.6);
+             z-index: 999; /* Lower than modal content */
+        }
+        .chat-modal-content {
+            z-index: 9999;
+            max-height: 90vh; /* Limit modal height */
+        }
+
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .video-bloque { width: 90%; }
+            .video-container { gap: 20px; }
+            /* Adjust app download section alignment on mobile */
+            #app-download-section .grid {
+                align-items: center; /* Re-center vertically on mobile */
+            }
+             #app-download-section .text-content-column {
+                 align-items: center; /* Center text content */
+             }
+             /* Ocultar imagen interactiva en móvil - ya no se rota */
+             /* .cursor-follow-container { display: none; } ya no es necesario aquí, se usa hidden md:block */
+
+             /* Ajustar el grid para que el carrusel ocupe todo el ancho en móvil */
+             .interactive-carousel-grid {
+                 grid-template-columns: 1fr; /* Una columna en móvil */
+             }
+
+        }
+         @media (max-width: 640px) {
+            .logo-carousel-item { width: 120px; margin: 0 0.5rem; }
+            .chat-modal-content {
+                width: 95%; /* Make modal wider on small screens */
+            }
+             /* Adjust chat modal position on mobile */
+            .chat-modal-container {
+                align-items: flex-start; /* Align modal top on mobile */
+                padding-top: 4rem; /* Add some top padding */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+        <header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
+                :class="{ 'bg-[#2E4F4F] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-24">
+                    <a href="#" class="flex-shrink-0">
+                        <img src="logo.png" alt="Logo Dalefon" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                    </a>
+                    <div class="hidden lg:flex lg:space-x-8">
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Telefonía
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia-simcard</a>
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia eSIM</a>
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
+                            </div>
+                        </div>
+                        <a href="#" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet de Casa</a>
+                        <a href="#" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet Móvil</a>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Consulta
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Portabilidad</a>
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Compatibilidad</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Contacto
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Faqs</a>
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Contactos</a>
+                            </div>
+                        </div>
+                        <a href="#" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Facturación</a>
+                    </div>
+
+                    <a href="#" class="hidden lg:block bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105">
+                        Recargas
+                    </a>
+
+                    <div class="lg:hidden flex items-center">
+                        <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                            <span class="sr-only">Abrir menú principal</span>
+                            <svg class="h-6 w-6" x-show="!openMenu" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                            <svg class="h-6 w-6" x-show="openMenu" x-cloak fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#2E4F4F] z-40"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95">
+                <div class="px-2 pt-20 pb-3 space-y-1 sm:px-3">
+                    <div class="absolute top-4 right-4">
+                        <button @click="openMenu = false" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                            <span class="sr-only">Cerrar menú principal</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Telefonía</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia-simcard</a>
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia eSIM</a>
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Promociones</a>
+                        </div>
+                    </div>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet de Casa</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet Móvil</a>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Consulta</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Portabilidad</a>
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Compatibilidad</a>
+                        </div>
+                    </div>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Contacto</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Faqs</a>
+                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Contactos</a>
+                        </div>
+                    </div>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Facturación</a>
+                    <div class="pt-4 border-t border-[#BCEAD5]">
+                        <a href="#" class="block text-center bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 w-full">
+                            Recargas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="relative w-full h-screen">
+            <div class="swiper h-full w-full">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide relative">
+                        <div class="absolute inset-0 bg-cover bg-center hidden md:block" style="background-image: url('img/Slider1.png');"></div>
+                        <div class="absolute inset-0 bg-cover bg-center block md:hidden" style="background-image: url('img/slider1movil.png');"></div>
+                        <div class="w-full h-full flex items-center justify-center relative z-10 bg-black bg-opacity-30">
+                            <div class="text-center max-w-3xl mx-auto px-6">
+                                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4 text-[#CBE4DE] text-3d">
+                                    Estamos buscando distribuidores 
+                                </h1>
+                                <p class="text-lg text-[#BCEAD5] mb-8">
+                                    Beneficios: *25% de comisión en ofertas. +*15% adicional si es portabilidad. *4% de comisión en cada recarga.
+                                </p>
+                                <a href="#" class="inline-block bg-[#57C5B6] hover:bg-[#0E8388] text-[#2C3333] font-bold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">
+                                    Quiero ser distribuidor
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide relative">
+                        <div class="absolute inset-0 bg-cover bg-center hidden md:block" style="background-image: url('img/Slider2.png');"></div>
+                        <div class="absolute inset-0 bg-cover bg-center block md:hidden" style="background-image: url('img/slider2movil.png');"></div>
+                        <div class="w-full h-full flex items-center justify-center relative z-10 bg-black bg-opacity-30">
+                            <div class="text-center max-w-3xl mx-auto px-6">
+                                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4 text-[#CBE4DE] text-3d">
+                                    ¡Aprovecha esta promoción!
+                                </h1>
+                                <p class="text-lg text-[#BCEAD5] mb-8">
+                                    Realiza tú portabilidad y obtén doble o el triple de megas
+                                </p>
+                                <a href="#" class="inline-block bg-[#57C5B6] hover:bg-[#0E8388] text-[#2C3333] font-bold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">
+                                    Iniciar portabilidad
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide relative">
+                        <div class="absolute inset-0 bg-cover bg-center hidden md:block" style="background-image: url('img/Slider3.png');"></div>
+                        <div class="absolute inset-0 bg-cover bg-center block md:hidden" style="background-image: url('img/slider3movil.png');"></div>
+                        <div class="w-full h-full flex items-center justify-center relative z-10 bg-black bg-opacity-30">
+                            <div class="text-center max-w-3xl mx-auto px-6">
+                                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4 text-[#CBE4DE] text-3d">
+                                    ¡Aprovecha al máximo tus recargas!
+                                </h1>
+                                <p class="text-lg text-[#BCEAD5] mb-8">
+                                    Nueva función de acumulación de GB, si te queda saldo o megas al final de tu periodo, no los pierdes.
+                                </p>
+                                <a href="#" class="inline-block bg-[#57C5B6] hover:bg-[#0E8388] text-[#2C3333] font-bold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">
+                                    Recargas
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <section class="bg-transparent py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                 <!-- Grid ahora controla el layout de ambas columnas -->
+                <div class="grid md:grid-cols-2 gap-16 items-center interactive-carousel-grid"> 
+                    <!-- Columna de imagen interactiva: Oculta en móvil (default), visible en md y superior -->
+                    <div class="hidden md:block cursor-follow-container">
+                        <div class="flex justify-center items-center mb-4">
+                        <h3 class="text-xl font-semibold text-gray-800 text-center">Descubre más sobre nosotros</h3>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17l5-5m0 0l-5-5m5 5H6" />
+                            </svg>
+                    </div>
+                        <a href="https://coolmobile.mx/telefonia-simcard/" target="_blank">
+                            <img src="img/coolbitsim.png" class="cursor-follow-image" alt="Imagen interactiva">
+                        </a>
+                </div>
+                    <!-- Columna del carrusel: Siempre visible -->
+                    <div class="mi-carrusel-widget">
+                      <figure class="icon-cards">
+                        <div class="icon-cards__content">
+                          <div class="icon-cards__item">
+                            <a href="https://crmxpace.com/coolmobile/activation?service=mbb&product_id=453" target="_blank" rel="noopener noreferrer">
+                              <img src="img/Plan kids.png" alt="Plan Cool Kids">
+                            </a>
+                          </div>
+                          <div class="icon-cards__item">
+                            <a href="https://crmxpace.com/coolmobile/activation?service=mbb&product_id=441" target="_blank" rel="noopener noreferrer">
+                              <img src="img/Plan flexible.png" alt="Plan Cool Flexible">
+                            </a>
+                          </div>
+                          <div class="icon-cards__item">
+                            <a href="https://crmxpace.com/coolmobile/activation?service=esim&product_id=396" target="_blank" rel="noopener noreferrer">
+                              <img src="img/Plan power.png" alt="Plan Cool Power">
+                            </a>
+                          </div>
+                        </div>
+                      </figure>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-transparent pb-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center text-[#57C5B6] mb-12 title-outline">Explora Nuestros Planes</h2>
+                <div class="video-container">
+                    <a href="https://coolmobile.mx/telefonia-simcard/" target="_blank" class="video-bloque">
+                        <video autoplay loop muted playsinline><source src="media/telefonia.mp4" type="video/mp4"></video>
+                    </a>
+                    <a href="https://coolmobile.mx/telefonia-e-sim/" target="_blank" class="video-bloque">
+                        <video autoplay loop muted playsinline><source src="media/esIM.mp4" type="video/mp4"></video>
+                    </a>
+                    <a href="https://coolmobile.mx/internet-movil/" target="_blank" class="video-bloque">
+                        <video autoplay loop muted playsinline><source src="media/internetmovil.mp4" type="video/mp4"></video>
+                    </a>
+                    <a href="https://coolmobile.mx/internet_de_casa/" target="_blank" class="video-bloque">
+                        <video autoplay loop muted playsinline><source src="media/internetencasa.mp4" type="video/mp4"></video>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Empty main section - Chat moved to modal -->
+        <main class="bg-transparent pt-2 pb-4 h-0"></main> 
+        
+        <section class="bg-transparent py-12">
+            <div id="cool-mobile-section" class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-8 leading-tight title-outline">
+                    Vive la experiencia <span class="text-blue-400">Cool Mobile</span> al máximo.
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12">
+                    <div class="flex flex-col items-center">
+                        <img src="https://coolmobile.mx/wp-content/uploads/2025/09/Diseno-sin-titulo-47.gif" class="w-40 h-40 mb-6 rounded-full mx-auto">
+                        <a href="https://coolmobile.mx/cobertura/" class="cool-mobile-btn  sm:w-auto">Cobertura</a>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <img src="https://coolmobile.mx/wp-content/uploads/2025/09/Diseno-sin-titulo-48.gif" class="w-40 h-40 mb-6 rounded-full mx-auto">
+                        <a href="https://coolmobile.mx/compatibilidad/" class="cool-mobile-btn  sm:w-auto">Compatibilidad</a>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <video class="w-40 h-40 mb-6 rounded-full mx-auto" autoplay muted loop playsinline>
+                            <source src="media/portabilidad.mov" type="video/mp4">
+                            Tu navegador no soporta la etiqueta de video.
+                        </video>
+                        <a href="https://coolmobile.mx/portabilidad/" class="cool-mobile-btn sm:w-auto">Portabilidad</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-transparent py-16">
+            <div id="recharge-widget" class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row bg-transparent md:bg-gray-800 md:bg-opacity-20 rounded-xl shadow-lg overflow-hidden">
+                    <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col items-center justify-center text-center border-b md:border-b-0 md:border-r border-gray-200 border-opacity-20">
+                        <h3 class="text-2xl sm:text-3xl font-bold mb-4 title-outline">PUNTOS DE RECARGA</h3>
+                        <a href="https://www.paynet.com.mx/" target="_blank">
+                            <video class="rounded-lg shadow-md mb-8 max-w-full h-auto" autoplay muted loop playsinline>
+                                <source src="media/puntoderecarga.mp4" type="video/mp4">
+                                Tu navegador no soporta la etiqueta de video.
+                            </video>
+</a>
+                    </div>
+                    <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col items-center text-center">
+                        <a href="https://www.paynet.com.mx" target="_blank">
+                            <img src="img/paynet.png" alt="Logo de Paynet" class="mb-4 max-w-full h-auto">
+                        </a>
+                        <h3 class="text-2xl sm:text-3xl font-bold mb-6 title-outline">TIENDAS AFILIADAS</h3>
+                        <a href="https://www.paynet.com.mx" target="_blank">
+                            <p class="text-sm text-gray-800 mb-8">Genera tu código y realiza tus recargas</p>
+                            <p class="text-sm text-gray-900 mb-12">Conoce todo lo que puedes comprar en línea y pagar con efectivo</p>
+                        </a>
+                        <div class="logo-carousel">
+                            <div class="logo-carousel-inner">
+                                <div class="logo-carousel-item"><img src="img/circle.png" alt="circle"></div>
+                                <div class="logo-carousel-item"><img src="img/extra.png" alt="extra"></div>
+                                <div class="logo-carousel-item"><img src="img/farmacia.png" alt="farmacia"></div>
+                                <div class="logo-carousel-item"><img src="img/seven.png" alt="seven"></div>
+                                <div class="logo-carousel-item"><img src="img/waldo.png" alt="waldo"></div>
+                                <div class="logo-carousel-item"><img src="img/walmart.png" alt="walmart"></div>
+                                <div class="logo-carousel-item"><img src="img/bodega.png" alt="bodega"></div>
+                                <!-- Repetición para el efecto continuo --><div class="logo-carousel-item"><img src="img/circle.png" alt="circle"></div>
+                                <div class="logo-carousel-item"><img src="img/extra.png" alt="extra"></div>
+                                <div class="logo-carousel-item"><img src="img/farmacia.png" alt="farmacia"></div>
+                                <div class="logo-carousel-item"><img src="img/seven.png" alt="seven"></div>
+                                <div class="logo-carousel-item"><img src="img/waldo.png" alt="waldo"></div>
+                                <div class="logo-carousel-item"><img src="img/walmart.png" alt="walmart"></div>
+                                <div class="logo-carousel-item"><img src="img/bodega.png" alt="bodega"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="app-download-section" class="bg-transparent py-20">
+            <div class="container mx-auto px-4">
+                 <!-- Modifica el valor de gap-4 para ajustar el espacio. Ej: gap-8, gap-12 -->
+                 <!-- Comentario: Reducido el espacio a gap-4 -->
+                <div class="grid md:grid-cols-2 gap-4 items-center"> 
+                    <!-- Columna Izquierda: Texto y Botones --><div id="app-text-column" class="flex flex-col justify-start text-center md:text-left text-content-column">
+                        <h3 class="text-4xl font-bold mb-6 title-outline">Descarga Nuestra Nueva App</h3>
+                        <ul class="space-y-4 text-lg text-gray-900 mb-8 inline-block mx-auto md:mx-0">
+                            <li class="flex items-center text-left">
+                                <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                <span>Monitorea tus datos</span>
+                            </li>
+                            <li class="flex items-center text-left">
+                                <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                <span>Revisa tu Historial de recargas</span>
+                            </li>
+                            <li class="flex items-center text-left">
+                                <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                                <span>Múltiples recargas al instante</span>
+                            </li>
+                            <li class="flex items-center text-left">
+                                <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <span>Descarga tus facturas y domicilia</span>
+                            </li>
+                        </ul>
+                        <div class="flex justify-center md:justify-start space-x-4">
+                            <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
+                                <img src="img/appstore.png" class="rounded-lg" alt="Download on the App Store">
+                            </a>
+                            <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button">
+                                <img src="img/googleplay.png" class="rounded-lg" alt="Get it on Google Play">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Columna Derecha: Imagen del Teléfono --><div class="flex justify-center items-center p-4 md:p-6 rounded-2xl ">
+                        <img src="img/appcool.png" alt="App Preview" class="rounded-lg w-full h-full object-contain" style="max-height: 400px;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Columna 1: Contacto --><div>
+                        <img src="footer.png" alt="Cool Mobile Logo" class="mb-4">
+                        <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
+                        <p class="mb-2">Atención las 24 horas del día en los 365 días del año.</p>
+                        <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
+                        <p>C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
+                    </div>
+                    <!-- Columna 2: Mapa del Sitio --><div>
+                        <h4 class="footer-title">Mapa del Sitio</h4>
+                        <ul class="space-y-2">
+                            <li><a href="https://coolmobile.mx" class="footer-link">Inicio</a></li>
+                            <li><a href="#" class="footer-link">Recargas</a></li>
+                            <li><a href="#" class="footer-link">Consultas</a></li>
+                            <li><a href="#" class="footer-link">Cobertura</a></li>
+                            <li><a href="#" class="footer-link">Revisar Compatibilidad</a></li>
+                            <li><a href="#" class="footer-link">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <!-- Columna 3: Acerca de y Legal --><div>
+                        <h4 class="footer-title">Acerca</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="footer-link">Nosotros</a></li>
+                            <li><a href="#" class="footer-link">FAQs</a></li>
+                            <li><a href="#" class="footer-link">Avisos de Privacidad</a></li>
+                            <li><a href="#" class="footer-link">Términos y Condiciones</a></li>
+                             <div x-data="{ open: false }">
+                                <button @click="open = !open" class="flex items-center footer-link w-full">
+                                    <span>Legal</span>
+                                    <svg class="w-4 h-4 ml-1 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2">
+                                     <a href="#" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
+                                     <a href="#" class="block footer-link text-sm">Contrato de Adhesión Pospago</a>
+                                     <a href="#" class="block footer-link text-sm">Contrato de Pospago Indefinido</a>
+                                     <a href="#" class="block footer-link text-sm">Política de Uso Justo</a>
+                                     <a href="#" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
+                                     <a href="#" class="block footer-link text-sm">Registro de Tarifas</a>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                    <!-- Columna 4: Descarga App --><div>
+                        <h4 class="footer-title">Descarga Nuestras Apps</h4>
+                        <!-- Modifica el valor de space-y-6 para ajustar el espacio vertical entre botones. Ej: space-y-4, space-y-8 -->
+                        <div class="space-y-6">
+                             <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
+                                <img src="img/appstore.png" class="rounded-lg" alt="Get it on Google Play">
+                            </a>
+                            <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button">
+                                <img src="img/googleplay.png" class="rounded-lg" alt="Download on the App Store">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+        <div class="hidden md:flex flex-col space-y-4 fixed left-4 top-1/2 -translate-y-1/2 z-20">
+            <a href="#" class="p-2 hover:scale-110 transition-transform">
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+            </a>
+            <a href="#" class="p-2 hover:scale-110 transition-transform">
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+            </a>
+            <a href="#" class="p-2 hover:scale-110 transition-transform">
+                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+            </a>
+        </div>
+        
+        <div class="md:hidden flex justify-center items-center space-x-6 fixed bottom-0 left-0 right-0 bg-[#2C3333] bg-opacity-50 backdrop-blur-sm p-3 z-20">
+            <a href="#" class="p-2">
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+            </a>
+            <a href="#" class="p-2">
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+            </a>
+            <a href="#" class="p-2">
+                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+            </a>
+        </div>
+
+        <!-- Floating Chat Bubble -->
+        <div class="fixed bottom-5 right-5 z-50">
+            <!-- Options Menu -->
+            <div x-show="chatOptionsOpen" 
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 translate-y-2"
+                 class="chat-bubble-options absolute bottom-16 right-0 mb-2 w-60 bg-[#2E4F4F] rounded-lg shadow-xl py-2"
+                 @click.outside="chatOptionsOpen = false"
+                 x-cloak>
+                 <!-- WhatsApp Option -->
+                 <a href="https://wa.me/5215593314200" target="_blank" class="flex items-center px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M13.545 6.455a4.49 4.49 0 00-6.35 0L6.455 7.19a4.5 4.5 0 106.357 6.357l.735-.735a4.49 4.49 0 000-6.35l-.735.735zm-.707 5.643l-4.95-4.95a3.5 3.5 0 114.95 4.95zm2.121-2.121a1.5 1.5 0 11-2.121-2.121 1.5 1.5 0 012.121 2.121zM10 18.25a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5zm0-1.5a6.75 6.75 0 110-13.5 6.75 6.75 0 010 13.5z"></path></svg>
+                     Chat WhatsApp
+                 </a>
+                 <!-- Virtual Assistant Option -->
+                 <button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                     Asistente Virtual
+                 </button>
+            </div>
+
+            <!-- Bubble Button -->
+            <button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none">
+                <svg x-show="!chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                <svg x-show="chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Chat Modal -->
+        <div x-show="isChatOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="chat-modal-container fixed inset-0 flex items-start justify-center pt-20 p-4 z-[100]" 
+             x-cloak>
+             <!-- Overlay -->
+             <div class="chat-modal-overlay fixed inset-0" @click="isChatOpen = false"></div>
+             
+             <!-- Modal Content -->
+             <div id="chat-modal" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col" @click.stop>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-[#57C5B6] title-outline">Asistente Virtual</h3>
+                    <button @click="isChatOpen = false" class="text-gray-400 hover:text-white">&times;</button>
+                </div>
+                 <div id="chatbox" class="flex-grow">
+                     <p class="message-bot"><strong>Agente:</strong> ¡Hola! Estoy aquí para ayudarte con cualquier duda sobre nuestros servicios de telecomunicaciones. 😊</p>
+                 </div>
+                 <div class="flex items-center mt-4">
+                     <input type="text" id="userInput" placeholder="Escribe tu mensaje..." class="flex-grow mr-2" onkeypress="if(event.key === 'Enter') sendMessage()">
+                     <button id="chat-button" onclick="sendMessage()">Enviar</button>
+                 </div>
+             </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // Swiper Initialization
+        var swiper = new Swiper(".swiper", {
+            loop: true,
+            pagination: { el: ".swiper-pagination", clickable: true },
+            autoplay: { delay: 5000, disableOnInteraction: false },
+        });
+
+        // Chatbot Script (Now used inside the modal)
+        const apiKey = ""; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const chatbox = document.getElementById('chatbox'); // Ensure this targets the chatbox inside the modal
+        const userInput = document.getElementById('userInput'); // Ensure this targets the input inside the modal
+        
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('p');
+            // Add margin for spacing between messages
+            messageDiv.classList.add('mb-2'); 
+            messageDiv.innerHTML = `<strong>${sender === 'user' ? 'Tú' : 'Agente'}:</strong> <span class="block">${text}</span>`; // Make text wrap
+            messageDiv.classList.add(sender === 'user' ? 'message-user' : 'message-bot');
+            chatbox.appendChild(messageDiv);
+            // Scroll to the bottom smoothly after adding a message
+            chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
+        }
+
+
+        async function sendMessage() {
+            const userMessage = userInput.value.trim();
+            if (userMessage === '') return;
+            addMessage(userMessage, 'user');
+            userInput.value = '';
+
+            const typingIndicator = document.createElement('p');
+            typingIndicator.className = 'message-bot mb-2'; // Added margin-bottom
+            typingIndicator.innerHTML = '<strong>Agente:</strong> Escribiendo...';
+            chatbox.appendChild(typingIndicator);
+             chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
+
+
+            const payload = {
+                contents: [{ parts: [{ text: userMessage }] }],
+                systemInstruction: { parts: [{ text: "Eres un agente de soporte de telecomunicaciones para la empresa Cool Mobile. Tu objetivo es resolver dudas sobre planes, recargas, cobertura y promociones." }] }
+            };
+
+            let retryCount = 0;
+            const maxRetries = 3;
+            const initialDelay = 1000; // 1 second
+
+            while (retryCount <= maxRetries) {
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429 || response.status >= 500) {
+                        // Throttling or server error, prepare for retry
+                         if (retryCount === maxRetries) {
+                            throw new Error(`API error after ${maxRetries} retries. Status: ${response.status}`);
+                        }
+                        const delay = initialDelay * Math.pow(2, retryCount);
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        retryCount++;
+                        continue; // Retry the fetch
+                    }
+                    
+                    if (!response.ok) {
+                       const errorBody = await response.json();
+                       console.error('Error from API:', errorBody);
+                       throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    // Check if the expected data structure exists
+                    const botResponse = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (botResponse) {
+                        typingIndicator.remove();
+                        addMessage(botResponse, 'bot');
+                    } else {
+                        console.error('Unexpected API response structure:', result);
+                        throw new Error('Invalid response structure from API.');
+                    }
+                    
+                    break; // Exit loop on success
+
+                } catch (error) {
+                    console.error('Failed to fetch from Gemini API:', error);
+                    typingIndicator.remove();
+                    addMessage('Lo siento, encontré un error. Por favor, inténtalo de nuevo más tarde.', 'bot');
+                    break; // Exit loop on error
+                }
+            }
+        }
+
+
+        // Interactive Image Script
+        const container = document.querySelector('.cursor-follow-container');
+        const image = document.querySelector('.cursor-follow-image');
+        if (container && image) {
+            // Check if not mobile for the translation effect
+            if (window.innerWidth > 768) { 
+                container.addEventListener('mousemove', (e) => {
+                    const rect = container.getBoundingClientRect();
+                    const x = e.clientX - rect.left, y = e.clientY - rect.top;
+                    const offsetX = ((x / rect.width) - 0.5) * 30; // Reduced intensity
+                    const offsetY = ((y / rect.height) - 0.5) * 30; // Reduced intensity
+                    // Apply only translation
+                    image.style.transform = `translate(${offsetX}px, ${offsetY}px)`; 
+                });
+                container.addEventListener('mouseleave', () => {
+                     // Reset only translation
+                    image.style.transform = 'translate(0, 0)';
+                });
+            }
+             // Add scaling effect to the container (applies on mobile too)
+            container.style.transition = 'transform 0.3s ease'; // Add transition to container
+            container.addEventListener('mouseenter', () => {
+                container.style.transform = 'scale(1.05)';
+            });
+            container.addEventListener('mouseleave', () => {
+                container.style.transform = 'scale(1)';
+            });
+        }
+
+
+        // 3D Carousel Script
+        ;(function() {
+          const carouselWidget = document.querySelector('.mi-carrusel-widget:not(.interactive)');
+          if (!carouselWidget) return;
+          carouselWidget.classList.add('interactive');
+          const carouselContent = carouselWidget.querySelector('.icon-cards__content');
+          const carousel = carouselWidget.querySelector('.icon-cards');
+          let isDragging = false, startX, startRotation, currentRotation = 0;
+          const rotationFactor = 0.5;
+          let autoRotateInterval;
+          const itemAngle = -120;
+
+          const advanceCarousel = () => {
+              currentRotation += itemAngle;
+              carouselContent.style.transition = 'transform 0.5s ease-out';
+              carouselContent.style.transform = `translateZ(-150px) rotateY(${currentRotation}deg)`;
+          };
+
+          const startAutoRotate = () => {
+              clearInterval(autoRotateInterval); // Clear existing interval before starting a new one
+              autoRotateInterval = setInterval(advanceCarousel, 2000);
+          };
+
+          const stopAutoRotate = () => {
+              clearInterval(autoRotateInterval);
+          };
+
+          const handleDown = (e) => {
+              stopAutoRotate();
+              isDragging = true;
+              startX = e.pageX !== undefined ? e.pageX : e.touches[0].pageX;
+              startRotation = currentRotation;
+              carouselContent.style.transition = 'none'; // Disable transition during drag
+              carousel.style.cursor = 'grabbing';
+              if (e.type === 'mousedown') e.preventDefault();
+          };
+
+          const handleMove = (e) => {
+              if (!isDragging) return;
+              // Prevent page scroll on touch devices while dragging carousel
+              if (e.type === 'touchmove' && e.cancelable) e.preventDefault(); 
+              
+              const currentX = e.pageX !== undefined ? e.pageX : e.touches[0].pageX;
+              const diffX = currentX - startX;
+              currentRotation = startRotation + (diffX * rotationFactor);
+              // Update transform immediately during drag (no transition)
+              carouselContent.style.transform = `translateZ(-150px) rotateY(${currentRotation}deg)`;
+          };
+
+          const handleUp = () => {
+              if (!isDragging) return;
+              isDragging = false;
+              carouselContent.style.transition = 'transform 0.5s ease-out'; // Re-enable transition for snapping
+              carousel.style.cursor = 'grab';
+              
+              // Snap to the nearest item
+              const closestItem = Math.round(currentRotation / itemAngle);
+              currentRotation = closestItem * itemAngle;
+              carouselContent.style.transform = `translateZ(-150px) rotateY(${currentRotation}deg)`;
+              
+              startAutoRotate(); // Restart auto-rotation after interaction ends
+          };
+
+          // Mouse events
+          carousel.addEventListener('mousedown', handleDown);
+          window.addEventListener('mousemove', handleMove); // Use window to track movement outside carousel
+          window.addEventListener('mouseup', handleUp);     // Use window to detect mouse up anywhere
+
+          // Touch events
+          carousel.addEventListener('touchstart', handleDown, { passive: true }); // passive:true can improve scroll performance
+          window.addEventListener('touchmove', handleMove, { passive: false }); // passive:false to allow preventDefault()
+          window.addEventListener('touchend', handleUp);
+          
+          startAutoRotate(); // Initial start of auto-rotation
+        })();
+
+        // Scrolling Gradient Script
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                // Make sure the percentage doesn't exceed 100%
+                const backgroundPositionPercentage = Math.min(scrollPercentage, 100); 
+                bg.style.backgroundPosition = `50% ${backgroundPositionPercentage}%`;
+            } else {
+                 // If not scrollable, set to top
+                bg.style.backgroundPosition = `50% 0%`;
+            }
+        });
+
+         // Adjust image height on app download section based on text content
+        document.addEventListener('DOMContentLoaded', () => {
+            const textColumn = document.getElementById('app-text-column');
+            const imageContainer = document.querySelector('#app-download-section .grid > div:last-child');
+            const appImage = imageContainer.querySelector('img');
+
+            if (textColumn && imageContainer && appImage) {
+                const textColumnHeight = textColumn.offsetHeight;
+                // Set the image container's height to match the text column, but only if text is taller
+                if (textColumnHeight > imageContainer.offsetHeight) {
+                   imageContainer.style.height = `${textColumnHeight}px`;
+                }
+                // Ensure the image itself fills the container height-wise
+                appImage.style.height = '100%'; 
+                appImage.style.width = 'auto'; // Maintain aspect ratio
+                appImage.style.maxHeight = '100%'; // Ensure image doesn't exceed container
+            }
+
+            // Also re-run adjustment on window resize
+            window.addEventListener('resize', () => {
+                 if (textColumn && imageContainer && appImage) {
+                    const textColumnHeight = textColumn.offsetHeight;
+                    imageContainer.style.height = 'auto'; // Reset height first
+                     if (textColumnHeight > imageContainer.offsetHeight) {
+                        imageContainer.style.height = `${textColumnHeight}px`;
+                    }
+                    appImage.style.height = '100%';
+                    appImage.style.width = 'auto';
+                    appImage.style.maxHeight = '100%';
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
+
