@@ -21,7 +21,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             /* Fondo degradado conservado */
-            background: linear-gradient(180deg,  #57C5B6, #BCEAD5, #6bd6c8, #57C5B6, #BCEAD5, #CBE4DE);
+            background: linear-gradient(180deg,  #2E4F4F, #BCEAD5, #406c6c, #568d8d, #BCEAD5, #CBE4DE);
             background-size: 100% 400%;
             background-attachment: fixed;
             transition: background-position 0.2s ease-out;
@@ -166,7 +166,7 @@
         
         /* Estilos Footer Conservados */
         .footer {
-            background-color: #2E4F4F;
+            background-color: #000707;
             color: #BCEAD5;
             padding: 4rem 0;
             border-top: 2px solid #0E8388;
@@ -450,8 +450,8 @@
                 :class="{ 'bg-[#2E4F4F] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-24">
-                    <a href="#" class="flex-shrink-0">
-                        <img src="logo.png" alt="Logo Dalefon" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                    <a href="/index.html" class="flex-shrink-0">
+                        <img src="logo.png" alt="Logo cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
                     </a>
                     <div class="hidden lg:flex lg:space-x-8">
                         <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
@@ -460,21 +460,22 @@
                                 <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
                             <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
-                                <!-- Enlace actualizado para esta página --><a href="telefonia-sim-card.html" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia-simcard</a> 
-                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia eSIM</a>
-                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
+                                <!-- Enlace actualizado para esta página --><a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia-simcard</a> 
+                                <a href="/telefonia-eSIM/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia eSIM</a>
+                                <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
                             </div>
                         </div>
-                        <a href="#" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet de Casa</a>
-                        <a href="#" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet Móvil</a>
+                        <a href="/internet-de-casa/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet de Casa</a>
+                        <a href="/internet-movil/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet Móvil</a>
                         <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
                             <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
                                 Consulta
                                 <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
                             <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
-                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Portabilidad</a>
-                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Compatibilidad</a>
+                                <a href="/portabilidad/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Portabilidad</a>
+                                <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Compatibilidad</a>
+                                <a href="/manual-configuraciones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Manual</a>
                             </div>
                         </div>
                         <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
@@ -483,14 +484,14 @@
                                 <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
                             <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
-                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Faqs</a>
-                                <a href="#" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Contactos</a>
+                                <a href="/faqs/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Faqs</a>
+                                <a href="/contacto/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Contactos</a>
                             </div>
                         </div>
-                        <a href="#" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Facturación</a>
+                        <a href="/facturacion/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Facturación</a>
                     </div>
 
-                    <a href="#" class="hidden lg:block bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105">
+                    <a href="/recargas/" class="hidden lg:block bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105">
                         Recargas
                     </a>
 
@@ -530,21 +531,22 @@
                             <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
-                            <!-- Enlace actualizado para esta página --><a href="telefonia-sim-card.html" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia-simcard</a>
-                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia eSIM</a>
-                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Promociones</a>
+                            <!-- Enlace actualizado para esta página --><a href="/telefonia_simcard/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia-simcard</a>
+                            <a href="/telefonia-eSIM/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia eSIM</a>
+                            <a href="/promociones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Promociones</a>
                         </div>
                     </div>
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet de Casa</a>
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet Móvil</a>
+                    <a href="/internet-de-casa/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet de Casa</a>
+                    <a href="/internet-movil/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet Móvil</a>
                     <div x-data="{ open: false }">
                         <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
                             <span>Consulta</span>
                             <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
-                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Portabilidad</a>
-                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Compatibilidad</a>
+                            <a href="/portabilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Portabilidad</a>
+                            <a href="/compatibilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Compatibilidad</a>
+                            <a href="/manual-configuraciones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Manual</a>
                         </div>
                     </div>
                     <div x-data="{ open: false }">
@@ -553,13 +555,13 @@
                             <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
-                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Faqs</a>
-                            <a href="#" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Contactos</a>
+                            <a href="/faqs/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Faqs</a>
+                            <a href="/contacto/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Contactos</a>
                         </div>
                     </div>
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Facturación</a>
+                    <a href="/facturacion/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Facturación</a>
                     <div class="pt-4 border-t border-[#BCEAD5]">
-                        <a href="#" class="block text-center bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 w-full">
+                        <a href="/recargas/" class="block text-center bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 w-full">
                             Recargas
                         </a>
                     </div>
@@ -665,36 +667,36 @@
                     <!-- Nuevos contenidos de pestañas -->
                     <div id="3meses" class="tab-content">
                         <div class="plan-card">
-                          <a href="#" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%203%20meses" target="_blank"> <!-- Reemplaza # con el enlace real -->
                             <img src="img/kids3meses.png" alt="Plan 3 Meses kids">
                           </a>
                         </div>
                         <div class="plan-card">
-                          <a href="#" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%203%20meses" target="_blank"> <!-- Reemplaza # con el enlace real -->
                             <img src="img/teens3meses.png" alt="Plan 3 Meses teens">
                           </a>
                         </div>
                     </div>
                     <div id="6meses" class="tab-content">
                         <div class="plan-card">
-                          <a href="#" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%206%20meses" target="_blank"> <!-- Reemplaza # con el enlace real -->
                             <img src="img/kids6meses.png" alt="Plan 6 Meses kids">
                           </a>
                         </div>
                         <div class="plan-card">
-                           <a href="#" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%206%20meses" target="_blank"> <!-- Reemplaza # con el enlace real -->
                             <img src="img/teens6meses.png" alt="Plan 6 Meses 2">
                           </a>
                         </div>
                     </div>
                     <div id="12meses" class="tab-content">
                          <div class="plan-card">
-                           <a href="#" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%2012%20meses" target="_blank"> <!-- Reemplaza # con el enlace real -->
                             <img src="img/kids12meses.png" alt="Plan 12 Meses 1">
                           </a>
                         </div>
                         <div class="plan-card">
-                           <a href="#" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%2012%20meses" target="_blank"> <!-- Reemplaza # con el enlace real -->
                             <img src="img/teens12meses.png" alt="Plan 12 Meses 2">
                           </a>
                         </div>
@@ -774,39 +776,41 @@
                     <!-- Columna 2: Mapa del Sitio --><div>
                         <h4 class="footer-title">Mapa del Sitio</h4>
                         <ul class="space-y-2">
-                            <li><a href="https://coolmobile.mx" class="footer-link">Inicio</a></li>
-                            <li><a href="#" class="footer-link">Recargas</a></li>
-                            <li><a href="#" class="footer-link">Consultas</a></li>
-                            <li><a href="#" class="footer-link">Cobertura</a></li>
-                            <li><a href="#" class="footer-link">Revisar Compatibilidad</a></li>
-                            <li><a href="#" class="footer-link">Contacto</a></li>
+                            <li><a href="/index.html" class="footer-link">Inicio</a></li>
+                            <li><a href="/recargas/" class="footer-link">Recargas</a></li>
+                            <li><a href="/portabilidad/" class="footer-link">Portabilidad</a></li>
+                            <li><a href="/cobertura/" class="footer-link">Cobertura</a></li>
+                            <li><a href="compatibilidad/" class="footer-link">Revisar Compatibilidad</a></li>
+                            <li><a href="/contacto/" class="footer-link">Contacto</a></li>
                         </ul>
                     </div>
                     <!-- Columna 3: Acerca de y Legal --><div>
                         <h4 class="footer-title">Acerca</h4>
                         <ul class="space-y-2">
-                            <li><a href="#" class="footer-link">Nosotros</a></li>
-                            <li><a href="#" class="footer-link">FAQs</a></li>
-                            <li><a href="#" class="footer-link">Avisos de Privacidad</a></li>
-                            <li><a href="#" class="footer-link">Términos y Condiciones</a></li>
+                            <li><a href="/nosotros/" class="footer-link">Nosotros</a></li>
+                            <li><a href="/faqs/" class="footer-link">FAQs</a></li>
+                            <li><a href="/avisos-de-privacidad/" class="footer-link">Avisos de Privacidad</a></li>
+                            <li><a href="/terminos-de-condiciones/" class="footer-link">Términos y Condiciones</a></li>
                              <div x-data="{ open: false }">
                                 <button @click="open = !open" class="flex items-center footer-link w-full">
                                     <span>Legal</span>
                                     <svg class="w-4 h-4 ml-1 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
                                 <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2">
-                                     <a href="#" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
-                                     <a href="#" class="block footer-link text-sm">Contrato de Adhesión Pospago</a>
-                                     <a href="#" class="block footer-link text-sm">Contrato de Pospago Indefinido</a>
-                                     <a href="#" class="block footer-link text-sm">Política de Uso Justo</a>
-                                     <a href="#" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
-                                     <a href="#" class="block footer-link text-sm">Registro de Tarifas</a>
+                                     <a href="contrato-de-adhesion-prepago/" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
+                                     <a href="/codigo-de-politicas-de-gestion-de-trafico/" class="block footer-link text-sm">Código de Políticas de Gestión de Tráfico</a>
+                                     <a href="/carta-de-derecho/" class="block footer-link text-sm">Carta de Derechos</a>
+                                     <a href="/politica-de-uso-justo/" class="block footer-link text-sm">Política de Uso Justo</a>
+                                     <a href="/codigo-de-practicas-comerciales/" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
+                                     <a href="/registro-de-tarifas/" class="block footer-link text-sm">Registro de Tarifas</a>
+                                     <a href="/colaboracion-en-materia-de-seguridad/" class="block footer-link text-sm">Colaboración en materia de seguridad y justicia</a>
                                 </div>
                             </div>
                         </ul>
                     </div>
                     <!-- Columna 4: Descarga App --><div>
                         <h4 class="footer-title">Descarga Nuestras Apps</h4>
+                        <!-- Modifica el valor de space-y-6 para ajustar el espacio vertical entre botones. Ej: space-y-4, space-y-8 -->
                         <div class="space-y-6">
                              <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
                                 <img src="img/appstore.png" class="rounded-lg" alt="Get it on Google Play">
@@ -822,25 +826,25 @@
 
 
         <!-- Iconos de Redes Sociales (Desktop) CONSERVADOS --><div class="hidden md:flex flex-col space-y-4 fixed left-4 top-1/2 -translate-y-1/2 z-20">
-            <a href="#" class="p-2 hover:scale-110 transition-transform">
+            <a href="https://www.facebook.com/CoolMobileMx" class="p-2 hover:scale-110 transition-transform">
                 <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
             </a>
-            <a href="#" class="p-2 hover:scale-110 transition-transform">
+            <a href="https://www.instagram.com/coolmobilemx/" class="p-2 hover:scale-110 transition-transform">
                 <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
             </a>
-            <a href="#" class="p-2 hover:scale-110 transition-transform">
+            <a href="https://www.tiktok.com/@coolmobilemx" class="p-2 hover:scale-110 transition-transform">
                 <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
             </a>
         </div>
         
         <!-- Iconos de Redes Sociales (Móvil) CONSERVADOS --><div class="md:hidden flex justify-center items-center space-x-6 fixed bottom-0 left-0 right-0 bg-[#2C3333] bg-opacity-50 backdrop-blur-sm p-3 z-20">
-            <a href="#" class="p-2">
+            <a href="https://www.facebook.com/CoolMobileMx" class="p-2">
                 <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
             </a>
-            <a href="#" class="p-2">
+            <a href="https://www.instagram.com/coolmobilemx/" class="p-2">
                 <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
             </a>
-            <a href="#" class="p-2">
+            <a href="https://www.tiktok.com/@coolmobilemx" class="p-2">
                 <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
             </a>
         </div>
@@ -889,7 +893,7 @@
                     <button @click="isChatOpen = false" class="text-gray-400 hover:text-white">&times;</button>
                 </div>
                  <div id="chatbox" class="flex-grow">
-                     <p class="message-bot"><strong>Agente:</strong> ¡Hola! Estoy aquí para ayudarte con cualquier duda sobre nuestros servicios de telecomunicaciones. 😊</p>
+                     <p class="message-bot"><strong>Agente:</strong> ¡Hola! Estoy aquí para ayudarte con cualquier duda sobre nuestros servicios. 😊</p>
                  </div>
                  <div class="flex items-center mt-4">
                      <input type="text" id="userInput" placeholder="Escribe tu mensaje..." class="flex-grow mr-2" onkeypress="if(event.key === 'Enter') sendMessage()">

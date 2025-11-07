@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Todo el <head> se conserva igual para mantener estilos y librerías -->
+    <link rel="icon" href="favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- El título de la página se actualiza -->
+    <title>Internet en Casa - Cool Mobile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    
+    <!-- Todos los estilos se conservan -->
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Fondo degradado conservado */
+            background: linear-gradient(180deg, #FF9F45, #ffe0c3, #ffd0a3, #ffbc7d, #FF9F45, #FF9F45); /* CAMBIADO: Gradiente a tonos naranja */
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+            color: #E5E7EB; /* CAMBIADO: de #BCEAD5 a gris claro */
+        }
+
+        [x-cloak] { display: none !important; }
+        
+        /* Estilos de Swiper (slider) - Se pueden dejar, no afectan */
+        .swiper-button-next,
+        .swiper-button-prev { display: none; }
+        .swiper-pagination-bullet-active { background-color: #F97316; } /* CAMBIADO: de #57C5B6 a naranja */
+
+        /* Estilos de Título Conservados */
+        .text-3d, .title-outline {
+            text-shadow:
+                -1.5px -1.5px 0 #2C3333, 1.5px -1.5px 0 #2C3333,
+                -1.5px 1.5px 0 #2C3333, 1.5px 1.5px 0 #2C3333,
+                4px 4px 8px rgba(0,0,0,0.5);
+        }
+        
+        /* Estilos del Chat (modal) Conservados */
+        #chat-modal #chatbox {
+            border: 1px solid #4B5563; padding: 1rem; height: 400px;
+            overflow-y: scroll; margin-bottom: 1rem; background-color: #3C4248;
+            border-radius: 0.5rem;
+        }
+        #chat-modal .message-user { text-align: right; color: #F97316; } /* CAMBIADO: de #57C5B6 a naranja */
+        #chat-modal .message-bot { text-align: left; color: #E5E7EB; } /* CAMBIADO: de #BCEAD5 a gris claro */
+        #chat-modal #userInput {
+            width: calc(100% - 6rem); padding: 0.75rem; border-radius: 9999px;
+            border: 1px solid #4B5563; background-color: #4A5568;
+            color: white; outline: none;
+        }
+        #chat-modal #userInput:focus { border-color: #F97316; } /* CAMBIADO: de #57C5B6 a naranja */
+        #chat-modal #chat-button {
+            background-color: #EA580C; color: white; padding: 0.75rem 1.5rem; /* CAMBIADO: de #0E8388 a naranja oscuro */
+            border-radius: 9999px; font-weight: bold; transition: all 0.2s;
+        }
+        #chat-modal #chat-button:hover { background-color: #F97316; transform: scale(1.05); } /* CAMBIADO: de #57C5B6 a naranja */
+        
+        /* Estilos Puntos de Recarga (Re-incorporados) */
+        #recharge-widget { font-family: 'Montserrat', sans-serif; }
+        #recharge-widget h3 {
+            font-family: 'Montserrat', sans-serif !important;
+            color: #E5E7EB; /* CAMBIADO: de #CBE4DE a gris claro */
+        }
+        .logo-carousel { display: flex; overflow: hidden; width: 100%; white-space: nowrap; }
+        .logo-carousel-inner { display: flex; animation: carousel 20s linear infinite; }
+        .logo-carousel-item {
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; width: 150px; margin: 0 1rem;
+        }
+        .logo-carousel-item img {
+            max-height: 50px; width: auto; object-fit: contain;
+            /* CAMBIADO: filtro de verde a naranja */
+            filter: grayscale(100%) invert(60%) sepia(90%) saturate(500%) hue-rotate(350deg) brightness(100%) contrast(90%);
+            transition: filter 0.3s ease;
+        }
+        .logo-carousel-item img:hover { filter: grayscale(0%); }
+        @keyframes carousel {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Estilos App Download (Re-incorporados) */
+        #app-download-section h3 {
+            font-family: 'Poppins', sans-serif !important;
+            color: #E5E7EB; /* CAMBIADO: de #CBE4DE a gris claro */
+        }
+        #app-download-section ul li svg { color: #F97316; } /* CAMBIADO: de #57C5B6 a naranja */
+        .store-button { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .store-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Estilos Footer Conservados */
+        .footer {
+            background-color: #000707;
+            color: #E5E7EB; /* CAMBIADO: de #BCEAD5 a gris claro */
+            padding: 4rem 0;
+            border-top: 2px solid #EA580C; /* CAMBIADO: de #0E8388 a naranja oscuro */
+        }
+        .footer-link {
+            transition: color 0.2s ease-in-out;
+        }
+        .footer-link:hover {
+            color: #F97316; /* CAMBIADO: de #57C5B6 a naranja */
+        }
+        .footer-title {
+            color: #FFFFFF; /* CAMBIADO: de #CBE4DE a blanco */
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Estilos Burbuja Chat Conservados */
+        .chat-bubble-options {
+            transition: all 0.3s ease-out;
+        }
+
+        /* Estilos Modal Chat Conservados */
+        .chat-modal-overlay {
+             background-color: rgba(0, 0, 0, 0.6);
+             z-index: 999; /* Lower than modal content */
+        }
+        .chat-modal-content {
+            z-index: 9999;
+            max-height: 90vh; /* Limit modal height */
+        }
+
+
+        /* Estilos Mobile Responsive Conservados */
+        @media (max-width: 768px) {
+            /* Ajustar el padding-top del main en móvil */
+            main {
+                padding-top: 8rem; /* Más espacio para el header fijo */
+            }
+            /* Ajustar grid de Tiendas/App en móvil */
+            .tiendas-app-grid {
+                grid-template-columns: 1fr; /* Una columna en móvil */
+            }
+        }
+         @media (max-width: 640px) {
+            .logo-carousel-item { width: 120px; margin: 0 0.5rem; }
+            .chat-modal-content {
+                width: 95%; /* Make modal wider on small screens */
+            }
+             .chat-modal-container {
+                align-items: flex-start; /* Align modal top on mobile */
+                padding-top: 4rem; /* Add some top padding */
+            }
+        }
+
+        /* Ajustar el padding superior del main */
+        main {
+            padding-top: 6rem; /* Ajustar según la altura de tu header si es necesario */
+        }
+
+    </style>
+
+    <!-- INICIO: CÓDIGO DEL MAPA (HEAD) -->
+    <!-- Load Leaflet from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" crossorigin=""></script>
+
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.5.0/dist/esri-leaflet.js" crossorigin=""></script>
+    <script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js" crossorigin=""></script>
+    
+    <!-- Esri Leaflet Geocoder CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.css" crossorigin="">
+
+
+    <style>
+        /* --- General Styles for the Widget --- */
+        #coverage-map-container-home {
+            font-family: 'Poppins', sans-serif; /* MODIFICADO: para coincidir con la fuente del sitio */
+            font-weight: 300;
+            position: relative; /* Needed for absolute positioning of children */
+            height: 500px; /* MODIFICADO: altura ajustada */
+            width: 100%;
+            border-radius: 1rem; /* MODIFICADO: para coincidir con el diseño del sitio */
+            overflow: hidden; /* MODIFICADO: para aplicar bordes redondeados */
+            margin-bottom: 5rem; /* MODIFICADO: espacio antes de los planes */
+        }
+
+        #coverage-map-container-home #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* --- Map Layer Color Styling using Panes --- */
+        #coverage-map-container-home .cobertura-10hbb-pane {
+            /* A more robust filter to force a vibrant red color */
+            filter: grayscale(1) sepia(100%) saturate(600%) hue-rotate(320deg) brightness(90%) contrast(150%);
+        }
+        /* No filter for 5hbb to show its default teal color */
+        
+
+        /* --- Legend Styles --- */
+        #coverage-map-container-home #legend {
+            position: absolute;
+            bottom: 30px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none; /* Oculta la leyenda de cobertura */
+        }
+        #coverage-map-container-home .legend-item { display: flex; align-items: center; margin-bottom: 8px; }
+        #coverage-map-container-home .legend-item:last-child { margin-bottom: 0; }
+        #coverage-map-container-home .legend-item span {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 3px;
+            opacity: 0.9;
+        }
+        #coverage-map-container-home .legend-item p { margin: 0; font-size: 14px; color: #555; }
+        
+        /* --- Instruction Header --- */
+        #coverage-map-container-home #instructivo {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 90%;
+            border: 1px solid #eee;
+            display: none; /* Hidden by default */
+        }
+        #coverage-map-container-home #instructivo h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+        #coverage-map-container-home #instructivo p {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        /* --- Startup Modal Styles --- */
+        #coverage-map-container-home #startup-modal {
+            position: absolute; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 3000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        #coverage-map-container-home .modal-content {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 450px;
+            font-family: 'Poppins', sans-serif; /* MODIFICADO */
+        }
+        #coverage-map-container-home .modal-content h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 500;
+        }
+        #coverage-map-container-home .modal-content p { margin-bottom: 25px; color: #666; line-height: 1.5; }
+        #coverage-map-container-home #location-input {
+            width: calc(100% - 24px);
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        #coverage-map-container-home #search-button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: #F57C00; /* Orange Button */
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            font-family: 'Poppins', sans-serif; /* MODIFICADO */
+        }
+        #coverage-map-container-home #search-button:hover { background-color: #E65100; } /* Darker Orange on Hover */
+        #coverage-map-container-home #error-message { color: #D32F2F; margin-top: 15px; font-size: 14px; display: none; }
+        
+        /* --- New Search Button --- */
+        #coverage-map-container-home #new-search-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: #F57C00; /* Orange Button */
+            color: #FFF;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none; /* Hidden by default */
+            font-family: 'Poppins', sans-serif; /* MODIFICADO */
+        }
+        #coverage-map-container-home #new-search-button:hover { background-color: #E65100; } /* Darker Orange on Hover */
+
+    </style>
+    <!-- FIN: CÓDIGO DEL MAPA (HEAD) -->
+</head>
+<body>
+    <!-- Contenedor principal de Alpine.js CONSERVADO -->
+    <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false, isResultModalOpen: false, showMap: false, toggleMap() { this.showMap = !this.showMap; if (this.showMap) { this.$nextTick(() => { if (mapInstanceCasa) { mapInstanceCasa.invalidateSize(); } }); } } }" 
+         @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+        
+        <!-- Header (encabezado) CONSERVADO -->
+        <header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
+                :class="{ 'bg-[#F79327] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }"> <!-- CAMBIADO: de bg-[#111827] a bg-[#EA580C] -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-24">
+                    <a href="/index.html" class="flex-shrink-0">
+                        <img src="logo.png" alt="Logo Cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                    </a>
+                    <div class="hidden lg:flex lg:space-x-8">
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#E5E7EB] hover:text-[#F97316] px-3 py-2 rounded-md font-medium transition-colors duration-200"> <!-- CAMBIADO: Colores de texto -->
+                                Telefonía
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#1F2937] rounded-md shadow-lg py-1 z-40"> <!-- CAMBIADO: de #2E4F4F a gray-800 -->
+                                <a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#EA580C]">Telefonia-simcard</a> <!-- CAMBIADO: hover naranja -->
+                                <a href="/telefonia-eSIM/" class="block px-4 py-2 text-sm hover:bg-[#EA580C]">Telefonia eSIM</a> <!-- CAMBIADO: hover naranja -->
+                                <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#EA580C]">Promociones</a> <!-- CAMBIADO: hover naranja -->
+                            </div>
+                        </div>
+                        <a href="/internet-de-casa/" class="text-[#E5E7EB] hover:text-[#F97316] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet de Casa</a> <!-- CAMBIADO: Colores de texto -->
+                        <a href="/internet-movil/" class="text-[#E5E7EB] hover:text-[#F97316] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet Móvil</a> <!-- CAMBIADO: Colores de texto -->
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#E5E7EB] hover:text-[#F97316] px-3 py-2 rounded-md font-medium transition-colors duration-200"> <!-- CAMBIADO: Colores de texto -->
+                                Consulta
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#1F2937] rounded-md shadow-lg py-1 z-40"> <!-- CAMBIADO: de #2E4F4F a gray-800 -->
+                                <a href="/portabilidad/index.html" class="block px-4 py-2 text-sm hover:bg-[#EA580C]">Portabilidad</a> <!-- CAMBIADO: hover naranja -->
+                                <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#EA580C]">Compatibilidad</a> <!-- CAMBIADO: hover naranja -->
+                                <a href="/manual-configuraciones/" class="block px-4 py-2 text-sm hover:bg-[#EA580C]">Manual</a> <!-- CAMBIADO: hover naranja -->
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#E5E7EB] hover:text-[#F97316] px-3 py-2 rounded-md font-medium transition-colors duration-200"> <!-- CAMBIADO: Colores de texto -->
+                                Contacto
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#1F2937] rounded-md shadow-lg py-1 z-40"> <!-- CAMBIADO: de #2E4F4F a gray-800 -->
+                                <a href="/faqs/" class="block px-4 py-2 text-sm hover:bg-[#EA580C]">Faqs</a> <!-- CAMBIADO: hover naranja -->
+                                <a href="/contacto/" class="block px-4 py-2 text-sm hover:bg-[#EA580C]">Contactos</a> <!-- CAMBIADO: hover naranja -->
+                            </div>
+                        </div>
+                        <a href="/facturacion/" class="text-[#E5E7EB] hover:text-[#F97316] px-3 py-2 rounded-md font-medium transition-colors duration-200">Facturación</a> <!-- CAMBIADO: Colores de texto -->
+                    </div>
+
+                    <a href="/recargas/" class="hidden lg:block bg-[#EA580C] hover:bg-[#F97316] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105"> <!-- CAMBIADO: Colores de botón -->
+                        Recargas
+                    </a>
+
+                    <div class="lg:hidden flex items-center">
+                        <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#E5E7EB] hover:text-white hover:bg-gray-700 focus:outline-none"> <!-- CAMBIADO: Color de texto -->
+                            <span class="sr-only">Abrir menú principal</span>
+                            <svg class="h-6 w-6" x-show="!openMenu" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                            <svg class="h-6 w-6" x-show="openMenu" x-cloak fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#111827] z-40" <!-- CAMBIADO: de #2E4F4F a gray-900 -->
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95">
+                <div class="px-2 pt-20 pb-3 space-y-1 sm:px-3">
+                    <div class="absolute top-4 right-4">
+                        <button @click="openMenu = false" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#E5E7EB] hover:text-white hover:bg-gray-700 focus:outline-none"> <!-- CAMBIADO: Color de texto -->
+                            <span class="sr-only">Cerrar menú principal</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]"> <!-- CAMBIADO: hover naranja -->
+                            <span>Telefonía</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="/telefonia_simcard/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Telefonia-simcard</a> <!-- CAMBIADO: Colores -->
+                            <a href="/telefonia-eSIM/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Telefonia eSIM</a> <!-- CAMBIADO: Colores -->
+                            <a href="/promociones/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Promociones</a> <!-- CAMBIADO: Colores -->
+                        </div>
+                    </div>
+                    <a href="internet-de-casa/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]">Internet de Casa</a> <!-- CAMBIADO: hover naranja -->
+                    <a href="internet-movil/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]">Internet Móvil</a> <!-- CAMBIADO: hover naranja -->
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]"> <!-- CAMBIADO: hover naranja -->
+                            <span>Consulta</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="portabilidad/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Portabilidad</a> <!-- CAMBIADO: Colores -->
+                            <a href="compatibilidad/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Compatibilidad</a> <!-- CAMBIADO: Colores -->
+                        </div>
+                    </div>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]"> <!-- CAMBIADO: hover naranja -->
+                            <span>Contacto</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="faqs/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Faqs</a> <!-- CAMBIADO: Colores -->
+                            <a href="contacto/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Contactos</a> <!-- CAMBIADO: Colores -->
+                        </div>
+                    </div>
+                    <a href="facturacion/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]">Facturación</a> <!-- CAMBIADO: hover naranja -->
+                    <div class="pt-4 border-t border-[#E5E7EB]"> <!-- CAMBIADO: Color borde -->
+                        <a href="recargas/" class="block text-center bg-[#EA580C] hover:bg-[#F97316] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 w-full"> <!-- CAMBIADO: Colores -->
+                            Recargas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- INICIO: Nuevo contenido principal para "Internet en Casa" -->
+        <main class="pt-24 pb-16 min-h-screen">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+                <!-- INICIO: Hero Section (2 Columnas) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-20">
+                    <!-- Columna 1: Texto y Beneficios -->
+                    <div class="text-white md:text-left">
+                        <h1 class="text-4xl lg:text-5xl font-bold title-outline mb-6">Internet en Casa...</h1>
+                        <p class="text-xl text-[#000000] mb-6">Conéctate fácil y sin instalaciones. Conecta todos tus dispositivos con la mejor velocidad.</p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center text-lg text-[#000000]">
+                                <svg class="w-6 h-6 mr-2 text-[#F97316]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> <!-- CAMBIADO: Color de icono -->
+                                Sin plazos forzosos ni contratos.
+                            </li>
+                            <li class="flex items-center text-lg text-[#000000]">
+                                <svg class="w-6 h-6 mr-2 text-[#F97316]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> <!-- CAMBIADO: Color de icono -->
+                                Consulta tu cobertura 
+                            </li>
+                            <li class="flex items-center text-lg text-[#000000]">
+                                <svg class="w-6 h-6 mr-2 text-[#F97316]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> <!-- CAMBIADO: Color de icono -->
+                                Conecta hasta 10 dispositivos.
+                            </li>
+                        </ul>
+                            <div class="flex justify-center">
+                                <a href="#planes-internet-casa" class="mr-4 bg-[#EA580C] hover:bg-[#F97316] text-white font-bold py-3 px-8 rounded-full transition-all duration-200 transform hover:scale-105 text-lg">
+                                    Ver Planes
+                                </a>
+                                <a href="#consulta-tu-cobertura" class="bg-[#EA580C] hover:bg-[#F97316] text-white font-bold py-3 px-8 rounded-full transition-all duration-200 transform hover:scale-105 text-lg">
+                                    Ver cobertura
+                                </a>
+                            </div>
+                    </div>
+                    <!-- Columna 2: Imagen del Módem -->
+                    <div class="flex justify-center items-center">
+                        <img src="img/modem.png" alt="Modem MiFi Internet en Casa" class="rounded-lg w-full max-w-md transition-transform duration-300 hover:scale-105">
+                    </div>
+                </div>
+                <!-- FIN: Hero Section -->
+                <!-- INICIO: Sección de Planes -->
+                <div id="planes-internet-casa" class="pt-16 mb-20">
+                    <h2 class="text-4xl font-bold title-outline text-center mb-12">Planes de Internet en Casa</h2>
+                    <!-- CAMBIADO: El grid se reemplaza por un flexbox para centrar mejor las tarjetas de tamaño fijo -->
+                    <div class="flex flex-row flex-wrap justify-center gap-8 lg:gap-12">
+                        
+                        <!-- Plan 1 -->
+                        <div class="w-full max-w-[300px] transition-all duration-300 transform hover:scale-105 rounded-xl overflow-hidden ">
+                            <a href="#">
+                                <img src="img/coolclub.png" alt="Plan Básico Internet" class="w-full h-auto">
+                            </a>
+                        </div>
+
+                        <!-- Plan 2 (Destacado) -->
+                        <div class="w-full max-w-[300px] transition-all duration-300 transform hover:scale-105 md:scale-110 md:hover:scale-115 rounded-xl overflow-hidden ">
+                            <a href="#">
+                                <img src="img/coolfriends.png" alt="Plan Pro Internet" class="w-full h-auto">
+                            </a>
+                        </div>
+
+                        <!-- Plan 3 -->
+                        <div class="w-full max-w-[300px] transition-all duration-300 transform hover:scale-105 rounded-xl overflow-hidden ">
+                            <a href="#">
+                                <img src="img/coolfriends.png" alt="Plan Total Internet" class="w-full h-auto">
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- FIN: Sección de Planes -->
+                <!-- INICIO: SECCIÓN DEL MAPA (CÓDIGO NUEVO) -->
+                <div id="consulta-tu-cobertura" class="max-w-7xl mx-auto"> <!-- Contenedor para alinear con el resto del contenido -->
+                    <h2 class="text-4xl font-bold title-outline text-center mb-12">Consulta tu Cobertura</h2>
+                    
+                    <!-- INICIO: Botón para mostrar/ocultar mapa -->
+                <div class="text-center mb-8">
+                    <button @click="toggleMap()" class="bg-[#EA580C] hover:bg-[#F97316] text-white font-bold py-3 px-8 rounded-full transition-all duration-200 transform hover:scale-105 text-lg inline-flex items-center justify-center">
+                         <!-- Icono de mapa -->
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13v-6m0 6l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 16.382V5.618a1 1 0 00-1.447-.894L15 7m0 10v-6m0 6V7" />
+                             </svg>
+                            <span x-text="showMap ? 'Ocultar Cobertura' : 'Consultar Cobertura'"></span>
+                        </button>
+                    </div>
+                    <!-- FIN: Botón para mostrar/ocultar mapa -->
+
+                    <div id="coverage-map-container-home" x-show="showMap" x-cloak
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                    >
+                        <div id="map"></div>
+                        <div id="instructivo">
+                            <h3>¿Cómo funciona el mapa?</h3>
+                            <p>Las <strong>zonas cubiertas </strong> indican que hay cobertura de servicio.</p>
+                        </div>
+                        <div id="legend">
+                            <div class="legend-item">
+                                <span style="background-color: #E53935;"></span>
+                                <p>Cobertura 10HBB</p>
+                            </div>
+                            <div class="legend-item">
+                                <span style="background-color: #00A9A6;"></span>
+                                <p>Cobertura 5HBB</p>
+                            </div>
+                        </div>
+                        <div id="startup-modal">
+                            <div class="modal-content">
+                                <h2>Consulta de Internet en Casa</h2>
+                                <p>Ingresa una ciudad o dirección para comenzar.</p>
+                                <input type="text" id="location-input" placeholder="Ej: Ciudad de México, Reforma 222">
+                                <button id="search-button">Buscar</button>
+                                <p id="error-message">No se encontró la ubicación. Inténtalo de nuevo.</p>
+                            </div>
+                        </div>
+                        <button id="new-search-button">Nueva Búsqueda</button>
+                    </div>
+                </div>
+                <!-- FIN: SECCIÓN DEL MAPA -->
+
+                <!-- INICIO: Sección "Cómo Funciona" -->
+                <div class="py-16 text-center">
+                    <h2 class="text-4xl font-bold title-outline text-center mb-12">Así de fácil es conectarte</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-black">
+                        <!-- Paso 1 -->
+                        <div class="flex flex-col items-center">
+                            <div class="bg-[#F97316] text-white rounded-full w-20 h-20 flex items-center justify-center text-4xl font-bold mb-4 shadow-lg">1</div> <!-- CAMBIADO: Colores de ícono -->
+                            <h3 class="text-2xl font-semibold mb-2">Pídelo</h3>
+                            <p class="text-[#000000]">Elige tu plan y recibe tu módem en casa.</p> <!-- CAMBIADO: Color de texto -->
+                        </div>
+                        <!-- Paso 2 -->
+                        <div class="flex flex-col items-center">
+                            <div class="bg-[#F97316] text-white rounded-full w-20 h-20 flex items-center justify-center text-4xl font-bold mb-4 shadow-lg">2</div> <!-- CAMBIADO: Colores de ícono -->
+                            <h3 class="text-2xl font-semibold mb-2">Enchúfalo</h3>
+                            <p class="text-[#000000]">Conéctalo a la corriente y ¡listo!</p> <!-- CAMBIADO: Color de texto -->
+                        </div>
+                        <!-- Paso 3 -->
+                        <div class="flex flex-col items-center">
+                            <div class="bg-[#F97316] text-white rounded-full w-20 h-20 flex items-center justify-center text-4xl font-bold mb-4 shadow-lg">3</div> <!-- CAMBIADO: Colores de ícono -->
+                            <h3 class="text-2xl font-semibold mb-2">Navega</h3>
+                            <p class="text-[#000000]">Conecta tus dispositivos y disfruta.</p> <!-- CAMBIADO: Color de texto -->
+                        </div>
+                    </div>
+                </div>
+                <!-- FIN: Sección "Cómo Funciona" -->
+
+            </div>
+        </main>
+        <!-- FIN: Nuevo contenido principal -->
+
+
+        <!-- INICIO: Sección de 2 columnas (Tiendas y App) RE-INCORPORADA -->
+        <section class="bg-transparent py-16">
+            <div class="container mx-auto px-4">
+                <!-- Grid principal de 2 columnas -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start tiendas-app-grid">
+                    
+                    <!-- Columna 1: Tiendas Afiliadas -->
+                    <div id="recharge-widget">
+                        <div class="w-full flex flex-col items-center text-center">
+                            <a href="https://www.paynet.com.mx" target="_blank">
+                                <img src="img/paynet.png" alt="Logo de Paynet" class="mb-4 max-w-full h-auto">
+                            </a>
+                            <h3 class="text-2xl sm:text-3xl font-bold mb-6 title-outline">TIENDAS AFILIADAS</h3>
+                            <a href="https://www.paynet.com.mx" target="_blank">
+                                <p class="text-lg text-[#000000] mb-8">Genera tu código y realiza tus recargas</p> <!-- CAMBIADO: Color de texto -->
+                                <p class="text-lg text-[#000000] mb-8">Conoce todo lo que puedes comprar en línea y pagar con efectivo</p> <!-- CAMBIADO: Color de texto -->
+                            </a>
+                            <div class="logo-carousel">
+                                <div class="logo-carousel-inner">
+                                    <div class="logo-carousel-item"><img src="img/circle.png" alt="circle"></div>
+                                    <div class="logo-carousel-item"><img src="img/extra.png" alt="extra"></div>
+                                    <div class="logo-carousel-item"><img src="img/farmacia.png" alt="farmacia"></div>
+                                    <div class="logo-carousel-item"><img src="img/seven.png" alt="seven"></div>
+                                    <div class="logo-carousel-item"><img src="img/waldo.png" alt="waldo"></div>
+                                    <div class="logo-carousel-item"><img src="img/walmart.png" alt="walmart"></div>
+                                    <div class="logo-carousel-item"><img src="img/bodega.png" alt="bodega"></div>
+                                    <!-- Repetición para el efecto continuo -->
+                                    <div class="logo-carousel-item"><img src="img/circle.png" alt="circle"></div>
+                                    <div class="logo-carousel-item"><img src="img/extra.png" alt="extra"></div>
+                                    <div class="logo-carousel-item"><img src="img/farmacia.png" alt="farmacia"></div>
+                                    <div class="logo-carousel-item"><img src="img/seven.png" alt="seven"></div>
+                                    <div class="logo-carousel-item"><img src="img/waldo.png" alt="waldo"></div>
+                                    <div class="logo-carousel-item"><img src="img/walmart.png" alt="walmart"></div>
+                                    <div class="logo-carousel-item"><img src="img/bodega.png" alt="bodega"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna 2: Descarga App -->
+                    <div id="app-download-section" >
+                        <h3 class="text-2xl text-center sm:text-3xl font-bold mb-6 title-outline">Descarga Nuestra Nueva App</h3>
+                        
+                        <div class="flex justify-center items-center p-4 md:p-6 rounded-2xl ">
+                            <img src="img/appcool.png" alt="App Preview" class="rounded-lg w-full h-full object-contain" style="max-height: 250px;">
+                        
+                        </div>
+                        <div class="flex justify-center space-x-4 mx-auto max-w-md">
+                            <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
+                                <img src="img/appstore.png" class="rounded-lg" alt="Download on the App Store">
+                            </a>
+                            <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button">
+                                <img src="img/googleplay.png" class="rounded-lg" alt="Get it on Google Play">
+                            </a>
+                        </div>
+                    </div>
+
+                </div> <!-- Fin del grid principal de 2 columnas -->
+            </div>
+        </section>
+        <!-- FIN: Nueva sección de 2 columnas (Tiendas y App) -->
+
+
+        <!-- Footer (pie de página) CONSERVADO -->
+        <footer class="footer">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Columna 1: Contacto -->
+                    <div>
+                        <img src="footer.png" alt="Cool Mobile Logo" class="mb-4">
+                        <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
+                        <p class="mb-2">Atención las 24 horas del día en los 365 días del año.</p>
+                        <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
+                        <p>C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
+                    </div>
+                    <!-- Columna 2: Mapa del Sitio -->
+                    <div>
+                        <h4 class="footer-title">Mapa del Sitio</h4>
+                        <ul class="space-y-2">
+                            <li><a href="/index.html" class="footer-link">Inicio</a></li>
+                            <li><a href="#" class="footer-link">Recargas</a></li>
+                            <li><a href="#" class="footer-link">Consultas</a></li>
+                            <li><a href="#" class="footer-link">Cobertura</a></li>
+                            <li><a href="#" class="footer-link">Revisar Compatibilidad</a></li>
+                            <li><a href="#" class="footer-link">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <!-- Columna 3: Acerca de y Legal -->
+                    <div>
+                        <h4 class="footer-title">Acerca</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="footer-link">Nosotros</a></li>
+                            <li><a href="#" class="footer-link">FAQs</a></li>
+                            <li><a href="#" class="footer-link">Avisos de Privacidad</a></li>
+                            <li><a href="#" class="footer-link">Términos y Condiciones</a></li>
+                             <div x-data="{ open: false }">
+                                <button @click="open = !open" class="flex items-center footer-link w-full">
+                                    <span>Legal</span>
+                                    <svg class="w-4 h-4 ml-1 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2">
+                                     <a href="#" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
+                                     <a href="#" class="block footer-link text-sm">Contrato de Adhesión Pospago</a>
+                                     <a href="#" class="block footer-link text-sm">Contrato de Pospago Indefinido</a>
+                                     <a href="#" class="block footer-link text-sm">Política de Uso Justo</a>
+                                     <a href="#" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
+                                     <a href="#" class="block footer-link text-sm">Registro de Tarifas</a>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                    <!-- Columna 4: Descarga App -->
+                    <div>
+                        <h4 class="footer-title">Descarga Nuestras Apps</h4>
+                        <div class="space-y-6">
+                             <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
+                                 <img src="img/appstore.png" class="rounded-lg" alt="Get it on Google Play">
+                             </a>
+                            <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button">
+                                <img src="img/googleplay.png" class="rounded-lg" alt="Download on the App Store">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+        <!-- Iconos de Redes Sociales (Desktop) CONSERVADOS -->
+        <div class="hidden md:flex flex-col space-y-4 fixed left-4 top-1/2 -translate-y-1/2 z-20">
+            <a href="#" class="p-2 hover:scale-110 transition-transform">
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+            </a>
+            <a href="#" class="p-2 hover:scale-110 transition-transform">
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+            </a>
+            <a href="#" class="p-2 hover:scale-110 transition-transform">
+                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+            </a>
+        </div>
+        
+        <!-- Iconos de Redes Sociales (Móvil) CONSERVADOS -->
+        <div class="md:hidden flex justify-center items-center space-x-6 fixed bottom-0 left-0 right-0 bg-[#2C3333] bg-opacity-50 backdrop-blur-sm p-3 z-20">
+            <a href="#" class="p-2">
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+            </a>
+            <a href="#" class="p-2">
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+            </a>
+            <a href="#" class="p-2">
+                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+            </a>
+        </div>
+
+        <!-- Burbuja Flotante de Chat CONSERVADA -->
+        <div class="fixed bottom-5 right-5 z-50">
+            <!-- Menú de Opciones -->
+            <div x-show="chatOptionsOpen" 
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 translate-y-2"
+                 class="chat-bubble-options absolute bottom-16 right-0 mb-2 w-60 bg-[#1F2937] rounded-lg shadow-xl py-2" 
+                 @click.outside="chatOptionsOpen = false"
+                 x-cloak>
+                <!-- Opción WhatsApp -->
+                <a href="https://wa.me/5215593314200" target="_blank" class="flex items-center px-4 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]"> <!-- CAMBIADO: Colores -->
+                   <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M13.545 6.455a4.49 4.49 0 00-6.35 0L6.455 7.19a4.5 4.5 0 106.357 6.357l.735-.735a4.49 4.49 0 000-6.35l-.735.735zm-.707 5.643l-4.95-4.95a3.5 3.5 0 114.95 4.95zm2.121-2.121a1.5 1.5 0 11-2.121-2.121 1.5 1.5 0 012.121 2.121zM10 18.25a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5zm0-1.5a6.75 6.75 0 110-13.5 6.75 6.75 0 010 13.5z"></path></svg>
+                   Chat WhatsApp
+                </a>
+                <!-- Opción Asistente Virtual -->
+                <button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]"> <!-- CAMBIADO: Colores -->
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                    Asistente Virtual
+                </button>
+            </div>
+
+            <!-- Botón de la Burbuja -->
+            <button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#EA580C] hover:bg-[#F97316] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none"> <!-- CAMBIADO: Colores de botón -->
+                <svg x-show="!chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                <svg x-show="chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Modal del Chat CONSERVADO -->
+        <div x-show="isChatOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="chat-modal-container fixed inset-0 flex items-start justify-center pt-20 p-4 z-[100]" 
+             x-cloak>
+            <!-- Overlay -->
+            <div class="chat-modal-overlay fixed inset-0" @click="isChatOpen = false"></div>
+            
+            <!-- Contenido del Modal -->
+            <div id="chat-modal" class="chat-modal-content bg-[#1F2937] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col" @click.stop> <!-- CAMBIADO: de #2C3333 a gray-800 -->
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-[#F97316] title-outline">Asistente Virtual</h3> <!-- CAMBIADO: Color de título -->
+                    <button @click="isChatOpen = false" class="text-gray-400 hover:text-white">&times;</button>
+                </div>
+                 <div id="chatbox" class="flex-grow">
+                     <p class="message-bot"><strong>Agente:</strong> ¡Hola! Estoy aquí para ayudarte con cualquier duda sobre nuestros servicios de telecomunicaciones. 😊</p>
+                 </div>
+                 <div class="flex items-center mt-4">
+                     <input type="text" id="userInput" placeholder="Escribe tu mensaje..." class="flex-grow mr-2" onkeypress="if(event.key === 'Enter') sendMessage()">
+                     <button id="chat-button" onclick="sendMessage()">Enviar</button>
+                 </div>
+            </div>
+        </div>
+
+        <!-- Modal de Resultado (Conservado por si se usa, pero no activado) -->
+        <div x-show="isResultModalOpen" 
+             class="chat-modal-container fixed inset-0 flex items-center justify-center p-4 z-[100]" 
+             x-cloak>
+            <div class="chat-modal-overlay fixed inset-0" @click="isResultModalOpen = false"></div>
+            <div id="resultado-modal-content" class="chat-modal-content bg-[#1F2937] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col relative" @click.stop> <!-- CAMBIADO: de #2C3333 a gray-800 -->
+                <button @click="isResultModalOpen = false" class="text-gray-400 hover:text-white absolute top-4 right-4 text-3xl">&times;</button>
+                 <div id="resultado-imei" class="text-center p-4">
+                 </div>
+            </div>
+        </div>
+
+    </div> <!-- Fin del div x-data principal -->
+
+    <!-- La librería Swiper se mantiene por si se usa en otro lado -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Scripts -->
+    <script>
+        // ELIMINADO: Swiper Initialization
+        // var swiper = new Swiper(...);
+
+        // Chatbot Script (CONSERVADO)
+        const apiKey = ""; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const chatbox = document.getElementById('chatbox'); 
+        const userInput = document.getElementById('userInput'); 
+        
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('p');
+            messageDiv.classList.add('mb-2'); 
+            messageDiv.innerHTML = `<strong>${sender === 'user' ? 'Tú' : 'Agente'}:</strong> <span class="block">${text}</span>`; // Make text wrap
+            messageDiv.classList.add(sender === 'user' ? 'message-user' : 'message-bot');
+            chatbox.appendChild(messageDiv);
+            chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
+        }
+
+
+        async function sendMessage() {
+            const userMessage = userInput.value.trim();
+            if (userMessage === '') return;
+            addMessage(userMessage, 'user');
+            userInput.value = '';
+
+            const typingIndicator = document.createElement('p');
+            typingIndicator.className = 'message-bot mb-2'; // Added margin-bottom
+            typingIndicator.innerHTML = '<strong>Agente:</strong> Escribiendo...';
+            chatbox.appendChild(typingIndicator);
+             chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
+
+
+            const payload = {
+                contents: [{ parts: [{ text: userMessage }] }],
+                systemInstruction: { parts: [{ text: "Eres un agente de soporte de telecomunicaciones para la empresa Cool Mobile. Tu objetivo es resolver dudas sobre planes, recargas, cobertura y promociones." }] }
+            };
+
+            let retryCount = 0;
+            const maxRetries = 3;
+            const initialDelay = 1000; // 1 second
+
+            while (retryCount <= maxRetries) {
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429 || response.status >= 500) {
+                         if (retryCount === maxRetries) {
+                            throw new Error(`API error after ${maxRetries} retries. Status: ${response.status}`);
+                         }
+                        const delay = initialDelay * Math.pow(2, retryCount);
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        retryCount++;
+                        continue; // Retry the fetch
+                    }
+                    
+                    if (!response.ok) {
+                        const errorBody = await response.json();
+                        console.error('Error from API:', errorBody);
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    const botResponse = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (botResponse) {
+                        typingIndicator.remove();
+                        addMessage(botResponse, 'bot');
+                    } else {
+                        console.error('Unexpected API response structure:', result);
+                        throw new Error('Invalid response structure from API.');
+                    }
+                    
+                    break; // Exit loop on success
+
+                } catch (error) {
+                    console.error('Failed to fetch from Gemini API:', error);
+                    typingIndicator.remove();
+                    addMessage('Lo siento, encontré un error. Por favor, inténtalo de nuevo más tarde.', 'bot');
+                    break; // Exit loop on error
+                }
+            }
+        }
+
+        // ELIMINADO: Script de consulta IMEI
+        
+        // ELIMINADO: Interactive Image Script
+        
+        // ELIMINADO: 3D Carousel Script
+        
+        // Scrolling Gradient Script (CONSERVADO)
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                const backgroundPositionPercentage = Math.min(scrollPercentage, 100); 
+                bg.style.backgroundPosition = `50% ${backgroundPositionPercentage}%`;
+            } else {
+                 bg.style.backgroundPosition = `50% 0%`;
+            }
+        });
+    <!-- ELIMINADO: Adjust image height on app download section... -->
+    </script>
+
+    <!-- INICIO: SCRIPT DEL MAPA (CÓDIGO NUEVO) -->
+    <script>var mapInstanceCasa;</script> <!-- AGREGADO: variable global para el mapa -->
+    <script type="text/javascript">
+        (function() {
+            // Use a unique container ID to avoid conflicts
+            const container = document.getElementById('coverage-map-container-home');
+            if (!container) return;
+
+            mapInstanceCasa = L.map(container.querySelector('#map')).setView([19.2878600, -99.6532400], 5); // MODIFICADO: asigna a la variable global
+
+            // --- Create Custom Panes for all layers to prevent CSS conflicts ---
+            mapInstanceCasa.createPane('base-map-pane'); // MODIFICADO
+            mapInstanceCasa.getPane('base-map-pane').style.zIndex = 400; // MODIFICADO
+
+            mapInstanceCasa.createPane('cobertura-5hbb-pane'); // MODIFICADO
+            mapInstanceCasa.getPane('cobertura-5hbb-pane').style.zIndex = 401; // MODIFICADO
+
+            mapInstanceCasa.createPane('cobertura-10hbb-pane'); // MODIFICADO
+            mapInstanceCasa.getPane('cobertura-10hbb-pane').style.zIndex = 402; // MODIFICADO
+            
+            mapInstanceCasa.createPane('labels-pane'); // MODIFICADO
+            mapInstanceCasa.getPane('labels-pane').style.zIndex = 403; // MODIFICADO
+            mapInstanceCasa.getPane('labels-pane').style.pointerEvents = 'none'; // Make labels non-interactive // MODIFICADO
+
+            // --- Add Base Map to its own pane ---
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a> | Cobertura por <a href="www.altanredes.com">ALTAN</a>',
+                maxZoom: 18,
+                pane: 'base-map-pane' // Assign to specific pane
+            }).addTo(mapInstanceCasa); // MODIFICADO
+
+            const wmsUrl = 'https://geomap.altanredes.com/geoserver/web_altanredes_geoaltan/ows?SERVICE=WMS&authkey=2ac83bab';
+
+            // --- Add WMS Layers to their specific panes ---
+            var cobertura10hbb = L.tileLayer.wms(wmsUrl, {
+                layers: 'Cobertura_10HBB',
+                format: 'image/png',
+                transparent: true,
+                tiled: true,
+                pane: 'cobertura-10hbb-pane'
+            }).addTo(mapInstanceCasa); // MODIFICADO
+
+            var cobertura5hbb = L.tileLayer.wms(wmsUrl, {
+                layers: 'Cobertura_5HBB',
+                format: 'image/png',
+                transparent: true,
+                tiled: true,
+                pane: 'cobertura-5hbb-pane'
+            }).addTo(mapInstanceCasa); // MODIFICADO
+            
+            // --- Add Labels layer to its own pane on top ---
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
+                pane: 'labels-pane',
+                maxZoom: 18,
+            }).addTo(mapInstanceCasa); // MODIFICADO
+            
+            const modal = container.querySelector('#startup-modal');
+            const searchButton = container.querySelector('#search-button');
+            const locationInput = container.querySelector('#location-input');
+            const errorMessage = container.querySelector('#error-message');
+            const instructivo = container.querySelector('#instructivo');
+            const newSearchButton = container.querySelector('#new-search-button');
+            
+            const geocodeService = L.esri.Geocoding.geocodeService();
+            let searchMarker;
+
+            // --- Custom Red Marker Icon ---
+            var redIcon = new L.Icon({
+              iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+              shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowSize: [41, 41]
+            });
+
+            function performSearch() {
+                const query = locationInput.value;
+                if (query.trim() === '') return;
+
+                searchButton.textContent = 'Buscando...';
+                searchButton.disabled = true;
+                errorMessage.style.display = 'none';
+                
+                const fullQuery = query.toLowerCase().includes('mexico') || query.toLowerCase().includes('méxico') 
+                    ? query 
+                    : `${query}, Mexico`;
+
+                geocodeService.geocode().text(fullQuery).run(function (error, results) {
+                    searchButton.textContent = 'Buscar';
+                    searchButton.disabled = false;
+                    
+                    if (error || !results.results.length) {
+                        errorMessage.style.display = 'block';
+                        return;
+                    }
+
+                    const result = results.results[0];
+                    const latlng = result.latlng;
+
+                    mapInstanceCasa.setView(latlng, 13); // MODIFICADO
+                    if (searchMarker) { mapInstanceCasa.removeLayer(searchMarker); } // MODIFICADO
+                    
+                    searchMarker = L.marker(latlng, {icon: redIcon}).addTo(mapInstanceCasa) // MODIFICADO
+                        .bindPopup(`<b>${result.text}</b>`)
+                        .openPopup();
+                    
+                    modal.style.display = 'none';
+                    instructivo.style.display = 'block';
+                    newSearchButton.style.display = 'block';
+                });
+            }
+
+            searchButton.addEventListener('click', performSearch);
+            locationInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            newSearchButton.addEventListener('click', function() {
+                modal.style.display = 'flex';
+                locationInput.value = '';
+                errorMessage.style.display = 'none';
+                instructivo.style.display = 'none';
+                newSearchButton.style.display = 'none';
+                if (searchMarker) {
+                    mapInstanceCasa.removeLayer(searchMarker); // MODIFICADO
+                }
+            });
+
+        })();
+    </script>
+    <!-- FIN: SCRIPT DEL MAPA -->
+
+</body>
+</html>

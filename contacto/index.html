@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Todo el <head> se conserva igual para mantener estilos y librerías --><link rel="icon" href="favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- El título de la página se actualiza --><title>Contacto - Cool Mobile</title> <!-- Título actualizado -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- CONSEJO DE RENDIMIENTO: Estás cargando varias familias de fuentes. -->
+    <!-- Si no usas Montserrat, Roboto, o Inter en esta página, considera quitarlos para cargar más rápido. -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    
+    <!-- Todos los estilos se conservan --><style>
+        html {
+            height: 100%;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Fondo degradado conservado */
+            background: linear-gradient(180deg,  #2E4F4F, #BCEAD5, #406c6c, #568d8d, #BCEAD5, #CBE4DE);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+            color: #BCEAD5;
+        }
+
+        [x-cloak] { display: none !important; }
+        
+        /* Estilos de Swiper (slider) - Se pueden dejar, no afectan */
+        .swiper-button-next,
+        .swiper-button-prev { display: none; }
+        .swiper-pagination-bullet-active { background-color: #57C5B6; }
+        .swiper-slide { background-size: cover; background-position: center; }
+
+        /* Estilos de Título Conservados */
+        .text-3d, .title-outline {
+            text-shadow:
+                -1.5px -1.5px 0 #2C3333, 1.5px -1.5px 0 #2C3333,
+                -1.5px 1.5px 0 #2C3333, 1.5px 1.5px 0 #2C3333,
+                4px 4px 8px rgba(0,0,0,0.5);
+        }
+        
+        /* Estilos del Chat (modal) Conservados */
+        #chat-modal #chatbox {
+            border: 1px solid #4B5563; padding: 1rem; height: 400px;
+            overflow-y: scroll; margin-bottom: 1rem; background-color: #3C4248;
+            border-radius: 0.5rem;
+        }
+        #chat-modal .message-user { text-align: right; color: #57C5B6; }
+        #chat-modal .message-bot { text-align: left; color: #BCEAD5; }
+        #chat-modal #userInput {
+            width: calc(100% - 6rem); padding: 0.75rem; border-radius: 9999px;
+            border: 1px solid #4B5563; background-color: #4A5568;
+            color: white; outline: none;
+        }
+        #chat-modal #userInput:focus { border-color: #57C5B6; }
+        #chat-modal #chat-button {
+            background-color: #0E8388; color: white; padding: 0.75rem 1.5rem;
+            border-radius: 9999px; font-weight: bold; transition: all 0.2s;
+        }
+        #chat-modal #chat-button:hover { background-color: #57C5B6; transform: scale(1.05); }
+
+        
+        /* Estilos Footer Conservados */
+        .footer {
+            background-color: #000707;
+            color: #BCEAD5;
+            padding: 4rem 0;
+            border-top: 2px solid #0E8388;
+        }
+        .footer-link {
+            transition: color 0.2s ease-in-out;
+        }
+        .footer-link:hover {
+            color: #57C5B6;
+        }
+        .footer-title {
+            color: #CBE4DE;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Estilos Burbuja Chat Conservados */
+        .chat-bubble-options {
+            transition: all 0.3s ease-out;
+        }
+
+        /* Estilos Modal Chat Conservados */
+        .chat-modal-overlay {
+             background-color: rgba(0, 0, 0, 0.6);
+             z-index: 999; /* Lower than modal content */
+        }
+        .chat-modal-content {
+            z-index: 9999;
+            max-height: 90vh; /* Limit modal height */
+        }
+
+
+        /* Estilos Mobile Responsive Conservados */
+        @media (max-width: 768px) {
+            /* Ajustar el padding-top del main en móvil */
+            main {
+                padding-top: 8rem; /* Más espacio para el header fijo */
+            }
+        }
+         @media (max-width: 640px) {
+            .chat-modal-content {
+                width: 95%; /* Make modal wider on small screens */
+            }
+             .chat-modal-container {
+                align-items: flex-start; /* Align modal top on mobile */
+                padding-top: 4rem; /* Add some top padding */
+            }
+        }
+
+        /* Ajustar el padding superior del main para que la imagen no quede bajo el header */
+        main {
+            padding-top: 6rem; /* Ajustar según la altura de tu header si es necesario */
+        }
+
+
+        /* Estilos de las cajas cristalinas */
+        .glass-box {
+            background-color: rgba(46, 79, 79, 0.7); /* Fondo color base con transparencia */
+            backdrop-filter: blur(10px); /* Efecto cristal */
+            border: 1px solid rgba(203, 228, 222, 0.3); /* Borde con color del tema */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Sombra */
+            border-radius: 15px; /* Bordes redondeados */
+            padding: 2rem;
+            transition: all 0.3s ease;
+            /* height: 100%; */ /* <-- CORRECCIÓN: Eliminado para prevenir que los hijos se estiren al 100% de la fila del grid */
+        }
+
+        /* INICIO: Estilos para la nueva página de Contacto */
+        #contact-form .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #CBE4DE; /* Color de etiqueta claro */
+        }
+
+        #contact-form .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #0E8388;
+            background-color: #2E4F4F; /* Fondo de input oscuro */
+            color: #FFFFFF; /* Texto blanco */
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        #contact-form .form-input::placeholder {
+            color: #BCEAD5;
+            opacity: 0.7;
+        }
+
+        #contact-form .form-input:focus {
+            outline: none;
+            border-color: #57C5B6; /* Borde al enfocar */
+            box-shadow: 0 0 0 2px rgba(87, 197, 182, 0.3); /* Sombra al enfocar */
+        }
+
+        #contact-form .form-textarea {
+            min-height: 120px;
+            resize: vertical; /* Permitir redimensionar verticalmente */
+        }
+
+        #contact-form .submit-btn {
+            background-color: #0E8388;
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            transition: all 0.2s;
+            transform: scale(1);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #contact-form .submit-btn:hover {
+            background-color: #57C5B6;
+            transform: scale(1.05);
+        }
+
+        /* Estilo para el mensaje de éxito */
+        #form-success-message {
+            color: #34D399; /* Verde brillante */
+            text-align: center;
+            font-weight: 600;
+            padding: 1rem;
+            background-color: rgba(22, 107, 88, 0.3); /* Fondo verde translúcido */
+            border: 1px solid #34D399;
+            border-radius: 8px;
+        }
+
+        /* Estilos para el mapa (CORREGIDO) */
+        .map-container.glass-box {
+            overflow: hidden; /* Asegura que el iframe respete los bordes redondeados */
+            border-radius: 15px;
+            height: 400px; /* Altura fija para el mapa */
+            padding: 0 !important; /* Anula el padding de .glass-box */
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Estilos para los íconos de contacto */
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            color: #57C5B6; /* Color de ícono */
+        }
+        /* FIN: Estilos de Contacto */
+
+    </style>
+</head>
+<body>
+    <!-- Contenedor principal de Alpine.js CONSERVADO Y ACTUALIZADO --><div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" 
+        @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+        
+        <!-- Header (encabezado) CONSERVADO --><header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
+                :class="{ 'bg-[#2E4F4F] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-24">
+                    <a href="/index.html" class="flex-shrink-0">
+                        <!-- IMAGEN CORREGIDA: Se usa un placeholder. Reemplaza con tu logo.png -->
+                        <img src="logo.png" alt="Logo cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/200x96/2E4F4F/CBE4DE?text=Logo';">
+                    </a>
+                    <div class="hidden lg:flex lg:space-x-8">
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Telefonía
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
+                                <!-- Enlace actualizado para esta página --><a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia-simcard</a> 
+                                <a href="/telefonia-eSIM/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia eSIM</a>
+                                <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
+                            </div>
+                        </div>
+                        <a href="/internet-de-casa/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet de Casa</a>
+                        <a href="/internet-movil/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet Móvil</a>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Consulta
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
+                                <a href="/portabilidad/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Portabilidad</a>
+                                <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Compatibilidad</a>
+                                <a href="/manual-configuraciones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Manual</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Contacto
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
+                                <a href="/faqs/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Faqs</a>
+                                <a href="/contacto/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Contactos</a>
+                            </div>
+                        </div>
+                        <a href="/facturacion/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Facturación</a>
+                    </div>
+
+                    <a href="/recargas/" class="hidden lg:block bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105">
+                        Recargas
+                    </a>
+
+                    <div class="lg:hidden flex items-center">
+                        <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                            <span class="sr-only">Abrir menú principal</span>
+                            <svg class="h-6 w-6" x-show="!openMenu" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                            <svg class="h-6 w-6" x-show="openMenu" x-cloak fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menú móvil CONSERVADO --><div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#2E4F4F] z-40"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95">
+                <div class="px-2 pt-20 pb-3 space-y-1 sm:px-3">
+                    <div class="absolute top-4 right-4">
+                        <button @click="openMenu = false" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                            <span class="sr-only">Cerrar menú principal</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Telefonía</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <!-- Enlace actualizado para esta página --><a href="/telefonia_simcard/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia-simcard</a>
+                            <a href="/telefonia-eSIM/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia eSIM</a>
+                            <a href="/promociones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Promociones</a>
+                        </div>
+                    </div>
+                    <a href="/internet-de-casa/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet de Casa</a>
+                    <a href="/internet-movil/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet Móvil</a>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Consulta</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="/portabilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Portabilidad</a>
+                            <a href="/compatibilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Compatibilidad</a>
+                            <a href="/manual-configuraciones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Manual</a>
+                        </div>
+                    </div>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Contacto</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="/faqs/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Faqs</a>
+                            <a href="/contacto/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Contactos</a>
+                        </div>
+                    </div>
+                    <a href="/facturacion/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Facturación</a>
+                    <div class="pt-4 border-t border-[#BCEAD5]">
+                        <a href="/recargas/" class="block text-center bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 w-full">
+                            Recargas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- INICIO: Contenido principal de la página de Contacto (NUEVO) --><main class="pt-24 pb-16 min-h-screen"> 
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <h1 class="text-4xl lg:text-5xl font-bold title-outline text-center mb-12">
+                     Ponte en Contacto
+                </h1>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Columna 1: Formulario de Contacto -->
+                    <!-- CORRECCIÓN: Se quita 'x-data' y el div de 'submitted' porque Formspree manejará el éxito -->
+                    <div class="glass-box h-full">
+                        <h2 class="text-3xl font-bold text-white mb-6">Envíanos un mensaje</h2>
+
+                        <!-- 
+                        El div de éxito se quita porque Formspree ahora maneja la confirmación.
+                        <div x-show="submitted" id="form-success-message" class="mb-6" x-cloak>
+                            <p>¡Gracias! Tu mensaje ha sido enviado. Nos pondremos en contacto contigo pronto.</p>
+                        </div>
+                         -->
+                        
+                        <!-- CORRECCIÓN: Se corrige la URL de 'action' de Formspree -->
+                        <form id="contact-form" 
+                              action="https://formspree.io/f/TU_ID_UNICO" 
+                              method="POST">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="contact-name" class="form-label">Nombre</label>
+                                    <input type="text" id="contact-name" name="name" class="form-input" placeholder="Tu nombre" required>
+                                </div>
+                                <div>
+                                    <label for="contact-email" class="form-label">Email</label>
+                                    <input type="email" id="contact-email" name="email" class="form-input" placeholder="tu@email.com" required>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label for="contact-subject" class="form-label">Asunto</label>
+                                <input type="text" id="contact-subject" name="subject" class="form-input" placeholder="Ej: Duda sobre mi plan" required>
+                            </div>
+                            <div class="mb-6">
+                                <label for="contact-message" class="form-label">Mensaje</label>
+                                <textarea id="contact-message" name="message" class="form-input form-textarea" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="submit-btn">Enviar Mensaje</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Columna 2: Información y Mapa -->
+                    <div class="space-y-8">
+                        <!-- Info de Contacto -->
+                        <div class="glass-box">
+                            <h3 class="text-2xl font-bold text-white mb-6">Información de Contacto</h3>
+                            <div class="space-y-4 text-lg">
+                                <a href="tel:5644636321" class="flex items-center gap-4 group">
+                                    <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.827-1.47-5.02-3.664-6.49-6.49l1.293-.97c.363-.271.527-.734.417-1.173L6.351 3.102c-.125-.501-.613-.852-1.091-.852H3.975A2.25 2.25 0 001.725 4.5v2.25z" /></svg>
+                                    <span class="text-white group-hover:text-[#57C5B6] transition-colors">56 4463 6321</span>
+                                </a>
+                                
+                                <!-- CORRECCIÓN: Se arregló el typo "httpsa" por "https" -->
+                                <a href="https://wa.me/5540777727" target="_blank" class="flex items-center gap-4 group">
+                                    <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12a9 9 0 11-18 0 9 9 0 0118 0zM5.25 12a.75.75 0 00-1.5 0v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V12zm1.5 0a.75.75 0 00-1.5 0v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V12zm1.5 0a.75.75 0 00-1.5 0v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V12zm1.5 0a.75.75 0 00-1.5 0v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V12zm1.5 0a.75.75 0 00-1.5 0v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V12zm1.5 0a.75.75 0 00-1.5 0v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V12zm1.5 0a.75.75 0 00-1.5 0v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V12zm1.5 0a.75.75 0 00-1.5 0v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V12z" /></svg>
+                                    <span class="text-white group-hover:text-[#57C5B6] transition-colors">WhatsApp: 55 40 77 77 27</span>
+                                </a>
+                                <a href="mailto:contacto@coolmobile.mx" class="flex items-center gap-4 group">
+                                    <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                                    <span class="text-white group-hover:text-[#57C5B6] transition-colors">contacto@coolmobile.mx</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Mapa (CORREGIDO) -->
+                        <div class="map-container glass-box"> <!-- Se añade la clase .glass-box aquí -->
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.463636733221!2d-99.1912089251025!3d19.435550240177747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d20201c104d16d%3A0x20f383e743603b54!2sC.%20Lago%2Vertical%20Zurich%20219%2C%20Ampliaci%C3%B3n%20Granada%2C%20Miguel%20Hidalgo%2C%2011529%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses-419!2smx!4v1700000000000!5m2!1ses-419!2smx" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+        <!-- FIN: Contenido principal de la página de Contacto -->
+
+        <!-- Footer (pie de página) CONSERVADO --><footer class="footer">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Columna 1: Contacto --><div>
+                        <!-- IMAGEN CORREGIDA: Se usa un placeholder. Reemplaza con tu footer.png -->
+                        <img src="https://placehold.co/200x50/000707/BCEAD5?text=Cool+Mobile" alt="Cool Mobile Logo" class="mb-4">
+                        <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
+                        <p class="mb-2">Atención las 24 horas del día en los 365 días del año.</p>
+                        <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
+                        <p>C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
+                    </div>
+                    <!-- Columna 2: Mapa del Sitio --><div>
+                        <h4 class="footer-title">Mapa del Sitio</h4>
+                        <ul class="space-y-2">
+                            <li><a href="/index.html" class="footer-link">Inicio</a></li>
+                            <li><a href="/recargas/" class="footer-link">Recargas</a></li>
+                            <li><a href="/portabilidad/" class="footer-link">Portabilidad</a></li>
+                            <li><a href="/cobertura/" class="footer-link">Cobertura</a></li>
+                            <li><a href="compatibilidad/" class="footer-link">Revisar Compatibilidad</a></li>
+                            <li><a href="/contacto/" class="footer-link">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <!-- Columna 3: Acerca de y Legal --><div>
+                        <h4 class="footer-title">Acerca</h4>
+                        <ul class="space-y-2">
+                            <li><a href="/nosotros/" class="footer-link">Nosotros</a></li>
+                            <li><a href="/faqs/" class="footer-link">FAQs</a></li>
+                            <li><a href="/avisos-de-privacidad/" class="footer-link">Avisos de Privacidad</a></li>
+                            <li><a href="/terminos-de-condiciones/" class="footer-link">Términos y Condiciones</a></li>
+                             <div x-data="{ open: false }">
+                                <button @click="open = !open" class="flex items-center footer-link w-full">
+                                    <span>Legal</span>
+                                    <svg class="w-4 h-4 ml-1 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2">
+                                     <a href="contrato-de-adhesion-prepago/" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
+                                     <a href="/codigo-de-politicas-de-gestion-de-trafico/" class="block footer-link text-sm">Código de Políticas de Gestión de Tráfico</a>
+                                     <a href="/carta-de-derecho/" class="block footer-link text-sm">Carta de Derechos</a>
+                                     <a href="/politica-de-uso-justo/" class="block footer-link text-sm">Política de Uso Justo</a>
+                                     <a href="/codigo-de-practicas-comerciales/" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
+                                     <a href="/registro-de-tarifas/" class="block footer-link text-sm">Registro de Tarifas</a>
+                                     <a href="/colaboracion-en-materia-de-seguridad/" class="block footer-link text-sm">Colaboración en materia de seguridad y justicia</a>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                    <!-- Columna 4: Descarga App --><div>
+                        <h4 class="footer-title">Descarga Nuestras Apps</h4>
+                        <!-- Modifica el valor de space-y-6 para ajustar el espacio vertical entre botones. Ej: space-y-4, space-y-8 -->
+                        <div class="space-y-6">
+                             <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
+                                <!-- IMAGEN CORREGIDA: Se usa un placeholder. Reemplaza con tu img/appstore.png -->
+                                <img src="img/appstore.png" class="rounded-lg" alt="Download on the App Store">
+                             </a>
+                             <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button">
+                                <!-- IMAGEN CORREGIDA: Se usa un placeholder. Reemplaza con tu img/googleplay.png -->
+                                <img src="img/googleplay.png" class="rounded-lg" alt="Get it on Google Play">
+                             </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+        <!-- Iconos de Redes Sociales (Desktop) CONSERVADOS --><div class="hidden md:flex flex-col space-y-4 fixed left-4 top-1/2 -translate-y-1/2 z-20">
+            <a href="https://www.facebook.com/CoolMobileMx" class="p-2 hover:scale-110 transition-transform">
+                <!-- IMAGEN CORREGIDA: Placeholder + alt text -->
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+            </a>
+            <a href="https://www.instagram.com/coolmobilemx/" class="p-2 hover:scale-110 transition-transform">
+                <!-- IMAGEN CORREGIDA: Placeholder + alt text -->
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+            </a>
+            <a href="https://www.tiktok.com/@coolmobilemx" class="p-2 hover:scale-110 transition-transform">
+                <!-- IMAGEN CORREGIDA: Placeholder + alt text -->
+                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+            </a>
+        </div>
+        
+        <!-- Iconos de Redes Sociales (Móvil) CONSERVADOS --><div class="md:hidden flex justify-center items-center space-x-6 fixed bottom-0 left-0 right-0 bg-[#2C3333] bg-opacity-50 backdrop-blur-sm p-3 z-20">
+            <a href="https://www.facebook.com/CoolMobileMx" class="p-2">
+                <!-- IMAGEN CORREGIDA: Placeholder + alt text -->
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+            </a>
+            <a href="https://www.instagram.com/coolmobilemx/" class="p-2">
+                <!-- IMAGEN CORREGIDA: Placeholder + alt text -->
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+            </a>
+            <a href="https://www.tiktok.com/@coolmobilemx" class="p-2">
+                <!-- IMAGEN CORREGIDA: Placeholder + alt text -->
+                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+            </a>
+        </div>
+
+        <!-- Burbuja Flotante de Chat CONSERVADA --><div class="fixed bottom-5 right-5 z-50">
+            <!-- Menú de Opciones --><div x-show="chatOptionsOpen" 
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 translate-y-2"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 translate-y-2"
+                    class="chat-bubble-options absolute bottom-16 right-0 mb-2 w-60 bg-[#2E4F4F] rounded-lg shadow-xl py-2"
+                    @click.outside="chatOptionsOpen = false"
+                    x-cloak>
+                <!-- Opción WhatsApp --><a href="https://wa.me/5215593314200" target="_blank" class="flex items-center px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
+                   <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M13.545 6.455a4.49 4.49 0 00-6.35 0L6.455 7.19a4.5 4.5 0 106.357 6.357l.735-.735a4.49 4.49 0 000-6.35l-.735.735zm-.707 5.643l-4.95-4.95a3.5 3.5 0 114.95 4.95zm2.121-2.121a1.5 1.5 0 11-2.121-2.121 1.5 1.5 0 012.121 2.121zM10 18.25a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5zm0-1.5a6.75 6.75 0 110-13.5 6.75 6.75 0 010 13.5z"></path></svg>
+                   Chat WhatsApp
+                </a>
+                <!-- Opción Asistente Virtual --><button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                    Asistente Virtual
+                </button>
+            </div>
+
+            <!-- Botón de la Burbuja --><button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none">
+                <svg x-show="!chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                <svg x-show="chatOptionsOpen" x-cloak class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Modal del Chat CONSERVADO --><div x-show="isChatOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="chat-modal-container fixed inset-0 flex items-start justify-center pt-20 p-4 z-[100]" 
+             x-cloak>
+            <!-- Overlay --><div class="chat-modal-overlay fixed inset-0" @click="isChatOpen = false"></div>
+            
+            <!-- Contenido del Modal --><div id="chat-modal" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col" @click.stop>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-[#57C5B6] title-outline">Asistente Virtual</h3>
+                    <button @click="isChatOpen = false" class="text-gray-400 hover:text-white">&times;</button>
+                </div>
+                 <div id="chatbox" class="flex-grow">
+                     <p class="message-bot"><strong>Agente:</strong> ¡Hola! Estoy aquí para ayudarte con cualquier duda sobre nuestros servicios. 😊</p>
+                 </div>
+                 <div class="flex items-center mt-4">
+                     <input type="text" id="userInput" placeholder="Escribe tu mensaje..." class="flex-grow mr-2" onkeypress="if(event.key === 'Enter') sendMessage()">
+                     <button id="chat-button" onclick="sendMessage()">Enviar</button>
+                 </div>
+            </div>
+        </div>
+
+    </div> <!-- Fin del div x-data principal --><script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Scripts --><script>
+        // Chatbot Script (CONSERVADO)
+        // IMPORTANTE: Debes reemplazar "" con tu clave de API real de Google
+        const apiKey = ""; // <-- INSERTA TU CLAVE DE API DE GEMINI AQUÍ
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const chatbox = document.getElementById('chatbox'); 
+        const userInput = document.getElementById('userInput'); 
+        
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('p');
+            messageDiv.classList.add('mb-2'); 
+            messageDiv.innerHTML = `<strong>${sender === 'user' ? 'Tú' : 'Agente'}:</strong> <span class="block">${text}</span>`; // Make text wrap
+            messageDiv.classList.add(sender === 'user' ? 'message-user' : 'message-bot');
+            chatbox.appendChild(messageDiv);
+            chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
+        }
+
+
+        async function sendMessage() {
+            // Validar API Key antes de enviar
+            if (apiKey === "") {
+                addMessage("Lo siento, el Asistente Virtual no está configurado. Falta una clave de API.", "bot");
+                console.error("Error: La variable 'apiKey' está vacía. Debes agregar tu clave de API de Google Gemini.");
+                return;
+            }
+
+            const userMessage = userInput.value.trim();
+            if (userMessage === '') return;
+            addMessage(userMessage, 'user');
+            userInput.value = '';
+
+            const typingIndicator = document.createElement('p');
+            typingIndicator.className = 'message-bot mb-2'; // Added margin-bottom
+            typingIndicator.innerHTML = '<strong>Agente:</strong> Escribiendo...';
+            chatbox.appendChild(typingIndicator);
+             chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
+
+
+            const payload = {
+                contents: [{ parts: [{ text: userMessage }] }],
+                systemInstruction: { parts: [{ text: "Eres un agente de soporte de telecomunicaciones para la empresa Cool Mobile. Tu objetivo es resolver dudas sobre planes, recargas, cobertura y promociones." }] }
+            };
+
+            let retryCount = 0;
+            const maxRetries = 3;
+            const initialDelay = 1000; // 1 second
+
+            while (retryCount <= maxRetries) {
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429 || response.status >= 500) {
+                        if (retryCount === maxRetries) {
+                            throw new Error(`API error after ${maxRetries} retries. Status: ${response.status}`);
+                        }
+                        const delay = initialDelay * Math.pow(2, retryCount);
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        retryCount++;
+                        continue; // Retry the fetch
+                    }
+                    
+                    if (!response.ok) {
+                       const errorBody = await response.json();
+                       console.error('Error from API:', errorBody);
+                       throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    const botResponse = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (botResponse) {
+                        typingIndicator.remove();
+                        addMessage(botResponse, 'bot');
+                    } else {
+                        console.error('Unexpected API response structure:', result);
+                        throw new Error('Invalid response structure from API.');
+                    }
+                    
+                    break; // Exit loop on success
+
+                } catch (error) {
+                    console.error('Failed to fetch from Gemini API:', error);
+                    typingIndicator.remove();
+                    addMessage('Lo siento, encontré un error. Por favor, inténtalo de nuevo más tarde.', 'bot');
+                    break; // Exit loop on error
+                }
+            }
+        }
+        
+        // Scrolling Gradient Script (CONSERVADO)
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            
+            <!-- CORRECCIÓN: Código faltante agregado -->
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                const backgroundPositionPercentage = Math.min(scrollPercentage, 100); 
+                bg.style.backgroundPosition = `50% ${backgroundPositionPercentage}%`;
+            } else {
+                 bg.style.backgroundPosition = `50% 0%`;
+            }
+        });
+    </script>
+</body>
+</html>
