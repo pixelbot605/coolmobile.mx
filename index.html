@@ -246,7 +246,7 @@
                                 Telefonía
                                 <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
                                 <a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia-simcard</a>
                                 <a href="/telefonia-eSIM/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia eSIM</a>
                                 <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
@@ -259,7 +259,7 @@
                                 Consulta
                                 <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
                                 <a href="/portabilidad/index.html" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Portabilidad</a>
                                 <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Compatibilidad</a>
                                 <a href="/manual-configuraciones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Manual</a>
@@ -270,7 +270,7 @@
                                 Contacto
                                 <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#2E4F4F] rounded-md shadow-lg py-1 z-40">
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
                                 <a href="/faqs/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Faqs</a>
                                 <a href="/contacto/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Contactos</a>
                             </div>
@@ -296,7 +296,7 @@
                 </div>
             </div>
 
-            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#2E4F4F] z-40"
+            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#0c4b59] z-40"
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 scale-95"
                  x-transition:enter-end="opacity-100 scale-100"
@@ -460,8 +460,10 @@
         </section>
 
         <section class="bg-transparent pb-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-bold text-center text-[#57C5B6] mb-12 title-outline">Explora Nuestros Planes</h2>
+            <div id="cool-mobile-section" class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-8 leading-tight title-outline">
+                    Explora Nuestros <span class="text-blue-400">planes</span> al máximo.
+                </h2>
                 <div class="video-container">
                     <a href="/telefonia_simcard/" target="_blank" class="video-bloque">
                         <video autoplay loop muted playsinline><source src="media/telefonia.mp4" type="video/mp4"></video>

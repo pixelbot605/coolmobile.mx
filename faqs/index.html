@@ -21,7 +21,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             /* Fondo degradado conservado */
-            background: linear-gradient(180deg,  #2E4F4F, #BCEAD5, #406c6c, #568d8d, #BCEAD5, #CBE4DE);
+            background: linear-gradient(180deg,  #3a90ab, #ffffff, #3a6777, #1c5264, #003242, #000707);
             background-size: 100% 400%;
             background-attachment: fixed;
             transition: background-position 0.2s ease-out;
@@ -214,7 +214,7 @@
         /* .faq-container usará la clase .glass-box */
         #cool-mobile-faq-widget .faq-container {
             max-width: 800px;
-            margin: -80px auto 40px auto;
+            margin: 0 auto 40px auto; /* Ajustado para eliminar el margen superior negativo */
             /* padding, border-radius, box-shadow, etc., vienen de .glass-box */
             position: relative;
             z-index: 10;
@@ -395,7 +395,7 @@
          @close-result-modal.window="isResultModalOpen = false">
         
         <!-- Header (encabezado) CONSERVADO --><header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
-                 :class="{ 'bg-[#2E4F4F] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
+                 :class="{ 'bg-[#0c4b59] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-24">
                     <a href="/index.html" class="flex-shrink-0">
@@ -520,9 +520,9 @@
         <!-- INICIO: Contenido principal de la página de FAQs (NUEVO) --><main class="pt-24 pb-16 min-h-screen"> <!-- pt-24 para dejar espacio al header, min-h-screen para que el footer baje --><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 
                 <div id="cool-mobile-faq-widget">
-                    <div class="image-cover">
-                        <h1 class="cover-title">Centro de Ayuda</h1>
-                    </div>
+                    <h1 class="text-4xl lg:text-5xl font-bold title-outline text-center mb-16">
+                         Centro de ayuda
+                    </h1>
                 
                     <div class="faq-container glass-box"> <!-- ADAPTADO: Se añade clase 'glass-box' -->
                         <h2 class="faq-title">Preguntas frecuentes</h2>

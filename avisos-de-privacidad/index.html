@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviso de Privacidad - Cool Mobile</title>
+    <!-- Agregado: Favicon -->
+    <link rel="icon" href="favicon.png" type="image/png">
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de la fuente Inter (para el contenido) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Agregado: Fuentes y scripts para Header/Footer/Chat -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <style>
+        /* Aplicar la fuente Poppins y el fondo degradado */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg,  #3a90ab, #ffffff, #3a6777, #1c5264, #003242, #000707);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+            /* No se establece color de texto global, para que la tarjeta blanca funcione */
+        }
+        /* Estilos para listas del acordeón */
+        .accordion-content ul, .accordion-content ol {
+            margin-bottom: 1rem;
+        }
+        .accordion-content li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* Agregado: Estilos para Header/Footer/Chat */
+        [x-cloak] { display: none !important; }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #000707;
+            color: #BCEAD5;
+            padding: 4rem 0;
+            border-top: 2px solid #0E8388;
+        }
+        .footer-link {
+            transition: color 0.2s ease-in-out;
+        }
+        .footer-link:hover {
+            color: #57C5B6;
+        }
+        .footer-title {
+            color: #CBE4DE;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .store-button { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .store-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Floating Chat Bubble Styles */
+        .chat-bubble-options {
+            transition: all 0.3s ease-out;
+        }
+
+        /* Chat Modal Styles */
+        .chat-modal-overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 999; /* Lower than modal content */
+        }
+        .chat-modal-content {
+            z-index: 9999;
+            max-height: 90vh; /* Limit modal height */
+        }
+
+        /* Chat Styles (inside modal) */
+        #chat-modal #chatbox {
+            border: 1px solid #4B5563; padding: 1rem; height: 400px;
+            overflow-y: scroll; margin-bottom: 1rem; background-color: #3C4248;
+            border-radius: 0.5rem;
+        }
+        #chat-modal .message-user { text-align: right; color: #57C5B6; }
+        #chat-modal .message-bot { text-align: left; color: #BCEAD5; }
+        #chat-modal #userInput {
+            width: calc(100% - 6rem); padding: 0.75rem; border-radius: 9999px;
+            border: 1px solid #4B5563; background-color: #4A5568;
+            color: white; outline: none;
+        }
+        #chat-modal #userInput:focus { border-color: #57C5B6; }
+        #chat-modal #chat-button {
+            background-color: #0E8388; color: white; padding: 0.75rem 1.5rem;
+            border-radius: 9999px; font-weight: bold; transition: all 0.2s;
+        }
+        #chat-modal #chat-button:hover { background-color: #57C5B6; transform: scale(1.05); }
+
+        /* Title Outline for Modal */
+        .title-outline {
+            text-shadow:
+                -1.5px -1.5px 0 #2C3333, 1.5px -1.5px 0 #2C3333,
+                -1.5px 1.5px 0 #2C3333, 1.5px 1.5px 0 #2C3333,
+                4px 4px 8px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<!-- Agregado: x-data para header y chat -->
+<body class="bg-gray-100" x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+    
+    <!-- Agregado: Header -->
+    <header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
+            :class="{ 'bg-[#0c4b59] shadow-lg': isScrolled, 'bg-[#0c4b59]': !isScrolled }"> <!-- Modificado para que siempre tenga fondo -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <a href="/index.html" class="flex-shrink-0">
+                    <img src="logo.png" alt="Logo Cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                </a>
+                <div class="hidden lg:flex lg:space-x-8">
+                    <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                        <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                            Telefonía
+                            <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                            <a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia-simcard</a>
+                            <a href="/telefonia-eSIM/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia eSIM</a>
+                            <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
+                        </div>
+                    </div>
+                    <a href="/internet-de-casa/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet de Casa</a>
+                    <a href="/internet-movil/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet Móvil</a>
+                    <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                        <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                            Consulta
+                            <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                            <a href="/portabilidad/index.html" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Portabilidad</a>
+                            <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Compatibilidad</a>
+                            <a href="/manual-configuraciones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Manual</a>
+                        </div>
+                    </div>
+                    <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                        <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                            Contacto
+                            <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                            <a href="/faqs/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Faqs</a>
+                            <a href="/contacto/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Contactos</a>
+                        </div>
+                    </div>
+                    <a href="https://crmxpace.com/coolmobile/factura/cfdi" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Facturación</a>
+                </div>
+
+                <a href="https://crmxpace.com/coolmobile/recargas-stripe" class="hidden lg:block bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105">
+                    Recargas
+                </a>
+
+                <div class="lg:hidden flex items-center">
+                    <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <span class="sr-only">Abrir menú principal</span>
+                        <svg class="h-6 w-6" x-show="!openMenu" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                        <svg class="h-6 w-6" x-show="openMenu" x-cloak fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#0c4b59] z-40"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95">
+            <div class="px-2 pt-20 pb-3 space-y-1 sm:px-3">
+                <div class="absolute top-4 right-4">
+                    <button @click="openMenu = false" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <span class="sr-only">Cerrar menú principal</span>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                        <span>Telefonía</span>
+                        <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                        <a href="/telefonia_simcard/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia-simcard</a>
+                        <a href="/telefonia-eSIM/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia eSIM</a>
+                        <a href="/promociones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Promociones</a>
+                    </div>
+                </div>
+                <a href="internet-de-casa/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet de Casa</a>
+                <a href="internet-movil/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet Móvil</a>
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                        <span>Consulta</span>
+                        <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                        <a href="portabilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Portabilidad</a>
+                        <a href="compatibilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Compatibilidad</a>
+                        <a href="/manual-configuraciones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Manual</a>
+                    </div>
+                </div>
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                        <span>Contacto</span>
+                        <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                        <a href="faqs/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Faqs</a>
+                        <a href="contacto/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Contactos</a>
+                    </div>
+                </div>
+                <a href="https://crmxpace.com/coolmobile/factura/cfdi" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Facturación</a>
+                <div class="pt-4 border-t border-[#BCEAD5]">
+                    <a href="https://crmxpace.com/coolmobile/recargas-stripe" class="block text-center bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 w-full">
+                        Recargas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Modificado: Añadido pt-24 para espacio del header fijo -->
+    <div class="container mx-auto max-w-4xl p-4 sm:p-8 pt-32 sm:pt-40"> <!-- Aumentado el padding superior -->
+        <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+            
+            <!-- Encabezado del Aviso de Privacidad (Restaurado) -->
+            <div class="p-6 sm:p-8 border-b">
+                <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Aviso de Privacidad</h1>
+                <p class="text-gray-700 leading-relaxed">
+                    Mediante el presente Aviso de Privacidad, y en atención a las disposiciones contenidas en la Ley Federal de Protección de Datos Personales en Posesión de los Particulares, su Reglamento y disposiciones relacionadas vigentes en México, se describen los términos en los que se obtendrán, usarán, divulgarán o almacenarán los Datos Personales proporcionados por el Usuario (el Titular de la línea) que por cualquier medio nos proporcione <strong>Cool Mobile</strong>, marca registrada de <strong>AWAN TECHNOLGY SERVICES</strong> (en lo sucesivo <strong>Cool Mobile</strong>), como responsable, según dicho término se define en la Ley, quien señala como domicilio para todos los efectos y obligaciones relacionadas con el presente Aviso el ubicado en C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,
+                    Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX.
+                </p>
+            </div>
+
+            <!-- Contenido del Aviso en Acordeón (Restaurado Completo) -->
+            <main class="text-gray-800 leading-relaxed">
+
+                <!-- Acordeón Item 1 -->
+                <div class="accordion-item border-b">
+                    <button class="accordion-trigger w-full flex justify-between items-center text-left p-6 sm:p-8 hover:bg-gray-50 focus:outline-none transition-colors duration-200">
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">1. Datos Personales recabados</h2>
+                        <span class="accordion-icon text-2xl font-semibold text-gray-500 transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content hidden p-6 sm:p-8 pt-0">
+                        <p class="mb-4">Para llevar a cabo las finalidades descritas en el presente Aviso de Privacidad, utilizaremos los siguientes Datos Personales:</p>
+                        <ul class="list-disc list-inside pl-4 text-gray-700 space-y-1">
+                            <li>Nombre.</li>
+                            <li>Estado Civil.</li>
+                            <li>Género.</li>
+                            <li>Edad.</li>
+                            <li>Registro Federal de Contribuyentes (RFC).</li>
+                            <li>Datos de la identificación oficial vigente del titular y/o del representante legal, por ejemplo, número, fecha y lugar de expedición, vigencia.</li>
+                            <li>Comprobante de domicilio.</li>
+                            <li>Fecha de nacimiento.</li>
+                            <li>Domicilio.</li>
+                            <li>Teléfono particular.</li>
+                            <li>Teléfono celular.</li>
+                            <li>Correo electrónico.</li>
+                            <li>Firma autógrafa.</li>
+                            <li>Datos del método de pago, por ejemplo: tarjeta de crédito/débito (nombre del titular, número de tarjeta, vigencia y domicilio donde se recibe el estado de cuenta).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Acordeón Item 2 -->
+                <div class="accordion-item border-b">
+                    <button class="accordion-trigger w-full flex justify-between items-center text-left p-6 sm:p-8 hover:bg-gray-50 focus:outline-none transition-colors duration-200">
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">2. Uso y finalidad de los Datos Personales recabados</h2>
+                        <span class="accordion-icon text-2xl font-semibold text-gray-500 transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content hidden p-6 sm:p-8 pt-0">
+                        <p class="mb-4">La principal finalidad para la cual <strong>Cool Mobile</strong> trata tus Datos Personales es para proveerte aquellos servicios derivados de cualquier contrato de prestación del servicio de telefonía móvil y/o acceso a internet que suscribas con <strong>Cool Mobile</strong>, así como cualesquiera otros servicios que tú voluntariamente decidas adquirir –en lo sucesivo y conjuntamente referidos como los “<strong>Servicios</strong>“–.</p>
+                        <p class="mb-4">Para la prestación de los Servicios, y para cumplir con las finalidades del tratamiento señaladas en este Aviso de Privacidad, es necesario que <strong>Cool Mobile</strong> recabe tus Datos Personales, los cuales serán utilizados para las siguientes finalidades:</p>
+                        <ul class="list-disc list-inside pl-4 text-gray-700 space-y-2 mb-4">
+                            <li>Acreditar y verificar tu identidad conforme a nuestros procedimientos y políticas, incluyendo la corroboración de tu identidad a través del servicio de verificación que ofrece el Instituto Nacional Electoral.</li>
+                            <li>Llevar a cabo las actividades y gestiones enfocadas al cumplimiento de las obligaciones originadas y derivadas de cualquier relación jurídica y/o comercial que se establezca con motivo de la prestación de los Servicios y/o venta de productos.</li>
+                            <li><strong>Cool Mobile</strong> te podrá contactar a través de llamadas telefónicas, envío de comunicaciones a través de correos electrónicos, mensajes cortos y demás medios de comunicación físicos y/o electrónicos, así como con visitas domiciliarias. Lo anterior, para cualquier situación relacionada con el uso y gestión de los Servicios, así como para informarte sobre cualquier beneficio al que te hubieres hecho acreedor como consecuencia de estos. Asimismo, te contactaremos para validar la calidad de la información proporcionada y/o realizar gestiones de cobranza.</li>
+                            <li>Elaborar análisis y estudios relacionados con tu comportamiento de consumos, así como investigaciones y monitoreo periódicos sobre tu comportamiento crediticio, incluyendo proporcionar información a las sociedades de información crediticia correspondientes.</li>
+                            <li>Realizar actividades de facturación y cobranza, y procesar pagos a través de las formas y mecanismos habilitados por <strong>Cool Mobile</strong>, relacionadas con el uso de los Servicios y/o de bienes y/o servicios proporcionados por terceros.</li>
+                            <li>Llevar a cabo todas las actividades relacionadas con el alta y/o baja y/o cambio en los Servicios, equipos y planes conforme a los términos de uso de los Servicios.</li>
+                            <li>Gestionar y ofertar bienes y/o servicios y/o aplicaciones propias y/o de terceros y/o de empresas que formen parte del mismo grupo empresarial que <strong>Cool Mobile</strong>.</li>
+                            <li>Realizar reportes, predicciones y análisis en relación con el uso y calidad de los Servicios.</li>
+                            <li>Atender a clientes, brindar soporte técnico, y dar seguimiento a investigaciones y revisiones de quejas y/o reclamaciones relacionadas con la detección, prevención y combate de conductas que pudieran contravenir lo dispuesto en la normatividad aplicable y/o con los Servicios que ofrecemos.</li>
+                            <li>Dar cumplimiento a las leyes, reglamentos y disposiciones legales aplicables, entre éstas, a la obligación de cooperación con instancias de seguridad y justicia en términos de lo dispuesto por la normatividad aplicable, así como a los requerimientos de las autoridades competentes en los casos legalmente previstos.</li>
+                            <li>Generar y llevar a cabo procedimientos de disociación para generar audiencias segregadas para que terceros, socios comerciales y/o empresas del mismo grupo empresarial que <strong>Cool Mobile</strong> te ofrezcan productos y servicios.</li>
+                        </ul>
+                        <p class="mb-4">De manera adicional, utilizaremos tu información personal para las siguientes finalidades secundarias que <strong>no son necesarias</strong> para el servicio solicitado, pero que nos permiten y facilitan brindarte una mejor atención:</p>
+                        <ul class="list-disc list-inside pl-4 text-gray-700 space-y-1 mb-4">
+                            <li>Investigaciones de mercado, encuestas de satisfacción o cualquier otra actividad con fines promocionales o de satisfacción por parte de <strong>Cool Mobile</strong>.</li>
+                            <li>Actualización de la información proporcionada.</li>
+                            <li>Mercadotecnia o publicitaria.</li>
+                            <li>Prospección comercial.</li>
+                        </ul>
+                        <p class="mb-4">En caso de que no desees que tus Datos Personales sean tratados para esas finalidades secundarias, agradeceremos que nos hagas llegar un correo electrónico a <a href="mailto:arco@coolmobile.mx" class="text-blue-600 hover:underline">arco@coolmobile.mx</a>, señalando en el asunto “<em>Dar de baja</em>”.</p>
+                        <p class="mb-4">La negativa para el uso de tus Datos Personales para estas finalidades no podrá ser un motivo para que te neguemos los Servicios y productos que solicitas o contratas con nosotros.</p>
+                        <p><strong>Cool Mobile</strong> no recopila información personal de sus suscriptores excepto cuando éstos proporcionan voluntariamente dicha información al contratar o modificar los Servicios, o bien, cuando se registran en el sitio web de <strong>Cool Mobile</strong>, o envían correos electrónicos o cualquier otra comunicación al o a través del referido sitio.</p>
+                    </div>
+                </div>
+
+                <!-- Acordeón Item 3 -->
+                <div class="accordion-item border-b">
+                    <button class="accordion-trigger w-full flex justify-between items-center text-left p-6 sm:p-8 hover:bg-gray-50 focus:outline-none transition-colors duration-200">
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">3. Ley Federal de Protección de Datos en Posición de los Particulares</h2>
+                        <span class="accordion-icon text-2xl font-semibold text-gray-500 transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content hidden p-6 sm:p-8 pt-0">
+                        <p class="mb-4"><strong>Cool Mobile</strong> manifiesta su compromiso de cumplir con la Ley y demás legislación aplicable en materia de protección de datos en todo momento.</p>
+                        <p class="mb-4">Al registrarse en la Plataforma, el Usuario manifiesta su consentimiento expreso para el tratamiento de sus datos de carácter personal que formarán parte de una base de datos, titularidad de <strong>Cool Mobile</strong>, con la finalidad de gestionar la relación con el Usuario, así como para mantenerle informado sobre las novedades, productos, ofertas y servicios de <strong>Cool Mobile</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Acordeón Item 4 -->
+                <div class="accordion-item border-b">
+                    <button class="accordion-trigger w-full flex justify-between items-center text-left p-6 sm:p-8 hover:bg-gray-50 focus:outline-none transition-colors duration-200">
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">4. Transferencia de Datos Personales</h2>
+                        <span class="accordion-icon text-2xl font-semibold text-gray-500 transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content hidden p-6 sm:p-8 pt-0">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3 mt-5">a) No requieren del consentimiento del titular de los Datos Personales</h3>
+                        <p class="mb-4">Te informamos que, de conformidad con el artículo 37 de la Ley Federal de Protección de Datos Personales en Posesión de los Particulares –en lo sucesivo, la “LFPDPPP–, <strong>Cool Mobile</strong> podrá transferir tus Datos Personales a terceros nacionales o extranjeros, sin requerir tu consentimiento, en los siguientes supuestos:</p>
+                        
+                        <!-- Tabla de Transferencias -->
+                        <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm mb-6">
+                            <table class="w-full min-w-[600px] divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Destinatario de los datos personales</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Finalidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4">Nuestros distribuidores autorizados y terceros.</td>
+                                        <td class="px-6 py-4">Para mantener y cumplir con las obligaciones establecidas en el/los contrato(s) de adhesión de prestación de servicios de telecomunicaciones aprobado(s) por la Profeco y que hayas suscrito con <strong>Cool Mobile</strong>, por ejemplo, para que te proporcionemos información relacionada con los Servicios, con la contratación y/o activación de los Servicios, para atender las fallas, quejas, comentarios o sugerencias relacionadas con la prestación del Servicio.<br><br>Te informamos que nuestros distribuidores autorizados y los terceros operan bajo procesos y políticas de protección de Datos Personales similares a las de <strong>Cool Mobile</strong>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">Encargados de Tratamiento de Datos Personales.</td>
+                                        <td class="px-6 py-4">A través de la celebración de contratos con cláusulas de protección de datos y confidencialidad de la información.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">Banco del usuario y a sociedades de información crediticia.</td>
+                                        <td class="px-6 py-4">Para garantizar el cumplimiento de las obligaciones pactadas y derivadas de la prestación de los Servicios y, de ser el caso, para el cobro de los Servicios contratados con <strong>Cool Mobile</strong> con tarjeta de crédito y/o débito.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">Empresas controladoras y/o a las empresas filiales y/o subsidiarias de <strong>Cool Mobile</strong> e incluso a terceras personas, nacionales o extranjeras que, por la naturaleza de sus trabajos o funciones tengan la necesidad de tratar y/o utilizar tus Datos Personales –en adelante, las “Empresas del Grupo”–.</td>
+                                        <td class="px-6 py-4">Con el propósito de cumplir aquellas obligaciones que se derivan de la relación jurídica existente entre tú como titular de los Datos Personales y las Empresas del Grupo, así como para que las Empresas del Grupo te puedan contactar, directa o indirectamente, para llevar a cabo actividades de promoción y/u ofrecimiento de productos y/o servicios que dichas empresas pueden comercializar y/o prestar de manera conjunta con <strong>Cool Mobile</strong> o de manera independiente.<br><br>Te informamos que las Empresas del Grupo operan bajo procesos y políticas de protección de Datos Personales similares a las de <strong>Cool Mobile</strong>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">Autoridades federales y/o locales y terceros.</td>
+                                        <td class="px-6 py-4">En los casos legalmente previstos, o cuando así lo requieran esas autoridades como parte de un procedimiento, requerimiento y/o supervisión de carácter administrativo y/o legal, o bien, por un mandato judicial que esté debidamente fundado y motivado.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">Al Instituto Nacional Electoral (INE).</td>
+                                        <td class="px-6 py-4">Para fines de validación y autenticación de tu identidad, conforme a las finalidades descritas en este Aviso de Privacidad. En este caso, tus Datos Personales serán remitidos a través de la figura de Encargado de Tratamiento.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3 mt-5">b) Es necesario el consentimiento del titular de los Datos Personales</h3>
+                        <p class="mb-4">Si tú no te opones, <strong>Cool Mobile</strong> podrá transferir tus Datos Personales a socios comerciales y/o terceros, incluyendo instituciones bancarias para que estas puedan contactarte y ofrecerte bienes y/o servicios que resulten de su interés, o bien, para que puedan determinar si tú eres sujeto a adquirir los bienes y/o servicios que dichos socios comerciales y/o terceros ofrecen.</p>
+                        <p class="mb-4">Si tú no deseas que <strong>Cool Mobile</strong> lleve a cabo la transferencia de referencia, te agradeceremos que nos hagas llegar un correo electrónico a <a href="mailto:arco@coolmobile.mx" class="text-blue-600 hover:underline">arco@coolmobile.mx</a>, señalando en el asunto “<em>Baja de Transferencias</em>”.</p>
+                        <p>Tú podrás revocar tu consentimiento en cualquier momento.</p>
+                    </div>
+                </div>
+
+                <!-- Acordeón Item 5 -->
+                <div class="accordion-item border-b">
+                    <button class="accordion-trigger w-full flex justify-between items-center text-left p-6 sm:p-8 hover:bg-gray-50 focus:outline-none transition-colors duration-200">
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">5. Opciones y medios para limitar el uso</h2>
+                        <span class="accordion-icon text-2xl font-semibold text-gray-500 transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content hidden p-6 sm:p-8 pt-0">
+                        <p class="mb-4">Nuestro sitio cuenta con un certificado SSL que asegura que tus Datos Personales están protegidos de forma íntegra. Por ello, la seguridad y la confidencialidad de los Datos Personales que tú nos proporcionas al hacer una compra en línea directamente desde la página web de <strong>Cool Mobile</strong> están protegidos por un servidor seguro bajo el protocolo Secure Socket Layer (SSL), que garantiza que tus Datos Personales serán transferidos a través de una red segura mediante métodos utilizados para asegurar y encriptar información sensible, tales como tarjetas de crédito o débito, nombres de usuario, contraseñas y otros datos privados enviados a través de Internet.</p>
+                        <p class="mb-4"><strong>Cool Mobile</strong> conservará tus Datos Personales únicamente durante el tiempo que sea necesario para procesar tus solicitudes de información, productos y/o Servicios, así como para mantener los registros contables, financieros y de auditoría en términos de la normativa en materia de protección de Datos Personales, así como de la legislación mercantil, fiscal y administrativa vigente.</p>
+                        <p class="mb-4">Los Datos Personales recolectados se encontrarán protegidos por medidas de seguridad administrativas, técnicas y físicas adecuadas contra el daño, pérdida, alteración, destrucción o uso, acceso o tratamiento no autorizados, de conformidad con lo dispuesto en la legislación aplicable. No obstante, <strong>Cool Mobile</strong> no es infalible a un ataque por parte de terceros no autorizados para obtener acceso a los sistemas físicos o lógicos de los titulares o de <strong>Cool Mobile</strong> o en los documentos electrónicos y archivos almacenados en sus sistemas, en tal caso, <strong>Cool Mobile</strong> realizará las acciones oportunas para controlar cualquier incidente, por lo que no será en ningún caso responsable de los daños y perjuicios que pudieran derivarse de dicho acceso no autorizado.</p>
+                        <p class="mb-4">Tú o tu representante legal debidamente acreditado podrán limitar el uso o divulgación de tus Datos Personales, a través de los mismos medios dispuestos para el ejercicio de los Derechos ARCO. Los requisitos para acreditar tu identidad, así como el procedimiento para atender tu solicitud se regirán por los mismos criterios señalados en el apartado 4 de este Aviso.</p>
+                        <p class="mb-4">En caso de que tu solicitud resulte procedente, la persona que está a cargo de dar trámite a las solicitudes de derechos ARCO te registrará en el listado de exclusión propio de <strong>Cool Mobile</strong> con el objeto de que tú dejes de recibir nuestras promociones.</p>
+                        <p class="mb-4">Asimismo, tú podrás inscribirte los siguientes registros, en caso de que no desees obtener publicidad de nuestra parte:</p>
+                        <ul class="list-disc list-inside pl-4 text-gray-700 space-y-1">
+                            <li>Registro Público para Evitar Publicidad, para más información consulte el portal de internet de la PROFECO.</li>
+                            <li>Registro Público de Usuarios, para más información consulte el portal de internet de la CONDUSEF.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Acordeón Item 6 -->
+                <div class="accordion-item border-b">
+                    <button class="accordion-trigger w-full flex justify-between items-center text-left p-6 sm:p-8 hover:bg-gray-50 focus:outline-none transition-colors duration-200">
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">6. Uso de tecnologías de rastreo</h2>
+                        <span class="accordion-icon text-2xl font-semibold text-gray-500 transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content hidden p-6 sm:p-8 pt-0">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Portal Web</h3>
+                        <p class="mb-4">Te informamos que, en la página de internet de <strong>Cool Mobile</strong>, utilizamos cookies y otras tecnologías a través de las cuales es posible monitorear tu comportamiento como usuario de internet, así como para brindarte un mejor servicio y experiencia de usuario al navegar por la página de internet de <strong>Cool Mobile</strong>.</p>
+                        <p class="mb-4">La mayoría de los navegadores permiten borrar, desactivar y elegir qué cookies se pueden colocar en tu dispositivo electrónico. Si deseas más información sobre el control de cookies, visita el sitio web de tu navegador.</p>
+
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2 mt-5">Aplicación móvil de Cliente Cool Mobile</h3>
+                        <p class="mb-4">Información de Ubicación para Diagnóstico de Cobertura y Señal<br>Nuestra aplicación recopila y procesa información sobre tu ubicación precisa de tu ubicación actual cuando se hace uso del módulo de diagnóstico integrado. Esta información nos permite verificar de manera precisa la calidad y cobertura de tu conexión, así como ofrecerte posibles soluciones.</p>
+                        
+                        <h4 class="text-md font-semibold text-gray-700 mb-2">Tipos de Datos de Ubicación Recopilados:</h4>
+                        <ul class="list-disc list-inside pl-4 text-gray-700 space-y-1 mb-4">
+                            <li><strong>Ubicación Precisa:</strong> Recopilamos datos precisos de tu ubicación a través de GPS para realizar mediciones exactas de la cobertura y la señal en el punto donde te encuentras. Solicitaremos tu consentimiento explícito antes de acceder a esta información.</li>
+                        </ul>
+
+                        <h4 class="text-md font-semibold text-gray-700 mb-2">Cómo Utilizamos la Información de Ubicación:</h4>
+                        <p class="mb-2">Utilizamos la información de ubicación exclusivamente para los siguientes propósitos relacionados con el diagnóstico de cobertura y señal:</p>
+                        <ul class="list-disc list-inside pl-4 text-gray-700 space-y-1 mb-4">
+                            <li><strong>Medición de Cobertura y Señal:</strong> Tu ubicación es esencial para determinar la intensidad de la señal de tu red móvil y el tipo de cobertura disponible (por ejemplo, 2G, 3G, 4G, 5G).</li>
+                            <li><strong>Diagnóstico de Problemas de Conexión:</strong> Al conocer tu ubicación, podemos correlacionar los datos de señal con posibles problemas de cobertura en tu área y ofrecerte un diagnóstico más preciso.</li>
+                            <li><strong>Información y Recomendaciones Específicas:</strong> Basándonos en tu ubicación y los datos de señal, podemos ofrecerte información específica sobre el servicio, posibles problemas de red conocidos en tu área o recomendaciones para mejorar tu conexión (por ejemplo, cambiar de ubicación).</li>
+                        </ul>
+
+                        <h4 class="text-md font-semibold text-gray-700 mb-2">Retención de Datos de Ubicación:</h4>
+                        <p class="mb-4">Conservaremos tus datos de ubicación solo durante el tiempo necesario para realizar el análisis de cobertura y señal que hayas solicitado y para mostrarte los resultados. Una vez que completes el diagnóstico o cierres la funcionalidad relacionada, eliminaremos estos datos de forma segura. Los datos agregados y anonimizados para análisis generales se conservarán de forma que no puedan identificarte.</p>
+                        
+                        <h4 class="text-md font-semibold text-gray-700 mb-2">Tus Derechos con Respecto a la Información de Ubicación:</h4>
+                        <p class="mb-4">Puedes revocar el acceso a tu ubicación precisa en cualquier momento a través de la configuración de tu dispositivo. Ten en cuenta que esto impedirá que la aplicación realice el análisis de cobertura y señal en tu ubicación actual.</p>
+                    </div>
+                </div>
+
+                <!-- Acordeón Item 7 -->
+                <div class="accordion-item border-b">
+                    <button class="accordion-trigger w-full flex justify-between items-center text-left p-6 sm:p-8 hover:bg-gray-50 focus:outline-none transition-colors duration-200">
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">7. Recibo y envío de correos electrónicos.</h2>
+                        <span class="accordion-icon text-2xl font-semibold text-gray-500 transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content hidden p-6 sm:p-8 pt-0">
+                        <p class="mb-4">Al registrarse en <strong>Cool Mobile</strong> con el correo electrónico personal, el Usuario acepta recibir correos electrónicos por parte de <strong>Cool Mobile</strong>. El Usuario consiente recibir tanto las notificaciones obligatorias para el correcto funcionamiento de la Plataforma, como las relativas a promociones e información de interés.</p>
+                        <p class="mb-4">El Usuario puede optar por dejar de recibir los correos electrónicos y notificaciones promocionales en cualquier momento, haciéndolo del conocimiento de <strong>Cool Mobile</strong> por escrito. No obstante, en ningún caso se podrá optar por dejar de recibir los correos electrónicos o notificaciones necesarios para el correcto funcionamiento de la Plataforma.</p>
+                    </div>
+                </div>
+
+                <!-- Acordeón Item 8 -->
+                <div class="accordion-item border-b">
+                    <button class="accordion-trigger w-full flex justify-between items-center text-left p-6 sm:p-8 hover:bg-gray-50 focus:outline-none transition-colors duration-200">
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">8. Actualizaciones y cambios al Aviso de Privacidad</h2>
+                        <span class="accordion-icon text-2xl font-semibold text-gray-500 transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content hidden p-6 sm:p-8 pt-0">
+                        <p class="mb-4">Este Aviso de Privacidad puede sufrir modificaciones, cambios o actualizaciones derivadas de nuevos requerimientos legales; de nuestras propias necesidades por los productos o servicios que ofrecemos; de nuestras prácticas de privacidad; de cambios en nuestro modelo de negocio, o por otras causas.</p>
+                        <p class="mb-4">Nos comprometemos a mantenerte informado sobre los cambios que pueda sufrir el presente Aviso de Privacidad, a través del sitio web: <a href="http://www.coolmobile.mx" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">www.coolmobile.mx</a></p>
+                        <p class="mb-4">El procedimiento mediante el cual se llevarán a cabo las notificaciones sobre cambios o actualizaciones al presente Aviso de Privacidad será a través del sitio web: <a href="http://www.coolmobile.mx" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">www.coolmobile.mx</a>.</p>
+                        <p>Te recomendamos visitar periódicamente esta página con la finalidad de informarte de los cambios en el Aviso de Privacidad.</p>
+                    </div>
+                </div>
+
+                <!-- Acordeón Item 9 -->
+                <div class="accordion-item border-b">
+                    <button class="accordion-trigger w-full flex justify-between items-center text-left p-6 sm:p-8 hover:bg-gray-50 focus:outline-none transition-colors duration-200">
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">9. Quejas y denuncias</h2>
+                        <span class="accordion-icon text-2xl font-semibold text-gray-500 transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content hidden p-6 sm:p-8 pt-0">
+                        <p class="mb-4">Se le hace de su conocimiento, que en caso de cualquier duda o inquietud respecto al uso de sus datos personales, usted tiene el Derecho de acudir frente al Instituto Nacional de Transparencia Acceso a la Información y Protección de Datos Personales (INAI) para informarse o hacer valer cualquier inconformidad relacionada con el tratamiento de sus datos personales; en caso de que usted considere que el derecho a la protección de sus datos personales ha sido vulnerado por alguna conducta de nuestros empleados o por la actuación de <strong>Cool Mobile</strong> y, por tanto, presuma que existe alguna violación a las disposiciones previstas en la Ley, podrá interponer la queja correspondiente ante el Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales. Para mayor información visite la página de Internet <a href="http://www.inai.org.mx" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">www.inai.org.mx</a>.</p>
+                    </div>
+                </div>
+
+                <!-- Acordeón Item 10 -->
+                <div class="accordion-item">
+                    <button class="accordion-trigger w-full flex justify-between items-center text-left p-6 sm:p-8 hover:bg-gray-50 focus:outline-none transition-colors duration-200">
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">10. Consentimiento para el tratamiento de Datos Personales</h2>
+                        <span class="accordion-icon text-2xl font-semibold text-gray-500 transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content hidden p-6 sm:p-8 pt-0">
+                        <p class="mb-4">De conformidad con lo previsto en la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (a) reconozco que he leído y entiendo los alcances del Aviso de Privacidad de <strong>Cool Mobile</strong> y (b) autorizo de forma expresa a <strong>Cool Mobile</strong> a recabar, tratar y transferir mis datos personales para los fines establecidos en el presente Aviso de Privacidad, según el mismo sea modificado de tiempo en tiempo.</p>
+                    </div>
+                </div>
+            </main>
+
+        </div> <!-- Cierre de <div class="bg-white ..."> -->
+    </div> <!-- Cierre de <div class="container ..."> -->
+
+    <!-- Modificado: Footer movido fuera del contenedor blanco -->
+    <footer class="footer">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Columna 1: Contacto --><div>
+                    <img src="footer.png" alt="Cool Mobile Logo" class="mb-4">
+                    <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
+                    <p class="mb-2">Atención las 24 horas del día en los 365 días del año.</p>
+                    <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
+                    <p>C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
+                </div>
+                <!-- Columna 2: Mapa del Sitio --><div>
+                    <h4 class="footer-title">Mapa del Sitio</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/index.html" class="footer-link">Inicio</a></li>
+                        <li><a href="/recargas/" class="footer-link">Recargas</a></li>
+                        <li><a href="/portabilidad/" class="footer-link">Portabilidad</a></li>
+                        <li><a href="/cobertura/" class="footer-link">Cobertura</a></li>
+                        <li><a href="compatibilidad/" class="footer-link">Revisar Compatibilidad</a></li>
+                        <li><a href="/contacto/" class="footer-link">Contacto</a></li>
+                    </ul>
+                </div>
+                <!-- Columna 3: Acerca de y Legal --><div>
+                    <h4 class="footer-title">Acerca</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/nosotros/" class="footer-link">Nosotros</a></li>
+                        <li><a href="/faqs/" class="footer-link">FAQs</a></li>
+                        <li><a href="/avisos-de-privacidad/" class="footer-link">Avisos de Privacidad</a></li>
+                        <li><a href="/terminos-de-condiciones/" class="footer-link">Términos y Condiciones</a></li>
+                         <div x-data="{ open: false }">
+                            <button @click="open = !open" class="flex items-center footer-link w-full">
+                                <span>Legal</span>
+                                <svg class="w-4 h-4 ml-1 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2">
+                                 <a href="contrato-de-adhesion-prepago/" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
+                                 <a href="/codigo-de-politicas-de-gestion-de-trafico/" class="block footer-link text-sm">Código de Políticas de Gestión de Tráfico</a>
+                                 <a href="/carta-de-derecho/" class="block footer-link text-sm">Carta de Derechos</a>
+                                 <a href="/politica-de-uso-justo/" class="block footer-link text-sm">Política de Uso Justo</a>
+                                 <a href="/codigo-de-practicas-comerciales/" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
+                                 <a href="/registro-de-tarifas/" class="block footer-link text-sm">Registro de Tarifas</a>
+                                 <a href="/colaboracion-en-materia-de-seguridad/" class="block footer-link text-sm">Colaboración en materia de seguridad y justicia</a>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+                <!-- Columna 4: Descarga App --><div>
+                    <h4 class="footer-title">Descarga Nuestras Apps</h4>
+                    <!-- Modifica el valor de space-y-6 para ajustar el espacio vertical entre botones. Ej: space-y-4, space-y-8 -->
+                    <div class="space-y-6">
+                         <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
+                             <img src="img/appstore.png" class="rounded-lg" alt="Get it on Google Play">
+                         </a>
+                        <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button">
+                            <img src="img/googleplay.png" class="rounded-lg" alt="Download on the App Store">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Agregado: Iconos Sociales -->
+    <div class="hidden md:flex flex-col space-y-4 fixed left-4 top-1/2 -translate-y-1/2 z-20">
+        <a href="https://www.facebook.com/CoolMobileMx" class="p-2 hover:scale-110 transition-transform">
+            <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+        </a>
+        <a href="https://www.instagram.com/coolmobilemx/" class="p-2 hover:scale-110 transition-transform">
+            <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+        </a>
+        <a href="https://www.tiktok.com/@coolmobilemx" class="p-2 hover:scale-110 transition-transform">
+            <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+        </a>
+    </div>
+    
+    <div class="md:hidden flex justify-center items-center space-x-6 fixed bottom-0 left-0 right-0 bg-[#2C3333] bg-opacity-50 backdrop-blur-sm p-3 z-20">
+        <a href="https://www.facebook.com/CoolMobileMx" class="p-2">
+            <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+        </a>
+        <a href="https://www.instagram.com/coolmobilemx/" class="p-2">
+            <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+        </a>
+        <a href="https://www.tiktok.com/@coolmobilemx" class="p-2">
+            <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+        </a>
+    </div>
+
+    <!-- Agregado: Burbuja de Chat y Modal -->
+    <div class="fixed bottom-5 right-5 z-50">
+        <!-- Options Menu -->
+        <div x-show="chatOptionsOpen" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 translate-y-2"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 translate-y-2"
+             class="chat-bubble-options absolute bottom-16 right-0 mb-2 w-60 bg-[#2E4F4F] rounded-lg shadow-xl py-2"
+             @click.outside="chatOptionsOpen = false"
+             x-cloak>
+            <!-- WhatsApp Option -->
+            <a href="https://wa.me/5215540777727" target="_blank" class="flex items-center px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M13.545 6.455a4.49 4.49 0 00-6.35 0L6.455 7.19a4.5 4.5 0 106.357 6.357l.735-.735a4.49 4.49 0 000-6.35l-.735.735zm-.707 5.643l-4.95-4.95a3.5 3.5 0 114.95 4.95zm2.121-2.121a1.5 1.5 0 11-2.121-2.121 1.5 1.5 0 012.121 2.121zM10 18.25a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5zm0-1.5a6.75 6.75 0 110-13.5 6.75 6.75 0 010 13.5z"></path></svg>
+                Chat WhatsApp
+            </a>
+            <!-- Virtual Assistant Option -->
+            <button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                Asistente Virtual
+            </button>
+        </div>
+
+        <!-- Bubble Button -->
+        <button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none">
+            <svg x-show="!chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+            <svg x-show="chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+
+    <!-- Chat Modal -->
+    <div x-show="isChatOpen" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="chat-modal-container fixed inset-0 flex items-start justify-center pt-20 p-4 z-[100]" 
+         x-cloak>
+        <!-- Overlay -->
+        <div class="chat-modal-overlay fixed inset-0" @click="isChatOpen = false"></div>
+        
+        <!-- Modal Content -->
+        <div id="chat-modal" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col" @click.stop>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-[#57C5B6] title-outline">Asistente Virtual</h3>
+                <button @click="isChatOpen = false" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+             <div id="chatbox" class="flex-grow">
+                 <p class="message-bot"><strong>Agente:</strong> ¡Hola! Estoy aquí para ayudarte con cualquier duda sobre nuestros servicios. 😊</p>
+             </div>
+             <div class="flex items-center mt-4">
+                 <input type="text" id="userInput" placeholder="Escribe tu mensaje..." class="flex-grow mr-2" onkeypress="if(event.key === 'Enter') sendMessage()">
+                 <button id="chat-button" onclick="sendMessage()">Enviar</button>
+             </div>
+        </div>
+    </div>
+
+    <!-- Agregado: Script de Swiper -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Script para funcionalidad del Acordeón y Chat -->
+    <script>
+        // Script del Acordeón (Existente)
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionTriggers = document.querySelectorAll('.accordion-trigger');
+
+            accordionTriggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    // El contenido a mostrar/ocultar es el siguiente elemento hermano
+                    const content = trigger.nextElementSibling;
+                    // El ícono (+/-) es el último elemento hijo del botón
+                    const icon = trigger.querySelector('.accordion-icon');
+
+                    // Alternar la clase 'hidden' en el contenido
+                    content.classList.toggle('hidden');
+
+                    // Cambiar el ícono y la rotación
+                    if (content.classList.contains('hidden')) {
+                        icon.textContent = '+';
+                        icon.classList.remove('rotate-45');
+                    } else {
+                        icon.textContent = '−'; // Usar un 'menos' en lugar de guión
+                        icon.classList.add('rotate-45');
+                    }
+                });
+            });
+        });
+
+        // Agregado: Script del Chatbot
+        const apiKey = ""; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const chatbox = document.getElementById('chatbox');
+        const userInput = document.getElementById('userInput');
+        
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('p');
+            messageDiv.classList.add('mb-2'); 
+            messageDiv.innerHTML = `<strong>${sender === 'user' ? 'Tú' : 'Agente'}:</strong> <span class="block">${text}</span>`;
+            messageDiv.classList.add(sender === 'user' ? 'message-user' : 'message-bot');
+            chatbox.appendChild(messageDiv);
+            chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
+        }
+
+        async function sendMessage() {
+            const userMessage = userInput.value.trim();
+            if (userMessage === '') return;
+            addMessage(userMessage, 'user');
+            userInput.value = '';
+
+            const typingIndicator = document.createElement('p');
+            typingIndicator.className = 'message-bot mb-2';
+            typingIndicator.innerHTML = '<strong>Agente:</strong> Escribiendo...';
+            chatbox.appendChild(typingIndicator);
+            chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
+
+            const payload = {
+                contents: [{ parts: [{ text: userMessage }] }],
+                systemInstruction: { parts: [{ text: "Eres un agente de soporte de telecomunicaciones para la empresa Cool Mobile. Tu objetivo es resolver dudas sobre planes, recargas, cobertura y promociones." }] }
+            };
+
+            let retryCount = 0;
+            const maxRetries = 3;
+            const initialDelay = 1000;
+
+            while (retryCount <= maxRetries) {
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429 || response.status >= 500) {
+                        if (retryCount === maxRetries) {
+                            throw new Error(`API error after ${maxRetries} retries. Status: ${response.status}`);
+                        }
+                        const delay = initialDelay * Math.pow(2, retryCount);
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        retryCount++;
+                        continue;
+                    }
+                    
+                    if (!response.ok) {
+                        const errorBody = await response.json();
+                        console.error('Error from API:', errorBody);
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    const botResponse = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (botResponse) {
+                        typingIndicator.remove();
+                        addMessage(botResponse, 'bot');
+                    } else {
+                        console.error('Unexpected API response structure:', result);
+                        throw new Error('Invalid response structure from API.');
+                    }
+                    
+                    break;
+
+                } catch (error) {
+                    console.error('Failed to fetch from Gemini API:', error);
+                    typingIndicator.remove();
+                    addMessage('Lo siento, encontré un error. Por favor, inténtalo de nuevo más tarde.', 'bot');
+                    break;
+                }
+            }
+        }
+
+        // Agregado: Script para fondo degradado con scroll
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                // Make sure the percentage doesn't exceed 100%
+                const backgroundPositionPercentage = Math.min(scrollPercentage, 100); 
+                bg.style.backgroundPosition = `50% ${backgroundPositionPercentage}%`;
+            } else {
+                // If not scrollable, set to top
+                bg.style.backgroundPosition = `50% 0%`;
+            }
+        });
+
+        // Agregado: Script de Swiper (aunque no hay swiper en esta página, es parte del código)
+        var swiper = new Swiper(".swiper", {
+            loop: true,
+            pagination: { el: ".swiper-pagination", clickable: true },
+            autoplay: { delay: 5000, disableOnInteraction: false },
+        });
+
+    </script>
+
+</body>
+</html> 
