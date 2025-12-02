@@ -4,7 +4,8 @@
   "description": "Landing page para Cool Mobile",
   "main": "index.html",
   "scripts": {
-    "build": "tailwindcss -i ./input.css -o ./output.css --minify"
+    "build": "tailwindcss -i ./input.css -o ./output.css --minify",
+    "dev": "tailwindcss -i ./input.css -o ./output.css --watch"
   },
   "keywords": [],
   "author": "",
