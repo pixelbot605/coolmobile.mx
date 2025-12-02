@@ -392,7 +392,7 @@
                         <a href="/facturacion/" class="text-[#E5E7EB] hover:text-[#F97316] px-3 py-2 rounded-md font-medium transition-colors duration-200">Facturación</a> <!-- CAMBIADO: Colores de texto -->
                     </div>
 
-                    <a href="/recargas/" class="hidden lg:block bg-[#EA580C] hover:bg-[#F97316] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105"> <!-- CAMBIADO: Colores de botón -->
+                    <a href="https://crmxpace.com/coolmobile/recargas-stripe" class="hidden lg:block bg-[#EA580C] hover:bg-[#F97316] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105"> <!-- CAMBIADO: Colores de botón -->
                         Recargas
                     </a>
 
@@ -461,7 +461,7 @@
                     </div>
                     <a href="facturacion/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]">Facturación</a> <!-- CAMBIADO: hover naranja -->
                     <div class="pt-4 border-t border-[#E5E7EB]"> <!-- CAMBIADO: Color borde -->
-                        <a href="recargas/" class="block text-center bg-[#EA580C] hover:bg-[#F97316] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 w-full"> <!-- CAMBIADO: Colores -->
+                        <a href="https://crmxpace.com/coolmobile/recargas-stripe" class="block text-center bg-[#EA580C] hover:bg-[#F97316] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 w-full"> <!-- CAMBIADO: Colores -->
                             Recargas
                         </a>
                     </div>
@@ -684,61 +684,58 @@
         <!-- FIN: Nueva sección de 2 columnas (Tiendas y App) -->
 
 
-        <!-- Footer (pie de página) CONSERVADO -->
-        <footer class="footer">
+        <!-- Footer (pie de página) CONSERVADO --><footer class="footer">
             <div class="container mx-auto px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Columna 1: Contacto -->
-                    <div>
+                    <!-- Columna 1: Contacto --><div>
                         <img src="footer.png" alt="Cool Mobile Logo" class="mb-4">
                         <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
                         <p class="mb-2">Atención las 24 horas del día en los 365 días del año.</p>
                         <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
                         <p>C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
                     </div>
-                    <!-- Columna 2: Mapa del Sitio -->
-                    <div>
+                    <!-- Columna 2: Mapa del Sitio --><div>
                         <h4 class="footer-title">Mapa del Sitio</h4>
                         <ul class="space-y-2">
                             <li><a href="/index.html" class="footer-link">Inicio</a></li>
-                            <li><a href="#" class="footer-link">Recargas</a></li>
-                            <li><a href="#" class="footer-link">Consultas</a></li>
-                            <li><a href="#" class="footer-link">Cobertura</a></li>
-                            <li><a href="#" class="footer-link">Revisar Compatibilidad</a></li>
-                            <li><a href="#" class="footer-link">Contacto</a></li>
+                            <li><a href="https://crmxpace.com/coolmobile/recargas-stripe" class="footer-link">Recargas</a></li>
+                            <li><a href="/portabilidad/" class="footer-link">Portabilidad</a></li>
+                            <li><a href="/cobertura/" class="footer-link">Cobertura</a></li>
+                            <li><a href="compatibilidad/" class="footer-link">Revisar Compatibilidad</a></li>
+                            <li><a href="/contacto/" class="footer-link">Contacto</a></li>
                         </ul>
                     </div>
-                    <!-- Columna 3: Acerca de y Legal -->
-                    <div>
+                    <!-- Columna 3: Acerca de y Legal --><div>
                         <h4 class="footer-title">Acerca</h4>
                         <ul class="space-y-2">
-                            <li><a href="#" class="footer-link">Nosotros</a></li>
-                            <li><a href="#" class="footer-link">FAQs</a></li>
-                            <li><a href="#" class="footer-link">Avisos de Privacidad</a></li>
-                            <li><a href="#" class="footer-link">Términos y Condiciones</a></li>
+                            <li><a href="/nosotros/" class="footer-link">Nosotros</a></li>
+                            <li><a href="/faqs/" class="footer-link">FAQs</a></li>
+                            <li><a href="/avisos-de-privacidad/" class="footer-link">Avisos de Privacidad</a></li>
+                            <li><a href="/terminos-de-condiciones/" class="footer-link">Términos y Condiciones</a></li>
                              <div x-data="{ open: false }">
                                 <button @click="open = !open" class="flex items-center footer-link w-full">
                                     <span>Legal</span>
                                     <svg class="w-4 h-4 ml-1 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
                                 <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2">
-                                     <a href="#" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
-                                     <a href="#" class="block footer-link text-sm">Contrato de Adhesión Pospago</a>
-                                     <a href="#" class="block footer-link text-sm">Contrato de Pospago Indefinido</a>
-                                     <a href="#" class="block footer-link text-sm">Política de Uso Justo</a>
-                                     <a href="#" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
-                                     <a href="#" class="block footer-link text-sm">Registro de Tarifas</a>
+                                     <a href="contrato-de-adhesion-prepago/" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
+                                     <a href="/codigo-de-politicas-de-gestion-de-trafico/" class="block footer-link text-sm">Código de Políticas de Gestión de Tráfico</a>
+                                     <a href="/carta-de-derecho/" class="block footer-link text-sm">Carta de Derechos</a>
+                                     <a href="/politica-de-uso-justo/" class="block footer-link text-sm">Política de Uso Justo</a>
+                                     <a href="/codigo-de-practicas-comerciales/" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
+                                     <a href="/registro-de-tarifas/" class="block footer-link text-sm">Registro de Tarifas</a>
+                                     <a href="/colaboracion-en-materia-de-seguridad/" class="block footer-link text-sm">Colaboración en materia de seguridad y justicia</a>
                                 </div>
                             </div>
                         </ul>
                     </div>
-                    <!-- Columna 4: Descarga App -->
-                    <div>
+                    <!-- Columna 4: Descarga App --><div>
                         <h4 class="footer-title">Descarga Nuestras Apps</h4>
+                        <!-- Modifica el valor de space-y-6 para ajustar el espacio vertical entre botones. Ej: space-y-4, space-y-8 -->
                         <div class="space-y-6">
                              <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
-                                 <img src="img/appstore.png" class="rounded-lg" alt="Get it on Google Play">
-                             </a>
+                                <img src="img/appstore.png" class="rounded-lg" alt="Get it on Google Play">
+                            </a>
                             <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button">
                                 <img src="img/googleplay.png" class="rounded-lg" alt="Download on the App Store">
                             </a>
