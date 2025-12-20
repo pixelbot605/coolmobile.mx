@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sección de Deportes - Resultados y Tablas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- jQuery requerido por el widget -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    
+    <style>
+        /* Estilos base de tu sitio */
+        .bg-sports-blue { background-color: #003242; }
+        
+        /* =========================================
+           ESTILOS DEL WIDGET
+           =========================================
+        */
+        @import 'https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap';
+
+        .widgetLiveScore {
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            text-align: left;
+            background-color: #fff;
+            box-sizing: border-box;
+            width: 100%;
+            position: relative;
+        }
+
+        .widgetLiveScore a {
+            color: black;
+            text-decoration: none;
+            font-weight: lighter;
+        }
+
+        /* Tabs */
+        .widgetLiveScore .titleWidget {
+            color: white;
+            background-color: #003242;
+            display: inline-flex;
+            border: 1px solid #003242;
+            padding: .5rem 1.25rem;
+            font-weight: bold;
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+            cursor: pointer;
+        }
+
+        .nav-tab-active {
+            color: #fbbf24 !important; /* Amber-400 */
+            background-color: #1a202c !important; /* Dark gray */
+            border-bottom: 2px solid #fbbf24 !important;
+        }
+
+        /* Botón de Actualizar - DISEÑO MEJORADO */
+        .refresh-btn {
+            /* Posicionamiento Flex en lugar de Absolute para no estorbar */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background-color: #003242; /* Color de marca */
+            color: white;
+            border: none;
+            border-radius: 9999px; /* Pill shape */
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 4px; /* Alinear visualmente con tabs */
+        }
+        .refresh-btn:hover {
+            background-color: #fbbf24; /* Amber accent hover */
+            color: #003242;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .refresh-btn:active {
+            transform: translateY(0);
+        }
+        .refresh-btn svg { width: 16px; height: 16px; }
+        .spin-anim { animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Scrollbar oculta para tabs en mobile */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none;  scrollbar-width: none; }
+
+        /* Tablas de Partidos */
+        .tablele-container {
+            overflow: auto;
+            display: grid;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            margin-bottom: 20px;
+        }
+
+        .flex-table.header {
+            background: #2d3748;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            font-weight: bold;
+        }
+
+        .flex-table.row {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #edf2f7;
+            transition: background-color 0.2s;
+        }
+
+        .flex-table.row:hover { background-color: #f7fafc; }
+
+        .matchHomeTeam { flex: 1; text-align: right; font-weight: 600; }
+        .matchAwayTeam { flex: 1; text-align: left; font-weight: 600; }
+        .matchDelimiter { width: 40px; text-align: center; font-weight: bold; background: #edf2f7; border-radius: 4px; padding: 2px 0; }
+        .matchDetails { width: 60px; font-size: 0.85em; color: #718096; text-align: center; }
+        .matchIsLive { color: #e53e3e; font-weight: bold; animation: pulse 2s infinite; }
+        
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+
+        .countryLogo { 
+            width: 20px; height: 20px; 
+            margin-right: 10px; 
+            background-size: cover; 
+            background-position: center; 
+            border-radius: 50%;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-weight: bold;
+            color: #4a5568;
+            display: none;
+        }
+        
+        /* Calendario */
+        #liveScoreCalendarContainer {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            background: #f7fafc;
+            padding: 10px;
+            border-radius: 8px;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 0; /* Ya no necesitamos margen extra */
+        }
+        
+        .callendarDays {
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            background: white;
+            border: 1px solid #e2e8f0;
+        }
+
+        .callendarDaysActive {
+            background: #003242;
+            color: white;
+            border-color: #003242;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .tz-info {
+            font-size: 0.7rem;
+            color: #a0aec0;
+            text-align: right;
+            padding: 5px;
+            font-style: italic;
+        }
+
+        /* =========================================
+           ESTILOS PARA TABLAS DE POSICIONES
+           ========================================= */
+        .standings-wrapper {
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .standings-header {
+            background-color: #003242;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .standings-table th {
+            background-color: #edf2f7;
+            color: #4a5568;
+            font-weight: 600;
+            text-align: center;
+            padding: 8px 4px;
+            border-bottom: 2px solid #cbd5e0;
+        }
+        .standings-table td {
+            padding: 8px 4px;
+            border-bottom: 1px solid #edf2f7;
+            text-align: center;
+        }
+        .standings-table tr:last-child td { border-bottom: none; }
+        .standings-table .team-cell {
+            text-align: left;
+            display: flex;
+            align-items: center;
+            min-width: 120px;
+        }
+        .standings-table .team-cell img {
+            width: 20px; height: 20px; margin-right: 8px;
+        }
+        .standings-table .points-cell {
+            font-weight: bold;
+            background-color: #f7fafc;
+            color: #003242;
+        }
+        .standings-table tr:nth-child(even) { background-color: #fcfcfc; }
+        
+        /* =========================================
+           NUEVOS ESTILOS PARA NOTICIAS
+           ========================================= */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+        .news-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            position: relative; /* ¡CORRECCIÓN IMPORTANTE! Evita que el enlace cubra todo el widget */
+        }
+        .news-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .news-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            /* background-color removido para evitar el bloque gris */
+        }
+        .news-body {
+            padding: 1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .news-title {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .news-date {
+            font-size: 0.75rem;
+            color: #718096;
+            margin-top: auto;
+            padding-top: 0.5rem;
+        }
+        .news-link {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .matchHomeTeam, .matchAwayTeam { font-size: 0.9em; }
+            .standings-table th:nth-child(4), .standings-table td:nth-child(4),
+            .standings-table th:nth-child(5), .standings-table td:nth-child(5),
+            .standings-table th:nth-child(6), .standings-table td:nth-child(6)
+            { display: none; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+
+    <!-- Encabezado / Navbar -->
+    <header class="bg-sports-blue text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <!-- Icono simple -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M5.5 5.5l13 13"></path>
+                    <path d="M18.5 5.5l-13 13"></path>
+                </svg>
+                <h1 class="text-xl font-bold tracking-wider">MI SITIO DEPORTIVO</h1>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#" class="hover:text-gray-300 transition">Inicio</a>
+                <a href="#" class="text-white border-b-2 border-white pb-1">Resultados</a>
+                <a href="#" class="hover:text-gray-300 transition">Noticias</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        
+        <div class="text-center mb-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Centro de Estadísticas</h2>
+            <p class="text-gray-600">Resultados en vivo, Tablas y Noticias.</p>
+        </div>
+
+        <!-- Contenedor del Widget -->
+        <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200 p-4">
+            <section id="widgetLiveScore"></section>
+        </div>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="bg-gray-800 text-gray-300 py-6 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm">&copy; 2024 Mi Sitio Deportivo.</p>
+        </div>
+    </footer>
+
+    <!-- LÓGICA DEL WIDGET -->
+    <script>
+        // 1. GLOBALES
+        var widgetKey = 'fae7542c6712509a82dc86b3b34e75082d26158da445acbf0d8ca595cfe5f579';
+        sessionStorage.setItem('widgetKey', widgetKey);
+
+        var LEAGUES_FOR_STANDINGS = [
+            { id: 302, name: 'La Liga (España)' },
+            { id: 152, name: 'Premier League (Inglaterra)' },
+            { id: 292, name: 'Liga MX (México)' },
+            { id: 3,   name: 'UEFA Champions League' }
+        ];
+
+        // FUNCIÓN DE ZONA HORARIA ROBUSTA (Offset numérico)
+        function getTimeZone() {
+            var offset = new Date().getTimezoneOffset(); 
+            var sign = offset > 0 ? "-" : "+"; 
+            var abs = Math.abs(offset);
+            var h = Math.floor(abs / 60);
+            var m = abs % 60;
+            return sign + ("00" + h).slice(-2) + ":" + ("00" + m).slice(-2);
+        }
+
+        function sortByKeyAsc(array, key) {
+            return array.sort(function(a, b) {
+                var x = a[key]; var y = b[key];
+                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+            });
+        }
+        
+        var groupBy = function(xs, key) {
+            return xs.reduce(function(rv, x) {
+                (rv[x[key]] = rv[x[key]] || []).push(x);
+                return rv;
+            }, {});
+        };
+
+        function windowOpenMatch(event_key) {
+            alert("Detalles del partido " + event_key);
+        }
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+        var yyyy = today.getFullYear();
+        var timeForFixtures = yyyy + '-' + mm + '-' + dd;
+
+        (function($, window, document, undefined) {
+            var widgetLiveScore = 'widgetLiveScore';
+            var autoRefreshInterval = null;
+
+            function Plugin(element, options) {
+                this.element = element;
+                this._name = widgetLiveScore;
+                this.options = $.extend({}, $.fn.widgetLiveScore.defaults, options);
+                this.init();
+            }
+
+            $.extend(Plugin.prototype, {
+                init: function() {
+                    this.initialContent(this.options.liveScoreDetailsAjaxURL, this.options.widgetKey, this.options.timezone);
+                },
+                initialContent: function(liveScoreDetailsAjaxURL, widgetKey, timezone) {
+                    var liveScoreLocation = $(this.element);
+                    
+                    // HTML ESTRUCTURA REFACTOREADA CON FLEXBOX
+                    var tabsHtml = `
+                        <div class="flex justify-between items-center border-b border-gray-200 mb-4 pb-1 gap-2">
+                            <!-- Contenedor de Tabs (Scrollable en móvil) -->
+                            <div class="flex overflow-x-auto no-scrollbar items-end">
+                                <a href="#allGame" class="nav-tab nav-tab-active px-4 py-2 font-bold text-gray-700 bg-gray-100 rounded-t mr-2 whitespace-nowrap">Resultados</a>
+                                <a href="#liveGame" class="nav-tab px-4 py-2 font-bold text-gray-500 hover:text-gray-700 mr-2 whitespace-nowrap">En Vivo</a>
+                                <a href="#standings" class="nav-tab px-4 py-2 font-bold text-gray-500 hover:text-gray-700 mr-2 whitespace-nowrap">Tablas</a>
+                                <a href="#news" class="nav-tab px-4 py-2 font-bold text-gray-500 hover:text-gray-700 mr-2 whitespace-nowrap">Noticias</a>
+                            </div>
+                            
+                            <!-- Botón de Actualizar (Flexible) -->
+                            <button id="refreshDataBtn" class="refresh-btn flex-shrink-0" title="Actualizar Datos">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                                <!-- Texto visible solo en tablet/desktop para ahorrar espacio -->
+                                <span class="hidden sm:inline">Actualizar</span>
+                            </button>
+                        </div>
+                        
+                        <div id="liveScoreCalendarContainer"></div>
+                        
+                        <div id="loadingMsg" class="loading">Cargando datos...</div>
+                        
+                        <div id="allGame" class="tab-content active"></div>
+                        <div id="liveGame" class="tab-content"></div>
+                        <div id="standings" class="tab-content"></div>
+                        <div id="news" class="tab-content"></div>
+                        
+                        <div class="tz-info">Offset local: ${timezone}</div>
+                    `;
+                    
+                    liveScoreLocation.addClass('widgetLiveScore').html(tabsHtml);
+
+                    // Generar Calendario
+                    var calendarContainer = $('#liveScoreCalendarContainer');
+                    for (var i = -2; i <= 2; i++) {
+                        var d = new Date();
+                        d.setDate(d.getDate() + i);
+                        var dateStr = d.toISOString().split('T')[0];
+                        var displayStr = d.getDate() + '.' + (d.getMonth()+1);
+                        var activeClass = (i === 0) ? 'callendarDaysActive' : '';
+                        calendarContainer.append(`<div class="callendarDays ${activeClass}" data-date="${dateStr}">${(i===0 ? 'Hoy' : displayStr)}</div>`);
+                    }
+
+                    // Eventos Click Calendario
+                    $('.callendarDays').click(function() {
+                        $('.callendarDays').removeClass('callendarDaysActive');
+                        $(this).addClass('callendarDaysActive');
+                        fetchGames($(this).data('date'), 'allGame');
+                    });
+
+                    // Acción Botón Refresh
+                    $('#refreshDataBtn').click(function() {
+                        var btn = $(this);
+                        var icon = btn.find('svg');
+                        icon.addClass('spin-anim'); 
+                        
+                        var activeTab = $('.nav-tab-active').attr('href');
+                        
+                        if (activeTab === '#standings') {
+                            fetchStandings(function() { icon.removeClass('spin-anim'); });
+                        } else if (activeTab === '#liveGame') {
+                            fetchGames(timeForFixtures, 'liveGame', true, function() { icon.removeClass('spin-anim'); });
+                        } else if (activeTab === '#news') {
+                            fetchNews(function() { icon.removeClass('spin-anim'); });
+                        } else {
+                            var date = $('.callendarDaysActive').data('date');
+                            fetchGames(date, 'allGame', false, function() { icon.removeClass('spin-anim'); });
+                        }
+                    });
+
+                    // Eventos Click Tabs
+                    $('.nav-tab').click(function(e) {
+                        e.preventDefault();
+                        
+                        if (autoRefreshInterval) {
+                            clearInterval(autoRefreshInterval);
+                            autoRefreshInterval = null;
+                        }
+
+                        $('.nav-tab').removeClass('nav-tab-active bg-gray-100 text-gray-700').addClass('text-gray-500');
+                        $(this).addClass('nav-tab-active bg-gray-100 text-gray-700').removeClass('text-gray-500');
+                        
+                        $('.tab-content').removeClass('active');
+                        var target = $(this).attr('href');
+                        $(target).addClass('active');
+
+                        if(target === '#standings') {
+                            $('#liveScoreCalendarContainer').hide();
+                            fetchStandings();
+                        } else if (target === '#liveGame') {
+                            $('#liveScoreCalendarContainer').hide();
+                            fetchGames(timeForFixtures, 'liveGame', true);
+                            autoRefreshInterval = setInterval(function() {
+                                fetchGames(timeForFixtures, 'liveGame', true);
+                            }, 60000); 
+                        } else if (target === '#news') {
+                            $('#liveScoreCalendarContainer').hide();
+                            fetchNews();
+                        } else {
+                            $('#liveScoreCalendarContainer').css('display', 'flex');
+                            fetchGames($('.callendarDaysActive').data('date'), 'allGame');
+                        }
+                    });
+
+                    // Carga inicial
+                    fetchGames(timeForFixtures, 'allGame');
+
+                    // ==========================================
+                    // FUNCIÓN: CARGAR PARTIDOS
+                    // ==========================================
+                    function fetchGames(date, targetId, liveOnly = false, callback = null) {
+                        if ($('#' + targetId).is(':empty')) {
+                            $('#loadingMsg').show();
+                        }
+                        
+                        var apiParams = {
+                            met: liveOnly ? 'Livescore' : 'Fixtures',
+                            widgetKey: widgetKey,
+                            timezone: timezone,
+                            _t: new Date().getTime() 
+                        };
+                        if (!liveOnly) {
+                            apiParams.from = date;
+                            apiParams.to = date;
+                        }
+
+                        $.ajax({
+                            url: liveScoreDetailsAjaxURL,
+                            data: apiParams,
+                            dataType: 'json',
+                            success: function(res) {
+                                $('#loadingMsg').hide();
+                                if (callback) callback();
+                                
+                                if (res.result) {
+                                    // Pasamos la fecha 'date' para hacer filtrado estricto
+                                    processAndRenderGames(res.result, targetId, liveOnly ? null : date);
+                                } else {
+                                    $('#' + targetId).html('<p class="text-center p-4 text-gray-500">No hay partidos disponibles en este momento.</p>');
+                                }
+                            },
+                            error: function() {
+                                $('#loadingMsg').hide();
+                                if (callback) callback();
+                                $('#' + targetId).html('<p class="text-center text-red-500 p-4">Error de conexión.</p>');
+                            }
+                        });
+                    }
+
+                    function processAndRenderGames(dataList, targetId, strictDateFilter) {
+                        var filteredGames = dataList.filter(function(match) {
+                            // 1. Filtro de Ligas
+                            var league = (match.league_name || "").toLowerCase();
+                            var country = (match.country_name || "").toLowerCase();
+                            var isRelevant = false;
+
+                            if (league.includes("champions league")) isRelevant = true;
+                            else if (country === "spain" && (league.includes("la liga") || league.includes("primera division"))) isRelevant = true;
+                            else if (country === "england" && league.includes("premier league")) isRelevant = true;
+                            else if (country === "mexico" && league.includes("liga mx")) isRelevant = true;
+                            
+                            if (!isRelevant) return false;
+
+                            // 2. Filtro Estricto de Fecha (Fix para "Mañana aparece hoy")
+                            if (strictDateFilter && match.event_date !== strictDateFilter) {
+                                return false; 
+                            }
+
+                            return true;
+                        });
+
+                        if (filteredGames.length > 0) {
+                            renderGamesHTML(filteredGames, targetId);
+                        } else {
+                            var msg = strictDateFilter 
+                                ? 'No hay partidos programados para esta fecha (' + strictDateFilter + ').' 
+                                : 'No hay partidos en vivo de las ligas seleccionadas.';
+                            $('#' + targetId).html('<p class="text-center p-4 text-gray-500">' + msg + '</p>');
+                        }
+                    }
+
+                    function renderGamesHTML(data, targetId) {
+                        var sorted = sortByKeyAsc(data, "event_time");
+                        var groupedByCountry = groupBy(sorted, 'country_name');
+                        var html = '<div class="tablele-container">';
+                        
+                        Object.keys(groupedByCountry).sort().forEach(function(country) {
+                            var leagues = groupBy(groupedByCountry[country], 'league_name');
+                            Object.keys(leagues).forEach(function(league) {
+                                var leagueLogo = leagues[league][0].league_logo || 'https://cdn-icons-png.flaticon.com/512/53/53283.png'; 
+                                html += `
+                                    <div class="flex-table header">
+                                        <div style="background-image: url('${leagueLogo}')" class="countryLogo"></div>
+                                        <span class="uppercase text-xs text-gray-400 mr-2">${country}:</span>
+                                        <span>${league}</span>
+                                    </div>
+                                    <div class="bg-white">
+                                `;
+                                leagues[league].forEach(function(match) {
+                                    var status = match.event_status || match.event_time;
+                                    var isLive = !isNaN(status.replace('+', '')) || status === 'Half Time';
+                                    var liveClass = isLive ? 'matchIsLive' : '';
+                                    var homeScore = '-', awayScore = '-';
+                                    if (match.event_final_result && match.event_final_result.includes(' - ')) {
+                                        var parts = match.event_final_result.split(' - ');
+                                        if (parts.length === 2) { homeScore = parts[0]; awayScore = parts[1]; }
+                                    }
+                                    html += `
+                                        <div class="flex-table row hover:bg-gray-50 cursor-pointer" onclick="windowOpenMatch('${match.event_key}')">
+                                            <div class="matchDetails ${liveClass}">
+                                                ${status}
+                                            </div>
+                                            <div class="matchHomeTeam">${match.event_home_team}</div>
+                                            <div class="matchDelimiter text-sm">${homeScore} - ${awayScore}</div>
+                                            <div class="matchAwayTeam pl-2">${match.event_away_team}</div>
+                                        </div>
+                                    `;
+                                });
+                                html += '</div>';
+                            });
+                        });
+                        html += '</div>';
+                        $('#' + targetId).html(html);
+                    }
+
+                    // ==========================================
+                    // FUNCIÓN: CARGAR TABLAS DE POSICIONES
+                    // ==========================================
+                    function fetchStandings(callback = null) {
+                        var container = $('#standings');
+                        if (container.is(':empty')) {
+                            $('#loadingMsg').show();
+                        }
+
+                        var promises = LEAGUES_FOR_STANDINGS.map(function(league) {
+                            return $.ajax({
+                                url: liveScoreDetailsAjaxURL,
+                                data: {
+                                    met: 'Standings',
+                                    leagueId: league.id,
+                                    widgetKey: widgetKey,
+                                    _t: new Date().getTime() 
+                                },
+                                dataType: 'json'
+                            }).then(function(res) {
+                                return { leagueName: league.name, data: res.result };
+                            });
+                        });
+
+                        Promise.all(promises).then(function(results) {
+                            $('#loadingMsg').hide();
+                            if (callback) callback();
+                            container.html(''); 
+
+                            var hasData = false;
+                            results.forEach(function(item) {
+                                if (item.data && item.data.total && item.data.total.length > 0) {
+                                    hasData = true;
+                                    
+                                    // 1. FILTRO DE NOMBRES
+                                    var filteredTeams = item.data.total.filter(function(team) {
+                                        var name = (team.standing_team || "").trim();
+                                        var lowerName = name.toLowerCase();
+                                        return !name.endsWith(" W") 
+                                            && !name.includes("Women")
+                                            && !name.includes("(W)")
+                                            && !name.includes("U19")
+                                            && !name.includes("Youth")
+                                            && !lowerName.includes("femenino")
+                                            && !lowerName.includes("women")
+                                            && !lowerName.includes("ladies");
+                                    });
+
+                                    // 2. FILTRO DE CONSISTENCIA
+                                    if(filteredTeams.length > 0) {
+                                        var maxGames = 0;
+                                        filteredTeams.forEach(function(t) {
+                                            var p = parseInt(t.standing_P) || 0;
+                                            if (p > maxGames) maxGames = p;
+                                        });
+
+                                        filteredTeams = filteredTeams.filter(function(t) {
+                                            var p = parseInt(t.standing_P) || 0;
+                                            return p >= (maxGames - 3);
+                                        });
+                                    }
+
+                                    // 3. ORDENAMIENTO ESTRICTO
+                                    filteredTeams.sort(function(a, b) {
+                                        var ptsA = parseInt(a.standing_PTS) || 0;
+                                        var ptsB = parseInt(b.standing_PTS) || 0;
+                                        if (ptsB !== ptsA) return ptsB - ptsA;
+                                        
+                                        var gdA = parseInt(a.standing_GD) || 0;
+                                        var gdB = parseInt(b.standing_GD) || 0;
+                                        return gdB - gdA;
+                                    });
+
+                                    if (filteredTeams.length > 0) {
+                                        renderSingleStanding(item.leagueName, filteredTeams, container);
+                                    }
+                                }
+                            });
+
+                            if (!hasData) {
+                                container.html('<p class="text-center p-8 text-gray-500">No hay tablas disponibles en este momento.</p>');
+                            }
+                        }).catch(function() {
+                            $('#loadingMsg').hide();
+                            if (callback) callback();
+                            container.html('<p class="text-center text-red-500 p-8">Error al cargar las tablas.</p>');
+                        });
+                    }
+
+                    function renderSingleStanding(leagueName, standingsData, container) {
+                        var html = `
+                            <div class="standings-wrapper">
+                                <div class="standings-header">
+                                    <span>${leagueName}</span>
+                                </div>
+                                <table class="standings-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th style="text-align:left">Equipo</th>
+                                            <th>PJ</th>
+                                            <th>G</th>
+                                            <th>E</th>
+                                            <th>P</th>
+                                            <th>DG</th>
+                                            <th class="points-cell">Pts</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                        `;
+
+                        // Re-asignar ranking visual basado en el orden ordenado
+                        standingsData.forEach(function(team, index) {
+                            var logo = team.team_logo || 'https://via.placeholder.com/20';
+                            html += `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td class="team-cell">
+                                        <img src="${logo}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/16/16480.png'">
+                                        ${team.standing_team}
+                                    </td>
+                                    <td>${team.standing_P}</td>
+                                    <td>${team.standing_W}</td>
+                                    <td>${team.standing_D}</td>
+                                    <td>${team.standing_L}</td>
+                                    <td>${team.standing_GD}</td>
+                                    <td class="points-cell">${team.standing_PTS}</td>
+                                </tr>
+                            `;
+                        });
+
+                        html += `
+                                    </tbody>
+                                </table>
+                            </div>
+                        `;
+                        container.append(html);
+                    }
+
+                    // ==========================================
+                    // FUNCIÓN: CARGAR NOTICIAS (RSS via JSON)
+                    // ==========================================
+                    function fetchNews(callback = null) {
+                        var container = $('#news');
+                        // Usamos api.rss2json.com para convertir RSS a JSON
+                        var rssUrl = 'https://www.espn.com.mx/espn/rss/news';
+                        var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
+
+                        if (container.is(':empty')) {
+                            $('#loadingMsg').show();
+                        }
+
+                        $.ajax({
+                            url: apiUrl,
+                            dataType: 'json',
+                            success: function(data) {
+                                $('#loadingMsg').hide();
+                                if (callback) callback();
+
+                                if (data.status === 'ok' && data.items.length > 0) {
+                                    renderNews(data.items, container);
+                                } else {
+                                    container.html('<p class="text-center p-8 text-gray-500">No hay noticias disponibles.</p>');
+                                }
+                            },
+                            error: function() {
+                                $('#loadingMsg').hide();
+                                if (callback) callback();
+                                container.html('<p class="text-center text-red-500 p-8">Error al cargar noticias.</p>');
+                            }
+                        });
+                    }
+
+                    function renderNews(items, container) {
+                        var html = '<div class="news-grid">';
+                        
+                        // Lista de Imágenes de Respaldo Rotativas
+                        var fallbackImages = [
+                            'https://images.unsplash.com/photo-1522778119026-d647f0565c6d?auto=format&fit=crop&w=500&q=60', // Fútbol genérico
+                            'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=500&q=60', // Balón en red
+                            'https://images.unsplash.com/photo-1518605348416-7258020055eb?auto=format&fit=crop&w=500&q=60', // Partido acción
+                            'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=500&q=60'  // Estadio
+                        ];
+
+                        items.forEach(function(item, index) {
+                            var img = null;
+
+                            // 1. Intentar sacar imagen de enclosure (RSS estándar)
+                            if (item.enclosure && item.enclosure.link) {
+                                img = item.enclosure.link;
+                            } 
+                            // 2. Intentar sacar imagen de thumbnail
+                            else if (item.thumbnail) {
+                                img = item.thumbnail;
+                            } 
+                            // 3. Intentar sacar imagen del contenido HTML
+                            else {
+                                var tempDiv = document.createElement('div');
+                                tempDiv.innerHTML = item.description || item.content || '';
+                                var foundImg = tempDiv.querySelector('img');
+                                if (foundImg) {
+                                    img = foundImg.src;
+                                }
+                            }
+                            
+                            // 4. Si encontramos imagen, validar que no sea un pixel de rastreo
+                            if (img && (img.includes('feedburner') || img.includes('width="1"') || img.includes('height="1"'))) {
+                                img = null;
+                            }
+
+                            // 5. Asignar Fallback si no hay imagen
+                            if (!img) {
+                                // Usar módulo para rotar imágenes y que no se vea repetitivo
+                                img = fallbackImages[index % fallbackImages.length];
+                            }
+
+                            // Limpiar fecha
+                            var date = new Date(item.pubDate).toLocaleDateString('es-MX', { day: 'numeric', month: 'short', hour: '2-digit', minute:'2-digit' });
+
+                            html += `
+                                <div class="news-card">
+                                    <a href="${item.link}" target="_blank" class="news-link"></a>
+                                    <img src="${img}" class="news-img" alt="Noticia" onerror="this.src='${fallbackImages[0]}'">
+                                    <div class="news-body">
+                                        <h3 class="news-title">${item.title}</h3>
+                                        <div class="news-date">${date}</div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        html += '</div>';
+                        container.html(html);
+                    }
+                }
+            });
+
+            $.fn.widgetLiveScore = function(options) {
+                return this.each(function() {
+                    if (!$.data(this, "plugin_" + widgetLiveScore)) {
+                        $.data(this, "plugin_" + widgetLiveScore, new Plugin(this, options));
+                    }
+                });
+            };
+
+            $.fn.widgetLiveScore.defaults = {
+                liveScoreDetailsAjaxURL: 'https://apiv2.allsportsapi.com/football/',
+                widgetKey: widgetKey, 
+                timezone: getTimeZone()
+            };
+
+        })(jQuery, window, document);
+
+        $(document).ready(function() {
+            $('#widgetLiveScore').widgetLiveScore({ widgetWidth: '100%' });
+        });
+    </script>
+</body>
+</html>

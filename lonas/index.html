@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descarga de Lonas - Cool Mobile</title>
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.png" type="image/png">
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fuentes y scripts para Header/Footer/Chat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg, #3a90ab, #ffffff, #3a6777, #1c5264, #003242, #000707);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+        }
+
+        [x-cloak] { display: none !important; }
+
+        .footer {
+            background-color: #000707;
+            color: #BCEAD5;
+            padding: 4rem 0;
+            border-top: 2px solid #0E8388;
+        }
+        .footer-link { transition: color 0.2s ease-in-out; }
+        .footer-link:hover { color: #57C5B6; }
+        .footer-title { color: #CBE4DE; font-weight: 600; margin-bottom: 1rem; }
+        
+        .store-button { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .store-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .chat-bubble-options { transition: all 0.3s ease-out; }
+        .chat-modal-overlay { background-color: rgba(0, 0, 0, 0.6); z-index: 999; }
+        .chat-modal-content { z-index: 9999; max-height: 90vh; }
+
+        #chat-modal #chatbox {
+            border: 1px solid #4B5563; padding: 1rem; height: 350px;
+            overflow-y: scroll; margin-bottom: 1rem; background-color: #3C4248;
+            border-radius: 0.5rem;
+        }
+        #chat-modal .message-user { text-align: right; color: #57C5B6; }
+        #chat-modal .message-bot { text-align: left; color: #BCEAD5; }
+        #chat-modal #userInput {
+            width: calc(100% - 6rem); padding: 0.75rem; border-radius: 9999px;
+            border: 1px solid #4B5563; background-color: #4A5568;
+            color: white; outline: none;
+        }
+        #chat-modal #chat-button {
+            background-color: #0E8388; color: white; padding: 0.75rem 1.5rem;
+            border-radius: 9999px; font-weight: bold; transition: all 0.2s;
+        }
+    </style>
+</head>
+
+<body x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+    
+    <!-- Header -->
+    <header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
+            :class="{ 'bg-[#0c4b59] shadow-lg': isScrolled, 'bg-[#0c4b59]': !isScrolled }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <a href="/index.html" class="flex-shrink-0">
+                    <img src="logo.png" alt="Logo Cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                </a>
+                <div class="hidden lg:flex lg:space-x-8">
+                    <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                        <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                            Telefonía
+                            <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                            <a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia-simcard</a>
+                            <a href="/telefonia-eSIM/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia eSIM</a>
+                            <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
+                        </div>
+                    </div>
+                    <a href="/internet-de-casa/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet de Casa</a>
+                    <a href="/internet-movil/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet Móvil</a>
+                    <a href="https://crmxpace.com/coolmobile/factura/cfdi" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Facturación</a>
+                </div>
+
+                <a href="https://crmxpace.com/coolmobile/recargas-stripe" class="hidden lg:block bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105">
+                    Recargas
+                </a>
+
+                <div class="lg:hidden flex items-center">
+                    <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <svg class="h-6 w-6" x-show="!openMenu" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                        <svg class="h-6 w-6" x-show="openMenu" x-cloak fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#0c4b59] z-40 pt-20">
+            <div class="px-2 pb-3 space-y-1 sm:px-3">
+                <a href="/index.html" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Inicio</a>
+                <a href="/telefonia_simcard/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Telefonia</a>
+                <a href="/internet-de-casa/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet de Casa</a>
+                <a href="https://crmxpace.com/coolmobile/recargas-stripe" class="block text-center bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-6 rounded-full mt-4">Recargas</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal: Descarga de Lonas -->
+    <div class="container mx-auto max-w-5xl p-4 sm:p-8 pt-32 sm:pt-40">
+        <div class="bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-100">
+            
+            <main class="p-6 sm:p-12 text-gray-800">
+                <!-- Título solicitado -->
+                <h1 class="text-3xl sm:text-5xl font-black text-gray-900 mb-4 text-center tracking-tight">
+                    Descarga tus lonas preferidas
+                </h1>
+                <p class="text-center text-gray-500 mb-12 max-w-2xl mx-auto">
+                    Obtén el material oficial de Cool Mobile para tu punto de venta. Alta resolución lista para impresión.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <!-- Lado Izquierdo: Imagen PNG -->
+                    <div class="bg-gray-50 rounded-2xl p-4 flex items-center justify-center border-2 border-dashed border-gray-200">
+                        <img src="img/lonas1.png" alt="Previsualización de Lona" 
+                             class="max-w-full h-auto rounded-lg shadow-md"
+                             onerror="this.onerror=null;this.src='https://placehold.co/600x400/0E8388/FFFFFF?text=Lona+Cool+Mobile';">
+                    </div>
+
+                    <!-- Lado Derecho: Detalles y Descarga -->
+                    <div class="flex flex-col space-y-6">
+                        <div class="border-l-4 border-[#0E8388] pl-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Lona Publicitaria General</h2>
+                            <p class="text-gray-600">
+                                Formato General Diseño de marca general que resalta la tarjeta SIM al centro como elemento principal de la comunicación visual.
+                            </p>
+                        </div>
+
+                        <!-- Medidas de Demostración -->
+                        <div class="bg-[#BCEAD5] bg-opacity-30 p-6 rounded-2xl">
+                            <h3 class="text-sm font-bold uppercase tracking-wider text-[#0c4b59] mb-3">Medidas de demostración</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-white p-3 rounded-xl text-center shadow-sm">
+                                    <span class="block text-xs text-gray-400">Ancho</span>
+                                    <span class="text-xl font-bold text-gray-800">90 cm</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl text-center shadow-sm">
+                                    <span class="block text-xs text-gray-400">Alto</span>
+                                    <span class="text-xl font-bold text-gray-800">90 cm</span>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-gray-500 mt-3">* Formatos disponibles en pdf.</p>
+                        </div>
+
+                        <!-- Botón de Descarga -->
+                        <div class="pt-4">
+                            <a href="Lonas1.pdf" download class="group flex items-center justify-center w-full bg-[#0E8388] hover:bg-[#0c4b59] text-white text-lg font-bold py-5 px-8 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-[#0E8388]/30">
+                                <svg class="w-6 h-6 mr-3 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Descargar el PDF para Impresión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-gray-500 mb-12 max-w-2xl mx-auto">
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <!-- Lado Izquierdo: Imagen PNG -->
+                    <div class="bg-gray-50 rounded-2xl p-4 flex items-center justify-center border-2 border-dashed border-gray-200">
+                        <img src="img/lonas100.png" alt="Previsualización de Lona" 
+                             class="max-w-full h-auto rounded-lg shadow-md"
+                             onerror="this.onerror=null;this.src='https://placehold.co/600x400/0E8388/FFFFFF?text=Lona+Cool+Mobile';">
+                    </div>
+
+                    <!-- Lado Derecho: Detalles y Descarga -->
+                    <div class="flex flex-col space-y-6">
+                        <div class="border-l-4 border-[#0E8388] pl-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Lona Publicitaria plan $100</h2>
+                            <p class="text-gray-600">
+                                Promoción Específica Diseño publicitario enfocado en la promoción de recarga desde 100 pesos con cuatro iconos de beneficios destacados.
+                            </p>
+                        </div>
+
+                        <!-- Medidas de Demostración -->
+                        <div class="bg-[#BCEAD5] bg-opacity-30 p-6 rounded-2xl">
+                            <h3 class="text-sm font-bold uppercase tracking-wider text-[#0c4b59] mb-3">Medidas de demostración</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-white p-3 rounded-xl text-center shadow-sm">
+                                    <span class="block text-xs text-gray-400">Ancho</span>
+                                    <span class="text-xl font-bold text-gray-800">90 cm</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl text-center shadow-sm">
+                                    <span class="block text-xs text-gray-400">Alto</span>
+                                    <span class="text-xl font-bold text-gray-800">90 cm</span>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-gray-500 mt-3">* Formatos disponibles en pdf.</p>
+                        </div>
+
+                        <!-- Botón de Descarga -->
+                        <div class="pt-4">
+                            <a href="lonas100.pdf" download class="group flex items-center justify-center w-full bg-[#0E8388] hover:bg-[#0c4b59] text-white text-lg font-bold py-5 px-8 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-[#0E8388]/30">
+                                <svg class="w-6 h-6 mr-3 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Descargar el PDF para Impresión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-12">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <img src="footer.png" alt="Cool Mobile Logo" class="mb-4" onerror="this.src='https://placehold.co/150x50?text=Cool+Mobile';">
+                    <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
+                    <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
+                    <p class="text-xs opacity-70">C. Lago Zurich 219, Miguel Hidalgo, 11529 CDMX</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Mapa del Sitio</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/index.html" class="footer-link">Inicio</a></li>
+                        <li><a href="#" class="footer-link">Recargas</a></li>
+                        <li><a href="#" class="footer-link">Portabilidad</a></li>
+                        <li><a href="#" class="footer-link">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Legal</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="footer-link">Avisos de Privacidad</a></li>
+                        <li><a href="#" class="footer-link">Términos y Condiciones</a></li>
+                        <li><a href="#" class="footer-link">Contrato de Adhesión</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Nuestras Apps</h4>
+                    <div class="flex flex-col space-y-3">
+                        <img src="img/appstore.png" class="h-10 w-auto object-contain cursor-pointer store-button" alt="App Store">
+                        <img src="img/googleplay.png" class="h-10 w-auto object-contain cursor-pointer store-button" alt="Google Play">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón Flotante Chat -->
+    <div class="fixed bottom-5 right-5 z-50">
+        <div x-show="chatOptionsOpen" x-transition x-cloak class="absolute bottom-16 right-0 mb-2 w-60 bg-[#2E4F4F] rounded-lg shadow-xl py-2">
+            <a href="https://wa.me/5215540777727" target="_blank" class="flex items-center px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
+                Chat WhatsApp
+            </a>
+            <button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
+                Asistente Virtual
+            </button>
+        </div>
+        <button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-width="2"></path></svg>
+        </button>
+    </div>
+
+    <!-- Modal Chat -->
+    <div x-show="isChatOpen" x-cloak class="fixed inset-0 flex items-center justify-center p-4 z-[100]">
+        <div class="fixed inset-0 bg-black/60" @click="isChatOpen = false"></div>
+        <div class="bg-[#2C3333] rounded-2xl shadow-2xl w-full max-w-md p-6 relative flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-[#57C5B6]">Asistente Cool</h3>
+                <button @click="isChatOpen = false" class="text-white text-2xl">&times;</button>
+            </div>
+            <div id="chatbox" class="h-80 overflow-y-auto mb-4 p-4 bg-gray-800 rounded-xl">
+                <p class="text-[#BCEAD5] mb-2 text-sm"><strong>Bot:</strong> ¡Hola! ¿En qué puedo ayudarte hoy?</p>
+            </div>
+            <div class="flex gap-2">
+                <input type="text" id="userInput" placeholder="Pregunta algo..." class="flex-grow bg-gray-700 text-white rounded-full px-4 py-2 outline-none border border-transparent focus:border-[#57C5B6]">
+                <button onclick="sendMessage()" class="bg-[#0E8388] text-white px-4 py-2 rounded-full">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animación de fondo al scroll
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                bg.style.backgroundPosition = `50% ${Math.min(scrollPercentage, 100)}%`;
+            }
+        });
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatbox = document.getElementById('chatbox');
+            if (!input.value.trim()) return;
+
+            const userText = input.value;
+            chatbox.innerHTML += `<p class="text-[#57C5B6] text-right mb-2 text-sm"><strong>Tú:</strong> ${userText}</p>`;
+            input.value = '';
+            
+            // Simulación simple de respuesta (aquí iría el fetch a Gemini)
+            setTimeout(() => {
+                chatbox.innerHTML += `<p class="text-[#BCEAD5] mb-2 text-sm"><strong>Bot:</strong> Procesando tu solicitud sobre "${userText}"...</p>`;
+                chatbox.scrollTop = chatbox.scrollHeight;
+            }, 600);
+        }
+    </script>
+</body>
+</html>
