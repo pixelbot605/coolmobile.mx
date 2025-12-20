@@ -61,7 +61,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-24">
                 <a href="/index.html" class="flex-shrink-0">
-                    <!-- Cambiado a ruta relativa 'logo.png' -->
+                    <!-- LOGO: Se asume que está en la raíz o carpeta actual. 
+                         Si está en la raíz y esto es una subcarpeta, usa /logo.png -->
                     <img src="logo.png" alt="Logo Cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
                 </a>
                 <div class="hidden lg:flex lg:space-x-8">
@@ -115,10 +116,10 @@
                     <!-- LONA 1 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center lona-card">
                         <div class="bg-gray-50 rounded-2xl p-4 flex items-center justify-center border-2 border-dashed border-gray-200">
-                            <!-- RUTA RELATIVA: Sin barra inicial '/' para que busque en la carpeta 'lonas/img/' -->
-                            <img src="img/lonasgeneral.png" alt="Lona General" 
+                            <!-- RUTA: ./ asegura que busque en la carpeta actual del servidor -->
+                            <img src="./img/lonasgeneral.png" alt="Lona General" 
                                  class="max-w-full h-auto rounded-lg shadow-md"
-                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/0E8388/FFFFFF?text=Imagen+No+Encontrada';">
+                                 onerror="this.onerror=null;this.parentElement.innerHTML='<p class=\'text-red-500 text-xs text-center\'>No se encontró la imagen.<br>Verifique que la carpeta <b>img</b> esté dentro de la carpeta <b>lonas</b> en su repositorio.</p>';">
                         </div>
 
                         <div class="flex flex-col space-y-6">
@@ -132,9 +133,11 @@
                             </div>
 
                             <div class="pt-4">
-                                <!-- RUTA RELATIVA: Busca el PDF en la misma carpeta '/lonas/' -->
-                                <a href="lonasgeneral.pdf" 
+                                <!-- RUTA: ./ asegura que busque el PDF en la carpeta actual -->
+                                <!-- target="_blank" permite ver si sale error 404 en el navegador -->
+                                <a href="./lonasgeneral.pdf" 
                                    download="lonasgeneral.pdf" 
+                                   target="_blank"
                                    class="group flex items-center justify-center w-full bg-[#0E8388] hover:bg-[#0c4b59] text-white text-lg font-bold py-5 px-8 rounded-2xl transition-all shadow-lg">
                                     <svg class="w-6 h-6 mr-3 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                                     Descargar PDF General
@@ -146,9 +149,9 @@
                     <!-- LONA 2 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center lona-card">
                         <div class="bg-gray-50 rounded-2xl p-4 flex items-center justify-center border-2 border-dashed border-gray-200">
-                            <img src="img/lonascien.png" alt="Lona Plan $100" 
+                            <img src="./img/lonascien.png" alt="Lona Plan $100" 
                                  class="max-w-full h-auto rounded-lg shadow-md"
-                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/0E8388/FFFFFF?text=Imagen+No+Encontrada';">
+                                 onerror="this.onerror=null;this.parentElement.innerHTML='<p class=\'text-red-500 text-xs text-center\'>No se encontró la imagen.<br>Verifique nombres en minúsculas en /lonas/img/.</p>';">
                         </div>
 
                         <div class="flex flex-col space-y-6">
@@ -162,8 +165,9 @@
                             </div>
 
                             <div class="pt-4">
-                                <a href="lonasplan.pdf" 
+                                <a href="./lonasplan.pdf" 
                                    download="lonasplan.pdf" 
+                                   target="_blank"
                                    class="group flex items-center justify-center w-full bg-[#0E8388] hover:bg-[#0c4b59] text-white text-lg font-bold py-5 px-8 rounded-2xl transition-all shadow-lg">
                                     <svg class="w-6 h-6 mr-3 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                                     Descargar PDF Plan $100
