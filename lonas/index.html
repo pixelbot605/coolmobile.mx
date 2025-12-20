@@ -61,7 +61,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-24">
                 <a href="/index.html" class="flex-shrink-0">
-                    <!-- LOGO: Ruta relativa simple -->
+                    <!-- LOGO: Se mantiene relativo ya que mencionaste que funciona -->
                     <img src="logo.png" alt="Logo Cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
                 </a>
                 <div class="hidden lg:flex lg:space-x-8">
@@ -115,10 +115,10 @@
                     <!-- LONA 1 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center lona-card">
                         <div class="bg-gray-50 rounded-2xl p-4 flex items-center justify-center border-2 border-dashed border-gray-200">
-                            <!-- RUTA RELATIVA SIMPLE: busca 'img/...' en la misma carpeta que el HTML -->
-                            <img src="img/lonasgeneral.png" alt="Lona General" 
+                            <!-- RUTA ABSOLUTA COMPLETA -->
+                            <img src="https://www.coolmobile.mx/lonas/img/lonasgeneral.png" alt="Lona General" 
                                  class="max-w-full h-auto rounded-lg shadow-md"
-                                 onerror="this.onerror=null;this.parentElement.innerHTML='<p class=\'text-red-500 text-xs text-center\'>Error: No se encuentra <b>img/lonasgeneral.png</b></p>';">
+                                 onerror="this.onerror=null;this.parentElement.innerHTML='<p class=\'text-red-500 text-xs text-center\'>Error: No se encuentra en <b>/lonas/img/lonasgeneral.png</b></p>';">
                         </div>
 
                         <div class="flex flex-col space-y-6">
@@ -132,9 +132,9 @@
                             </div>
 
                             <div class="pt-4">
-                                <!-- RUTA RELATIVA SIMPLE: busca el PDF en la misma carpeta que el HTML -->
-                                <a href="lonasgeneral.pdf" 
-                                   download
+                                <!-- RUTA ABSOLUTA COMPLETA Y DOWNLOAD FIX -->
+                                <a href="https://www.coolmobile.mx/lonas/lonasgeneral.pdf" 
+                                   download="lonasgeneral.pdf"
                                    target="_blank"
                                    class="group flex items-center justify-center w-full bg-[#0E8388] hover:bg-[#0c4b59] text-white text-lg font-bold py-5 px-8 rounded-2xl transition-all shadow-lg">
                                     <svg class="w-6 h-6 mr-3 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
@@ -147,10 +147,10 @@
                     <!-- LONA 2 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center lona-card">
                         <div class="bg-gray-50 rounded-2xl p-4 flex items-center justify-center border-2 border-dashed border-gray-200">
-                            <!-- RUTA RELATIVA SIMPLE -->
-                            <img src="img/lonascien.png" alt="Lona Plan $100" 
+                            <!-- RUTA ABSOLUTA COMPLETA -->
+                            <img src="https://www.coolmobile.mx/lonas/img/lonascien.png" alt="Lona Plan $100" 
                                  class="max-w-full h-auto rounded-lg shadow-md"
-                                 onerror="this.onerror=null;this.parentElement.innerHTML='<p class=\'text-red-500 text-xs text-center\'>Error: No se encuentra <b>img/lonascien.png</b></p>';">
+                                 onerror="this.onerror=null;this.parentElement.innerHTML='<p class=\'text-red-500 text-xs text-center\'>Error: No se encuentra en <b>/lonas/img/lonascien.png</b></p>';">
                         </div>
 
                         <div class="flex flex-col space-y-6">
@@ -164,9 +164,9 @@
                             </div>
 
                             <div class="pt-4">
-                                <!-- RUTA RELATIVA SIMPLE -->
-                                <a href="lonasplan.pdf" 
-                                   download
+                                <!-- RUTA ABSOLUTA COMPLETA -->
+                                <a href="https://www.coolmobile.mx/lonas/lonasplan.pdf" 
+                                   download="lonasplan.pdf"
                                    target="_blank"
                                    class="group flex items-center justify-center w-full bg-[#0E8388] hover:bg-[#0c4b59] text-white text-lg font-bold py-5 px-8 rounded-2xl transition-all shadow-lg">
                                     <svg class="w-6 h-6 mr-3 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
@@ -185,7 +185,7 @@
         <div class="container mx-auto px-6 lg:px-8 text-center text-sm">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                 <div>
-                    <!-- RUTA RELATIVA SIMPLE -->
+                    <!-- LOGO RELATIVO -->
                     <img src="footer.png" alt="Cool Mobile" class="mx-auto mb-4" onerror="this.src='https://placehold.co/150x50?text=Cool+Mobile';">
                 </div>
                 <div>
