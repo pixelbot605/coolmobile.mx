@@ -125,11 +125,16 @@
                 <div class="space-y-24">
                     <!-- SECCIÓN LONA 1: GENERAL -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center lona-card">
-                        <!-- Imagen PNG (Ruta: img/lonas1.png) -->
+                        <!-- 
+                             IMPORTANTE PARA VERCEL:
+                             1. La carpeta debe llamarse 'img' (minúsculas).
+                             2. El archivo debe llamarse 'lonasgeneral.png' (minúsculas).
+                             3. Si el archivo se llama 'LonasGeneral.png', NO funcionará en Vercel.
+                        -->
                         <div class="bg-gray-50 rounded-2xl p-4 flex items-center justify-center border-2 border-dashed border-gray-200">
                             <img src="img/lonasgeneral.png" alt="Lona Publicitaria General" 
                                  class="max-w-full h-auto rounded-lg shadow-md"
-                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/0E8388/FFFFFF?text=Lona+General';">
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/0E8388/FFFFFF?text=Error+Ruta+Imagen';">
                         </div>
 
                         <div class="flex flex-col space-y-6">
@@ -156,9 +161,14 @@
                                 <p class="text-[10px] text-gray-500 mt-3">* Archivo de alta calidad listo para gran formato.</p>
                             </div>
 
-                            <!-- Botón Descarga (Ruta: Lonas1.pdf) -->
+                            <!-- 
+                                 BOTÓN DESCARGA:
+                                 Si se descarga como .txt, Vercel no está encontrando el archivo .pdf 
+                                 y te entrega una página de error 404. Asegúrate que el archivo se llame 
+                                 exactamente 'lonasgeneral.pdf' en la RAÍZ de tu proyecto.
+                            -->
                             <div class="pt-4">
-                                <a href="lonasgeneral.pdf" download class="group flex items-center justify-center w-full bg-[#0E8388] hover:bg-[#0c4b59] text-white text-lg font-bold py-5 px-8 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-[#0E8388]/30">
+                                <a href="lonasgeneral.pdf" download="lonasgeneral.pdf" class="group flex items-center justify-center w-full bg-[#0E8388] hover:bg-[#0c4b59] text-white text-lg font-bold py-5 px-8 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-[#0E8388]/30">
                                     <svg class="w-6 h-6 mr-3 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                                     Descargar Lona General (PDF)
                                 </a>
@@ -168,11 +178,10 @@
 
                     <!-- SECCIÓN LONA 2: PLAN $100 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center lona-card">
-                        <!-- Imagen PNG (Ruta: img/lonas100.png) -->
                         <div class="bg-gray-50 rounded-2xl p-4 flex items-center justify-center border-2 border-dashed border-gray-200">
                             <img src="img/lonascien.png" alt="Lona Plan $100" 
                                  class="max-w-full h-auto rounded-lg shadow-md"
-                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/0E8388/FFFFFF?text=Lona+100';">
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/0E8388/FFFFFF?text=Error+Ruta+Imagen';">
                         </div>
 
                         <div class="flex flex-col space-y-6">
@@ -198,9 +207,8 @@
                                 <p class="text-[10px] text-gray-500 mt-3">* Formato cuadrado optimizado para exhibición.</p>
                             </div>
 
-                            <!-- Botón Descarga (Ruta: lonas100.pdf) -->
                             <div class="pt-4">
-                                <a href="lonasplan.pdf" download class="group flex items-center justify-center w-full bg-[#0E8388] hover:bg-[#0c4b59] text-white text-lg font-bold py-5 px-8 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-[#0E8388]/30">
+                                <a href="lonasplan.pdf" download="lonasplan.pdf" class="group flex items-center justify-center w-full bg-[#0E8388] hover:bg-[#0c4b59] text-white text-lg font-bold py-5 px-8 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-[#0E8388]/30">
                                     <svg class="w-6 h-6 mr-3 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                                     Descargar Lona Plan $100 (PDF)
                                 </a>
@@ -238,14 +246,14 @@
         </div>
     </footer>
 
-    <!-- Chat Bot (Básico) -->
+    <!-- Chat Bot -->
     <div class="fixed bottom-5 right-5 z-50">
         <button @click="isChatOpen = !isChatOpen" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-width="2"></path></svg>
         </button>
     </div>
 
-    <!-- Modal Chat Simplificado -->
+    <!-- Modal Chat -->
     <div x-show="isChatOpen" x-cloak class="fixed bottom-20 right-5 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 overflow-hidden">
         <div class="bg-[#0c4b59] p-4 text-white font-bold flex justify-between">
             <span>Asistente Cool</span>
