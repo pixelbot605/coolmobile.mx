@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vincula tu Línea - Cool Mobile</title>
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.png" type="image/png">
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fuentes y scripts para Header/Footer/Chat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg, #3a90ab, #ffffff, #3a6777, #1c5264, #003242, #000707);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+        }
+
+        [x-cloak] { display: none !important; }
+
+        .footer {
+            background-color: #000707;
+            color: #BCEAD5;
+            padding: 4rem 0;
+            border-top: 2px solid #0E8388;
+        }
+        .footer-link { transition: color 0.2s ease-in-out; }
+        .footer-link:hover { color: #57C5B6; }
+        .footer-title { color: #CBE4DE; font-weight: 600; margin-bottom: 1rem; }
+        
+        .store-button { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .store-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Animación suave para las tarjetas de información */
+        .info-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Estilos para el acordeón */
+        .accordion-content {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .accordion-content.active {
+            max-height: 500px; /* Altura suficiente para el contenido */
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+    
+    <!-- Header -->
+    <header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
+            :class="{ 'bg-[#0c4b59] shadow-lg': isScrolled, 'bg-[#0c4b59]': !isScrolled }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <a href="/index.html" class="flex-shrink-0">
+                    <!-- LOGO -->
+                    <img src="logo.png" alt="Logo Cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                </a>
+                <div class="hidden lg:flex lg:space-x-8">
+                    <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                        <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                            Telefonía
+                            <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                            <a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia-simcard</a>
+                            <a href="/telefonia-eSIM/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia eSIM</a>
+                            <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
+                        </div>
+                    </div>
+                    <a href="/internet-de-casa/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet de Casa</a>
+                    <a href="/internet-movil/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet Móvil</a>
+                    <a href="https://crmxpace.com/coolmobile/factura/cfdi" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Facturación</a>
+                </div>
+
+                <a href="https://crmxpace.com/coolmobile/recargas-stripe" class="hidden lg:block bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105">
+                    Recargas
+                </a>
+
+                <div class="lg:hidden flex items-center">
+                    <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <svg class="h-6 w-6" x-show="!openMenu" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                        <svg class="h-6 w-6" x-show="openMenu" x-cloak fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal: Comunicado Vinculación -->
+    <div class="container mx-auto max-w-5xl p-4 sm:p-8 pt-32 sm:pt-40">
+        <div class="bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-100">
+            
+            <!-- Banner / Header del Comunicado -->
+            <div class="bg-gradient-to-r from-[#0c4b59] to-[#0E8388] p-8 sm:p-12 text-center text-white relative overflow-hidden">
+                <!-- Decorative Circles -->
+                <div class="absolute top-0 left-0 -mt-10 -ml-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
+                <div class="absolute bottom-0 right-0 -mb-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
+
+                <div class="relative z-10">
+                    <div class="inline-block p-3 bg-white/20 rounded-full mb-4">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-black mb-4 tracking-tight">
+                        Vincula tu línea Cool Mobile
+                    </h1>
+                    <p class="text-lg sm:text-xl font-medium text-[#BCEAD5] max-w-2xl mx-auto">
+                        A partir del 7 de enero, es obligatorio registrar tu línea.
+                    </p>
+                </div>
+            </div>
+
+            <main class="p-6 sm:p-12 text-gray-800">
+                
+                <!-- Sección Informativa Principal -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    
+                    <!-- Columna Izquierda: El Por Qué -->
+                    <div class="info-card bg-gray-50 p-8 rounded-2xl border border-gray-100 h-full flex flex-col">
+                        <div class="flex items-center mb-4 text-[#0E8388]">
+                            <svg class="w-8 h-8 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            <h2 class="text-xl font-bold">¿Por qué debo vincular mi línea?</h2>
+                        </div>
+                        <p class="text-gray-600 mb-4 flex-grow">
+                            Por disposición oficial en México, <strong>todas las líneas móviles deben estar registradas</strong> a nombre de una persona física o moral.
+                        </p>
+                        <div class="bg-white p-3 rounded-lg border border-gray-200 text-xs text-gray-500 flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Publicado en el Diario Oficial de la Federación.
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Requisitos -->
+                    <div class="info-card bg-[#BCEAD5]/20 p-8 rounded-2xl border border-[#BCEAD5] h-full flex flex-col">
+                        <div class="flex items-center mb-4 text-[#0c4b59]">
+                            <svg class="w-8 h-8 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg>
+                            <h2 class="text-xl font-bold">¿Qué necesitas?</h2>
+                        </div>
+                        <p class="text-gray-600 mb-4">Para vincular tu línea (SIM o eSIM) a tu nombre, ten a la mano:</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-[#0E8388] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>Nombre completo</strong></span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-[#0E8388] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>CURP o RFC</strong></span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-[#0E8388] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>Identificación oficial vigente:</strong><br><span class="text-sm text-gray-500">• INE o Pasaporte (Mexicanos)<br>• Pasaporte (Extranjeros)</span></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sección de Alerta Importante -->
+                <div class="bg-red-50 border-l-8 border-red-500 p-6 sm:p-8 rounded-r-xl mb-12 shadow-sm">
+                    <div class="flex items-start sm:items-center mb-4">
+                        <div class="p-2 bg-red-100 rounded-full mr-4 flex-shrink-0">
+                            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-red-700">Importante</h3>
+                    </div>
+                    <p class="text-gray-700 font-medium mb-3">Si no registras tu línea dentro del plazo:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center text-red-600 font-semibold bg-white p-3 rounded border border-red-100">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            Se pueden suspender llamadas, SMS y datos
+                        </div>
+                        <div class="flex items-center text-gray-600 bg-white p-3 rounded border border-gray-100">
+                            <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Solo podrás comunicarte para emergencias y soporte
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de Preguntas Frecuentes (Nueva) -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-[#0c4b59] mb-6 flex items-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Preguntas Frecuentes
+                    </h3>
+                    
+                    <div x-data="{ active: null }" class="space-y-3">
+                        
+                        <!-- Pregunta 1 -->
+                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
+                            <button @click="active = (active === 1 ? null : 1)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
+                                <span class="font-bold text-gray-800">¿Qué hago si no reconozco una línea?</span>
+                                <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 1 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="accordion-content bg-white" :class="{ 'active': active === 1 }" x-show="active === 1" x-collapse>
+                                <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
+                                    Podrás contactar a soporte al 55 4077 7727 a realizar la aclaración. Para ello, deberás presentar tu identificación oficial vigente (Credencial para votar, Pasaporte o Documento Nacional de Identificación). Una vez validada tu identidad, se procederá con la aclaración. En caso de ser procedente, se realizará la desvinculación correspondiente.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 2 -->
+                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
+                            <button @click="active = (active === 2 ? null : 2)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
+                                <span class="font-bold text-gray-800">¿La desvinculación implica la terminación de mi servicio?</span>
+                                <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 2 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="accordion-content bg-white" :class="{ 'active': active === 2 }" x-show="active === 2" x-collapse>
+                                <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
+                                    No, la desvinculación solo tiene el efecto de disociar la identificación oficial con fotografía y CURP de la línea; por lo que tu servicios continuará vigente hasta que ocurra alguna causa de terminación. En este caso, el servicio será suspendido hasta que la línea sea nuevamente registrada con una identificación oficial vigente con fotografía y CURP.<br><br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
+                            <button @click="active = (active === 3 ? null : 3)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
+                                <span class="font-bold text-gray-800">¿Cuánto tiempo tengo para registrar mi línea?</span>
+                                <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 3 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="accordion-content bg-white" :class="{ 'active': active === 3 }" x-show="active === 3" x-collapse>
+                                <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
+                                    Tienes hasta el <strong>30 de junio de 2026</strong>. A partir del <strong>01 de julio de 2026</strong>, todas las líneas que no estén registradas serán suspendidas hasta que se realice el registro.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 4 -->
+                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
+                            <button @click="active = (active === 4 ? null : 4)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
+                                <span class="font-bold text-gray-800">¿Qué pasa si no registro mi identificación oficial con CURP con mi línea?</span>
+                                <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 4 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="accordion-content bg-white" :class="{ 'active': active === 4 }" x-show="active === 4" x-collapse>
+                                <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
+                                    No podrás utilizar tu servicio hasta que realices el registro. Durante la suspensión del servicio, únicamente podrás realizar llamadas a los números de emergencia.<br><br>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Pregunta 5 -->
+                         <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
+                            <button @click="active = (active === 5 ? null : 5)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
+                                <span class="font-bold text-gray-800">¿Aplica para todos los usuarios móviles?</span>
+                                <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 5 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="accordion-content bg-white" :class="{ 'active': active === 5 }" x-show="active === 5" x-collapse>
+                                <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
+                                    Sí, aplica para todos los usuarios de Prepago que le permita hacer uso de servicios de voz (llamadas), envío de mensajes de texto SMS y/o realizar llamadas a través de Internet.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Call to Action / Resumen -->
+                <div class="text-center bg-[#f0f9ff] rounded-2xl p-8 sm:p-12 border border-[#BCEAD5]">
+                    <h3 class="text-2xl font-bold text-[#0c4b59] mb-6">El trámite es 100% en línea</h3>
+                    
+                    <div class="flex flex-wrap justify-center gap-4 sm:gap-8 mb-8 text-gray-600 font-medium">
+                        <span class="flex items-center px-4 py-2 bg-white rounded-full shadow-sm">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Gratuito
+                        </span>
+                        <span class="flex items-center px-4 py-2 bg-white rounded-full shadow-sm">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            Rápido
+                        </span>
+                        <span class="flex items-center px-4 py-2 bg-white rounded-full shadow-sm">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            Seguro
+                        </span>
+                    </div>
+
+                    <div class="inline-block relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-[#0E8388] to-[#57C5B6] rounded-full blur opacity-50 group-hover:opacity-100 transition duration-200"></div>
+                        <a href="#" class="relative block bg-white text-[#0c4b59] font-black text-xl px-12 py-5 rounded-full border-2 border-[#0E8388] hover:bg-[#0E8388] hover:text-white transition-all duration-300">
+                            👉 Próximamente en coolmobile.mx
+                        </a>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer (pie de página) CONSERVADO -->
+    <footer class="footer">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Columna 1: Contacto -->
+                <div>
+                    <!-- LOGO FOOTER -->
+                    <img src="footer.png" alt="Cool Mobile Logo" class="mb-4">
+                    <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
+                    <p class="mb-2">Atención las 24 horas del día en los 365 días del año.</p>
+                    <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
+                    <p>C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
+                </div>
+                <!-- Columna 2: Mapa del Sitio -->
+                <div>
+                    <h4 class="footer-title">Mapa del Sitio</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/index.html" class="footer-link">Inicio</a></li>
+                        <li><a href="https://crmxpace.com/coolmobile/recargas-stripe" class="footer-link">Recargas</a></li>
+                        <li><a href="/portabilidad/" class="footer-link">Portabilidad</a></li>
+                        <li><a href="/cobertura/" class="footer-link">Cobertura</a></li>
+                        <li><a href="compatibilidad/" class="footer-link">Revisar Compatibilidad</a></li>
+                        <li><a href="/contacto/" class="footer-link">Contacto</a></li>
+                    </ul>
+                </div>
+                <!-- Columna 3: Acerca de y Legal -->
+                <div>
+                    <h4 class="footer-title">Acerca</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/nosotros/" class="footer-link">Nosotros</a></li>
+                        <li><a href="/faqs/" class="footer-link">FAQs</a></li>
+                        <li><a href="/avisos-de-privacidad/" class="footer-link">Avisos de Privacidad</a></li>
+                        <li><a href="/terminos-de-condiciones/" class="footer-link">Términos y Condiciones</a></li>
+                            <div x-data="{ open: false }">
+                                <button @click="open = !open" class="flex items-center footer-link w-full">
+                                    <span>Legal</span>
+                                    <svg class="w-4 h-4 ml-1 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2">
+                                        <a href="contrato-de-adhesion-prepago/" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
+                                        <a href="/codigo-de-politicas-de-gestion-de-trafico/" class="block footer-link text-sm">Código de Políticas de Gestión de Tráfico</a>
+                                        <a href="/carta-de-derecho/" class="block footer-link text-sm">Carta de Derechos</a>
+                                        <a href="/politica-de-uso-justo/" class="block footer-link text-sm">Política de Uso Justo</a>
+                                        <a href="/codigo-de-practicas-comerciales/" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
+                                        <a href="/registro-de-tarifas/" class="block footer-link text-sm">Registro de Tarifas</a>
+                                        <a href="/colaboracion-en-materia-de-seguridad/" class="block footer-link text-sm">Colaboración en materia de seguridad y justicia</a>
+                                </div>
+                            </div>
+                    </ul>
+                </div>
+                <!-- Columna 4: Descarga App -->
+                <div>
+                    <h4 class="footer-title">Descarga Nuestras Apps</h4>
+                    <div class="space-y-6">
+                            <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
+                                <img src="img/appstore.png" class="rounded-lg" alt="Download on the App Store" onerror="this.onerror=null;this.src='https://placehold.co/120x40/black/white?text=AppStore';">
+                            </a>
+                            <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button">
+                                <img src="img/googleplay.png" class="rounded-lg" alt="Get it on Google Play" onerror="this.onerror=null;this.src='https://placehold.co/120x40/black/white?text=GooglePlay';">
+                            </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Chat Simplificado -->
+    <div class="fixed bottom-5 right-5 z-50">
+        <button @click="isChatOpen = !isChatOpen" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-width="2"></path></svg>
+        </button>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                bg.style.backgroundPosition = `50% ${Math.min(scrollPercentage, 100)}%`;
+            }
+        });
+    </script>
+</body>
+</html>
