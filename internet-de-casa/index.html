@@ -366,8 +366,16 @@
                                 <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#EA580C]">Promociones</a> <!-- CAMBIADO: hover naranja -->
                             </div>
                         </div>
-                        <a href="/internet-de-casa/" class="text-[#E5E7EB] hover:text-[#F97316] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet de Casa</a> <!-- CAMBIADO: Colores de texto -->
-                        <a href="/internet-movil/" class="text-[#E5E7EB] hover:text-[#F97316] px-3 py-2 rounded-md font-medium transition-colors duration-200">Internet Móvil</a> <!-- CAMBIADO: Colores de texto -->
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#E5E7EB] hover:text-[#F97316] px-3 py-2 rounded-md font-medium transition-colors duration-200"> <!-- CAMBIADO: Colores de texto -->
+                                Internet
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#1F2937] rounded-md shadow-lg py-1 z-40"> <!-- CAMBIADO: de #2E4F4F a gray-800 -->
+                                <a href="/internet-de-casa/" class="block px-4 py-2 text-sm hover:bg-[#EA580C]">En casa</a> <!-- CAMBIADO: hover naranja -->
+                                <a href="/internet-movil/" class="block px-4 py-2 text-sm hover:bg-[#EA580C]">Mifi</a> <!-- CAMBIADO: hover naranja -->
+                            </div>
+                        </div>
                         <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
                             <button class="flex items-center text-[#E5E7EB] hover:text-[#F97316] px-3 py-2 rounded-md font-medium transition-colors duration-200"> <!-- CAMBIADO: Colores de texto -->
                                 Consulta
