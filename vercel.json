@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/registro/:path*",
+      "destination": "https://coolmobile-mx-zh7a.vercel.app/:path*"
+    }
+  ]
+}
