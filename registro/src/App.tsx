@@ -598,7 +598,7 @@ export default function App() {
         {/* HEADER CON DEGRADADO PERSONALIZADO */}
         <div className="bg-gradient-to-r from-[#011e29] via-[#004762] to-[#003242] p-6 text-white flex justify-between items-center">
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2"><ShieldCheck className="text-white/70" /> CoolKYC</h1>
+            <h1 className="text-xl font-bold flex items-center gap-2"><ShieldCheck className="text-white/70" /> Valida tú linea</h1>
             <p className="text-white/50 text-xs mt-1">Validación de Identidad Digital</p>
           </div>
           <div className="text-right text-sm text-white/70">
@@ -660,7 +660,7 @@ export default function App() {
         </div>
 
         <div className="bg-gray-50 p-4 text-center border-t border-gray-100">
-          <p className="text-xs text-gray-400 flex items-center justify-center gap-1"><Activity size={12} /> Powered by Cool Mobile Security</p>
+          <p className="text-xs text-gray-400 flex items-center justify-center gap-1"><Activity size={12} /> Powered by AWAN TECHNOLGY SERVICES Security</p>
         </div>
       </div>
     </div>

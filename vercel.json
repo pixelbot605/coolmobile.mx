@@ -1,5 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/registro",
+      "destination": "/registro/",
+      "permanent": true
+    }
+  ],
   "rewrites": [
+    {
+      "source": "/registro/",
+      "destination": "https://coolmobile-mx-zh7a.vercel.app/"
+    },
     {
       "source": "/registro/:path*",
       "destination": "https://coolmobile-mx-zh7a.vercel.app/:path*"
