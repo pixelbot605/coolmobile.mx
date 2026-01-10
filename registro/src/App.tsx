@@ -15,7 +15,8 @@ import {
   XCircle,
   FileText,
   CreditCard,
-  Globe
+  Globe,
+  SwitchCamera
 } from 'lucide-react';
 
 /**
@@ -29,23 +30,21 @@ import {
  * 1. Validación Teléfono -> GET/POST a endpoint de validación.
  * 2. Datos Personales -> Validación local, se envían al final o paso a paso según arquitectura.
  * 3. Imágenes -> Se generan en Base64 (image/jpeg). 
- * - INE: Requiere front y back.
- * - Pasaporte: Requiere solo front.
- * 4. Liveness -> Simulado en cliente. En producción, enviar video/frames al servidor.
+ * - INE/Pasaporte: Usa cámara trasera (environment).
+ * - Liveness: Usa cámara frontal (user).
  * =============================================================================
  */
 
 // 🚧 BACKEND INTEGRATION: Configuración de Endpoints
-// Exportamos la constante para que TypeScript no marque error por "no usada"
 export const API_ENDPOINTS = {
   VALIDATE_PHONE: '/api/v1/user/validate-phone', 
   VALIDATE_USER_DATA: '/api/v1/user/validate-data',
-  UPLOAD_DOCUMENT: '/api/v1/documents/upload', // Se espera recibir Multipart o Base64
+  UPLOAD_DOCUMENT: '/api/v1/documents/upload', 
   LIVENESS_CHECK: '/api/v1/biometrics/liveness',
   FINAL_VERIFICATION: '/api/v1/verification/status'
 };
 
-// --- ESTILOS Y COMPONENTES UI (NO MODIFICAR LOGICA VISUAL) ---
+// --- ESTILOS Y COMPONENTES UI ---
 
 const Button = ({ children, onClick, variant = 'primary', disabled = false, className = '', icon: Icon }: any) => {
   const baseStyle = "flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto";
@@ -93,18 +92,14 @@ const PhoneValidationStep = ({ onComplete }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorState, setErrorState] = useState<'none' | 'invalid_carrier' | 'already_registered'>('none');
 
-  // 🚧 BACKEND INTEGRATION: Función de validación de teléfono
   const validatePhoneApi = async (phoneNumber: string) => {
     setIsLoading(true);
     setErrorState('none');
     
-    // AQUÍ: Reemplazar el setTimeout con su llamada fetch/axios
-    // const response = await fetch(API_ENDPOINTS.VALIDATE_PHONE, { body: JSON.stringify({ phone: phoneNumber }) ... });
-    
+    // 🚧 BACKEND: Reemplazar con fetch real
     return new Promise((resolve) => {
       setTimeout(() => {
         setIsLoading(false);
-        // Simulación de respuestas del servidor:
         if (phoneNumber === '0000000000') resolve({ status: 'rejected', reason: 'invalid_carrier' });
         else if (phoneNumber === '1111111111') resolve({ status: 'rejected', reason: 'already_registered' });
         else resolve({ status: 'approved' });
@@ -190,7 +185,6 @@ const DataForm = ({ onComplete, initialData, validatedPhone }: any) => {
     if (!formData.name) newErrors.name = "El nombre es requerido";
     if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email inválido";
     
-    // Validación de formato de documento
     if (formData.documentType === 'INE') {
         if (!formData.documentNumber || formData.documentNumber.length < 10) newErrors.documentNumber = "CURP inválida (mínimo 10 caracteres)";
     } else {
@@ -207,8 +201,6 @@ const DataForm = ({ onComplete, initialData, validatedPhone }: any) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      // 🚧 BACKEND: Aquí tenemos los datos limpios del usuario listos para enviar o guardar en estado global
-      // Datos: { name, email, phone, documentType, documentNumber }
       onComplete(formData);
     }
   };
@@ -223,7 +215,6 @@ const DataForm = ({ onComplete, initialData, validatedPhone }: any) => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
-        {/* Selector de Documento */}
         <div className="grid grid-cols-2 gap-3 p-1 bg-gray-100 rounded-lg mb-4">
             <button
                 type="button"
@@ -289,7 +280,6 @@ const DataForm = ({ onComplete, initialData, validatedPhone }: any) => {
           {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
         </div>
 
-        {/* Checks TyC */}
         <div className="bg-gray-50 p-4 rounded-lg space-y-4 border border-gray-100">
             <div className="flex items-start">
                 <input id="terms" type="checkbox" checked={termsAccepted} onChange={(e) => setTermsAccepted(e.target.checked)} className="mt-1 w-4 h-4 text-[#004762] rounded" />
@@ -317,24 +307,51 @@ const DataForm = ({ onComplete, initialData, validatedPhone }: any) => {
   );
 };
 
-// 3. Componente de Cámara (Reutilizable)
-const CameraCapture = ({ onCapture, label, instruction, overlayType = 'rect' }: any) => {
+// 3. Componente de Cámara (Ahora soporta cambio de cámara)
+const CameraCapture = ({ onCapture, label, instruction, overlayType = 'rect', facingMode = 'user' }: any) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [error, setError] = useState<string>('');
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [currentFacingMode, setCurrentFacingMode] = useState(facingMode);
 
-  const startCamera = async () => {
+  // Efecto para iniciar la cámara correcta según el prop o el cambio manual
+  useEffect(() => {
+    setCurrentFacingMode(facingMode);
+  }, [facingMode]);
+
+  const startCamera = async (mode: string) => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+    }
+    
     try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } } 
-      });
+      // Configuración crítica para móviles: pedir exactamente 'environment' o 'user'
+      const constraints = {
+        video: { 
+          facingMode: { exact: mode }, // Intentar forzar el modo exacto
+          width: { ideal: 1280 }, 
+          height: { ideal: 720 } 
+        } 
+      };
+
+      // Fallback: si 'exact' falla (ej. en desktop), usar el modo simple
+      let mediaStream;
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      } catch (e) {
+        mediaStream = await navigator.mediaDevices.getUserMedia({ 
+            video: { facingMode: mode, width: { ideal: 1280 }, height: { ideal: 720 } } 
+        });
+      }
+
       setStream(mediaStream);
       if (videoRef.current) videoRef.current.srcObject = mediaStream;
       setError('');
     } catch (err) {
-      setError('No se pudo acceder a la cámara. Por favor verifica los permisos.');
+      console.error(err);
+      setError('No se pudo acceder a la cámara. Verifica los permisos o intenta cambiar de cámara.');
     }
   };
 
@@ -345,7 +362,11 @@ const CameraCapture = ({ onCapture, label, instruction, overlayType = 'rect' }: 
     }
   };
 
-  useEffect(() => { startCamera(); return () => stopCamera(); }, []);
+  // Iniciar cámara al montar o cambiar de modo
+  useEffect(() => { 
+    startCamera(currentFacingMode); 
+    return () => stopCamera(); 
+  }, [currentFacingMode]);
 
   useEffect(() => {
     if (!capturedImage && videoRef.current && stream) {
@@ -353,15 +374,25 @@ const CameraCapture = ({ onCapture, label, instruction, overlayType = 'rect' }: 
     }
   }, [capturedImage, stream]);
 
+  const toggleCamera = () => {
+    setCurrentFacingMode((prev: string) => prev === 'user' ? 'environment' : 'user');
+  };
+
   const capture = () => {
     if (videoRef.current && canvasRef.current) {
       const context = canvasRef.current.getContext('2d');
       if (context) {
         canvasRef.current.width = videoRef.current.videoWidth;
         canvasRef.current.height = videoRef.current.videoHeight;
+        
+        // Si es cámara frontal (user), invertir horizontalmente para que sea como un espejo
+        // Si es cámara trasera (environment), NO invertir para que el texto se lea bien
+        if (currentFacingMode === 'user') {
+            context.translate(canvasRef.current.width, 0);
+            context.scale(-1, 1);
+        }
+
         context.drawImage(videoRef.current, 0, 0);
-        // 🚧 BACKEND: La imagen se genera aquí como DataURL (Base64)
-        // Formato: "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
         setCapturedImage(canvasRef.current.toDataURL('image/jpeg'));
       }
     }
@@ -369,13 +400,12 @@ const CameraCapture = ({ onCapture, label, instruction, overlayType = 'rect' }: 
 
   const retake = () => {
     setCapturedImage(null);
-    if (!stream) startCamera();
+    if (!stream) startCamera(currentFacingMode);
   };
 
   const confirm = () => {
     if (capturedImage) {
       stopCamera();
-      // Se pasa la imagen Base64 al componente padre
       onCapture(capturedImage);
     }
   };
@@ -388,10 +418,26 @@ const CameraCapture = ({ onCapture, label, instruction, overlayType = 'rect' }: 
       {error ? (
         <div className="bg-red-50 text-red-600 p-4 rounded-lg flex items-center mb-4"><AlertCircle className="mr-2" /> {error}</div>
       ) : (
-        <div className="relative w-full max-w-md aspect-[3/4] sm:aspect-video bg-black rounded-xl overflow-hidden shadow-2xl mb-6">
+        <div className="relative w-full max-w-md aspect-[3/4] sm:aspect-video bg-black rounded-xl overflow-hidden shadow-2xl mb-6 group">
           {!capturedImage ? (
             <>
-              <video ref={videoRef} autoPlay playsInline className="w-full h-full object-cover transform scale-x-[-1]" />
+              {/* Solo aplicamos efecto espejo (CSS) si es modo 'user' */}
+              <video 
+                ref={videoRef} 
+                autoPlay 
+                playsInline 
+                className={`w-full h-full object-cover ${currentFacingMode === 'user' ? 'transform scale-x-[-1]' : ''}`} 
+              />
+              
+              {/* Botón flotante para cambiar cámara manualmente si el usuario lo necesita */}
+              <button 
+                onClick={toggleCamera}
+                className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 z-30"
+                title="Cambiar cámara"
+              >
+                <SwitchCamera size={20} />
+              </button>
+
               <div className="absolute inset-0 pointer-events-none border-[20px] border-black/50 z-10"></div>
               {overlayType === 'rect' && (
                 <div className="absolute inset-0 flex items-center justify-center z-20">
@@ -425,11 +471,11 @@ const CameraCapture = ({ onCapture, label, instruction, overlayType = 'rect' }: 
   );
 };
 
-// 4. Prueba de Vida
+// 4. Prueba de Vida (Mantiene cámara 'user')
 const LivenessTest = ({ onComplete }: any) => {
   const [currentChallenge, setCurrentChallenge] = useState(0);
   const [isDetecting, setIsDetecting] = useState(false);
-  const [feedback, setFeedback] = useState("Centra tu rostro"); // Se mantiene para uso futuro o logs
+  const [feedback, setFeedback] = useState("Centra tu rostro");
   const videoRef = useRef<HTMLVideoElement>(null);
   
   const challenges = [
@@ -451,9 +497,6 @@ const LivenessTest = ({ onComplete }: any) => {
     return () => { if (videoRef.current && videoRef.current.srcObject) (videoRef.current.srcObject as MediaStream).getTracks().forEach(t => t.stop()); };
   }, []);
 
-  // 🚧 BACKEND: Esta función simula la detección de ML.
-  // En producción, se debe reemplazar con el envío de frames a un endpoint de Liveness
-  // o utilizar una librería tipo FaceApi.js localmente antes de confirmar al servidor.
   const runSimulation = () => {
     let step = 0;
     const nextStep = () => {
@@ -491,7 +534,6 @@ const LivenessTest = ({ onComplete }: any) => {
             <Icon className={`w-8 h-8 ${isDetecting ? 'animate-pulse text-[#004762]' : 'text-gray-400'}`} />
             <span>{current.text}</span>
         </div>
-        {/* Aquí usamos la variable feedback para que no dé error TS */}
         <p className="text-sm text-gray-500">{isDetecting ? "Detectando..." : feedback}</p>
       </div>
       <div className="w-full max-w-xs bg-gray-200 rounded-full h-2 mt-4">
@@ -523,7 +565,6 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [resultStatus, setResultStatus] = useState<'success' | 'error' | null>(null);
 
-  // Estado que acumula toda la información
   const [appData, setAppData] = useState({
     phone: '',
     personalData: { 
@@ -539,17 +580,12 @@ export default function App() {
 
   const TOTAL_STEPS = appData.personalData.documentType === 'PASSPORT' ? 4 : 5;
 
-  // 🚧 BACKEND INTEGRATION: Envío Final
   const submitToBackend = async (finalData: any) => {
     setIsLoading(true);
-    // Usamos finalData en un log para que no marque error TS y el backend sepa que llega aquí
     console.log("Payload para Backend:", finalData);
-    
-    // AQUÍ: Realizar la petición POST final con todo el objeto 'finalData'
     return new Promise((resolve) => setTimeout(() => { setIsLoading(false); resolve('ok'); }, 3000));
   };
 
-  // Se añade useEffect para forzar el uso de API_ENDPOINTS y satisfacer el linter de Vercel
   useEffect(() => {
     console.log("Sistema iniciado. Configuración de Endpoints:", API_ENDPOINTS);
   }, []);
@@ -595,10 +631,9 @@ export default function App() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans text-gray-800">
       <div className="bg-white w-full max-w-2xl rounded-2xl shadow-xl overflow-hidden min-h-[600px] flex flex-col">
         
-        {/* HEADER CON DEGRADADO PERSONALIZADO */}
         <div className="bg-gradient-to-r from-[#011e29] via-[#004762] to-[#003242] p-6 text-white flex justify-between items-center">
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2"><ShieldCheck className="text-white/70" /> Valida tú linea</h1>
+            <h1 className="text-xl font-bold flex items-center gap-2"><ShieldCheck className="text-white/70" /> CoolKYC</h1>
             <p className="text-white/50 text-xs mt-1">Validación de Identidad Digital</p>
           </div>
           <div className="text-right text-sm text-white/70">
@@ -626,21 +661,25 @@ export default function App() {
                 />
               )}
 
+              {/* Paso 3: Captura de Documento Frente (Usa cámara trasera 'environment') */}
               {step === 3 && (
                 <CameraCapture 
                   label={appData.personalData.documentType === 'INE' ? "INE / IFE - Frente" : "Pasaporte - Página de Datos"} 
                   instruction={appData.personalData.documentType === 'INE' ? "Coloca el frente de tu INE dentro del recuadro." : "Coloca la página de datos de tu pasaporte."}
                   overlayType="rect"
+                  facingMode="environment" // <--- FORZAMOS CÁMARA TRASERA
                   onCapture={handleDocCapture1}
                 />
               )}
 
+              {/* Paso 4: Captura de Documento Reverso o Liveness */}
               {step === 4 && (
                 appData.personalData.documentType === 'INE' ? (
                     <CameraCapture 
                       label="INE / IFE - Reverso" 
                       instruction="Ahora captura el reverso de tu identificación."
                       overlayType="rect"
+                      facingMode="environment" // <--- FORZAMOS CÁMARA TRASERA
                       onCapture={handleDocCapture2}
                     />
                 ) : (
@@ -660,7 +699,7 @@ export default function App() {
         </div>
 
         <div className="bg-gray-50 p-4 text-center border-t border-gray-100">
-          <p className="text-xs text-gray-400 flex items-center justify-center gap-1"><Activity size={12} /> Powered by AWAN TECHNOLGY SERVICES Security</p>
+          <p className="text-xs text-gray-400 flex items-center justify-center gap-1"><Activity size={12} /> Powered by Cool Mobile Security</p>
         </div>
       </div>
     </div>
