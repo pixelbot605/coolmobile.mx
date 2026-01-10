@@ -25,7 +25,7 @@ import {
  * =============================================================================
  * Este frontend simula los tiempos de respuesta y validaciones.
  * Para integrar con la API real, busquen los comentarios marcados como:
- * "🚧 BACKEND INTEGRATION"
+ * "BACKEND INTEGRATION"
  * * Flujo de Datos:
  * 1. Validación Teléfono -> GET/POST a endpoint de validación.
  * 2. Datos Personales -> Validación local, se envían al final o paso a paso según arquitectura.
@@ -35,7 +35,7 @@ import {
  * =============================================================================
  */
 
-// 🚧 BACKEND INTEGRATION: Configuración de Endpoints
+// BACKEND INTEGRATION: Configuración de Endpoints
 export const API_ENDPOINTS = {
   VALIDATE_PHONE: '/api/v1/user/validate-phone', 
   VALIDATE_USER_DATA: '/api/v1/user/validate-data',
@@ -96,7 +96,7 @@ const PhoneValidationStep = ({ onComplete }: any) => {
     setIsLoading(true);
     setErrorState('none');
     
-    // 🚧 BACKEND: Reemplazar con fetch real
+    // BACKEND: Reemplazar con fetch real
     return new Promise((resolve) => {
       setTimeout(() => {
         setIsLoading(false);
@@ -633,7 +633,7 @@ export default function App() {
         
         <div className="bg-gradient-to-r from-[#011e29] via-[#004762] to-[#003242] p-6 text-white flex justify-between items-center">
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2"><ShieldCheck className="text-white/70" /> CoolKYC</h1>
+            <h1 className="text-xl font-bold flex items-center gap-2"><ShieldCheck className="text-white/70" /> Vincula tú linea</h1>
             <p className="text-white/50 text-xs mt-1">Validación de Identidad Digital</p>
           </div>
           <div className="text-right text-sm text-white/70">
@@ -699,7 +699,7 @@ export default function App() {
         </div>
 
         <div className="bg-gray-50 p-4 text-center border-t border-gray-100">
-          <p className="text-xs text-gray-400 flex items-center justify-center gap-1"><Activity size={12} /> Powered by Cool Mobile Security</p>
+          <p className="text-xs text-gray-400 flex items-center justify-center gap-1"><Activity size={12} /> Powered by AWAN TECHNOLGY SERVICES Security</p>
         </div>
       </div>
     </div>
