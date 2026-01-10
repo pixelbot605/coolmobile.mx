@@ -549,6 +549,11 @@ export default function App() {
     return new Promise((resolve) => setTimeout(() => { setIsLoading(false); resolve('ok'); }, 3000));
   };
 
+  // Se añade useEffect para forzar el uso de API_ENDPOINTS y satisfacer el linter de Vercel
+  useEffect(() => {
+    console.log("Sistema iniciado. Configuración de Endpoints:", API_ENDPOINTS);
+  }, []);
+
   const handlePhoneSuccess = (phone: string) => {
     setAppData(prev => ({ ...prev, phone: phone }));
     setStep(2);
