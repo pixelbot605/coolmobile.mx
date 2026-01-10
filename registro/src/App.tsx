@@ -12,17 +12,19 @@ import {
   ArrowUp,
   Smile,
   Smartphone,
-  PhoneCall,
   XCircle,
   FileText,
-  Download,
   CreditCard,
   Globe
 } from 'lucide-react';
+
 /**
- * BACKEND
- * Para integrar con la API real, busca los comentarios marcados como:
- * "BACKEND INTEGRATION"
+ * =============================================================================
+ * GUÍA PARA DESARROLLADORES BACKEND
+ * =============================================================================
+ * Este frontend simula los tiempos de respuesta y validaciones.
+ * Para integrar con la API real, busquen los comentarios marcados como:
+ * "🚧 BACKEND INTEGRATION"
  * * Flujo de Datos:
  * 1. Validación Teléfono -> GET/POST a endpoint de validación.
  * 2. Datos Personales -> Validación local, se envían al final o paso a paso según arquitectura.
@@ -33,9 +35,9 @@ import {
  * =============================================================================
  */
 
-// BACKEND INTEGRATION: Configuración de Endpoints
-// Reemplazar estas rutas con las URLs reales de su API (Staging/Prod)
-const API_ENDPOINTS = {
+// 🚧 BACKEND INTEGRATION: Configuración de Endpoints
+// Exportamos la constante para que TypeScript no marque error por "no usada"
+export const API_ENDPOINTS = {
   VALIDATE_PHONE: '/api/v1/user/validate-phone', 
   VALIDATE_USER_DATA: '/api/v1/user/validate-data',
   UPLOAD_DOCUMENT: '/api/v1/documents/upload', // Se espera recibir Multipart o Base64
@@ -43,7 +45,7 @@ const API_ENDPOINTS = {
   FINAL_VERIFICATION: '/api/v1/verification/status'
 };
 
-// --- ESTILOS Y COMPONENTES UI LO VISUAL ---
+// --- ESTILOS Y COMPONENTES UI (NO MODIFICAR LOGICA VISUAL) ---
 
 const Button = ({ children, onClick, variant = 'primary', disabled = false, className = '', icon: Icon }: any) => {
   const baseStyle = "flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto";
@@ -91,15 +93,14 @@ const PhoneValidationStep = ({ onComplete }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorState, setErrorState] = useState<'none' | 'invalid_carrier' | 'already_registered'>('none');
 
-  // BACKEND INTEGRATION: Función de validación de teléfono  
+  // 🚧 BACKEND INTEGRATION: Función de validación de teléfono
   const validatePhoneApi = async (phoneNumber: string) => {
     setIsLoading(true);
     setErrorState('none');
-
+    
     // AQUÍ: Reemplazar el setTimeout con su llamada fetch/axios
     // const response = await fetch(API_ENDPOINTS.VALIDATE_PHONE, { body: JSON.stringify({ phone: phoneNumber }) ... });
-
-
+    
     return new Promise((resolve) => {
       setTimeout(() => {
         setIsLoading(false);
@@ -206,7 +207,7 @@ const DataForm = ({ onComplete, initialData, validatedPhone }: any) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
-            // BACKEND: Aquí tenemos los datos limpios del usuario listos para enviar o guardar en estado global
+      // 🚧 BACKEND: Aquí tenemos los datos limpios del usuario listos para enviar o guardar en estado global
       // Datos: { name, email, phone, documentType, documentNumber }
       onComplete(formData);
     }
@@ -250,7 +251,6 @@ const DataForm = ({ onComplete, initialData, validatedPhone }: any) => {
             </button>
         </div>
 
-        {/* Campo Dinámico: CURP o Pasaporte */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             {formData.documentType === 'INE' ? 'CURP' : 'Número de Pasaporte'}
@@ -360,7 +360,7 @@ const CameraCapture = ({ onCapture, label, instruction, overlayType = 'rect' }: 
         canvasRef.current.width = videoRef.current.videoWidth;
         canvasRef.current.height = videoRef.current.videoHeight;
         context.drawImage(videoRef.current, 0, 0);
-        // BACKEND: La imagen se genera aquí como DataURL (Base64)
+        // 🚧 BACKEND: La imagen se genera aquí como DataURL (Base64)
         // Formato: "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
         setCapturedImage(canvasRef.current.toDataURL('image/jpeg'));
       }
@@ -375,7 +375,7 @@ const CameraCapture = ({ onCapture, label, instruction, overlayType = 'rect' }: 
   const confirm = () => {
     if (capturedImage) {
       stopCamera();
-      // Se pasa la imagen Base64 al componente PADRE
+      // Se pasa la imagen Base64 al componente padre
       onCapture(capturedImage);
     }
   };
@@ -429,7 +429,7 @@ const CameraCapture = ({ onCapture, label, instruction, overlayType = 'rect' }: 
 const LivenessTest = ({ onComplete }: any) => {
   const [currentChallenge, setCurrentChallenge] = useState(0);
   const [isDetecting, setIsDetecting] = useState(false);
-  const [feedback, setFeedback] = useState("Centra tu rostro");
+  const [feedback, setFeedback] = useState("Centra tu rostro"); // Se mantiene para uso futuro o logs
   const videoRef = useRef<HTMLVideoElement>(null);
   
   const challenges = [
@@ -451,7 +451,7 @@ const LivenessTest = ({ onComplete }: any) => {
     return () => { if (videoRef.current && videoRef.current.srcObject) (videoRef.current.srcObject as MediaStream).getTracks().forEach(t => t.stop()); };
   }, []);
 
-  // BACKEND: Esta función simula la detección de ML.
+  // 🚧 BACKEND: Esta función simula la detección de ML.
   // En producción, se debe reemplazar con el envío de frames a un endpoint de Liveness
   // o utilizar una librería tipo FaceApi.js localmente antes de confirmar al servidor.
   const runSimulation = () => {
@@ -491,7 +491,8 @@ const LivenessTest = ({ onComplete }: any) => {
             <Icon className={`w-8 h-8 ${isDetecting ? 'animate-pulse text-[#004762]' : 'text-gray-400'}`} />
             <span>{current.text}</span>
         </div>
-        <p className="text-sm text-gray-500">{isDetecting ? "Detectando..." : "¡Correcto!"}</p>
+        {/* Aquí usamos la variable feedback para que no dé error TS */}
+        <p className="text-sm text-gray-500">{isDetecting ? "Detectando..." : feedback}</p>
       </div>
       <div className="w-full max-w-xs bg-gray-200 rounded-full h-2 mt-4">
         <div className="bg-[#004762] h-2 rounded-full transition-all duration-500" style={{ width: `${((currentChallenge) / challenges.length) * 100}%` }}></div>
@@ -522,6 +523,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [resultStatus, setResultStatus] = useState<'success' | 'error' | null>(null);
 
+  // Estado que acumula toda la información
   const [appData, setAppData] = useState({
     phone: '',
     personalData: { 
@@ -537,20 +539,13 @@ export default function App() {
 
   const TOTAL_STEPS = appData.personalData.documentType === 'PASSPORT' ? 4 : 5;
 
-  // BACKEND INTEGRATION: Envío Final
+  // 🚧 BACKEND INTEGRATION: Envío Final
   const submitToBackend = async (finalData: any) => {
     setIsLoading(true);
-    // console.log("Payload para Backend:", finalData);
+    // Usamos finalData en un log para que no marque error TS y el backend sepa que llega aquí
+    console.log("Payload para Backend:", finalData);
     
     // AQUÍ: Realizar la petición POST final con todo el objeto 'finalData'
-    // El objeto contiene:
-    // {
-    //   phone: "5512345678",
-    //   personalData: { ... },
-    //   docImage1: "data:image/jpeg;base64...",
-    //   docImage2: "data:image/jpeg;base64..." (o null),
-    //   livenessPassed: true
-    // }
     return new Promise((resolve) => setTimeout(() => { setIsLoading(false); resolve('ok'); }, 3000));
   };
 
@@ -598,7 +593,7 @@ export default function App() {
         {/* HEADER CON DEGRADADO PERSONALIZADO */}
         <div className="bg-gradient-to-r from-[#011e29] via-[#004762] to-[#003242] p-6 text-white flex justify-between items-center">
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2"><ShieldCheck className="text-white/70" /> Vincula tú linea</h1>
+            <h1 className="text-xl font-bold flex items-center gap-2"><ShieldCheck className="text-white/70" /> CoolKYC</h1>
             <p className="text-white/50 text-xs mt-1">Validación de Identidad Digital</p>
           </div>
           <div className="text-right text-sm text-white/70">
@@ -660,7 +655,7 @@ export default function App() {
         </div>
 
         <div className="bg-gray-50 p-4 text-center border-t border-gray-100">
-          <p className="text-xs text-gray-400 flex items-center justify-center gap-1"><Activity size={12} /> Powered by AWAN TECHNOLGY SERVICES Security</p>
+          <p className="text-xs text-gray-400 flex items-center justify-center gap-1"><Activity size={12} /> Powered by Cool Mobile Security</p>
         </div>
       </div>
     </div>

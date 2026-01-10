@@ -4,5 +4,6 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/registro/', // Importante para subdirectorios
+  // CAMBIO: Usamos './' para que sea relativo y funcione en cualquier ruta
+  base: './', 
 })
