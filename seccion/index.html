@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sección de Navegación Corporativa</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        corporate: {
+                            DEFAULT: '#021548', // El color principal solicitado
+                            light: '#0a2a80',   // Una variante más clara para hovers
+                            dark: '#010b26'     // Una variante más oscura para sombras
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Importamos una fuente moderna */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+    <!-- Header Simulado para contexto -->
+    <header class="bg-corporate text-white py-4 shadow-md">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="font-bold text-xl">Sección Cool</div>
+            <div class="text-sm opacity-75">La red que conecta contigo</div>
+        </div>
+    </header>
+
+    <!-- INICIO DE LA SECCIÓN SOLICITADA -->
+    <section class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl w-full space-y-8">
+            
+            <!-- Título de la sección -->
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-corporate mb-2">Explora nuestro contenido</h2>
+                <div class="h-1 w-20 bg-corporate mx-auto rounded-full"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+                    Accede rápidamente a las secciones más importantes de nuestra plataforma.
+                </p>
+            </div>
+
+            <!-- Grid de Botones / Tarjetas -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+
+                <!-- 1. Botón DEPORTES -->
+                <a href="/seccion/deportes/" class="group relative overflow-hidden bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col h-full">
+                    <!-- Decoración de fondo (círculo sutil) -->
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-gray-100 rounded-full opacity-50 group-hover:bg-blue-50 transition-colors"></div>
+                    
+                    <div class="p-8 flex flex-col items-center text-center flex-grow z-10">
+                        <!-- Círculo del ícono -->
+                        <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-corporate group-hover:text-white text-corporate transition-all duration-300 shadow-inner">
+                            <i class="fa-solid fa-futbol text-3xl"></i>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-corporate mb-3">Deportes</h3>
+                        <p class="text-gray-500 text-sm mb-6 flex-grow">
+                            Marcadores en vivo, estadísticas y las mejores jugadas del fin de semana.
+                        </p>
+                        
+                        <!-- Flecha decorativa -->
+                        <span class="text-corporate font-semibold text-sm group-hover:underline flex items-center gap-2">
+                            Ver Sección <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                    
+                    <!-- Barra inferior de color -->
+                    <div class="h-2 w-full bg-corporate group-hover:h-3 transition-all duration-300"></div>
+                </a>
+
+                <!-- 2. Botón NOTICIAS -->
+                <a href="/seccion/noticias/" class="group relative overflow-hidden bg-corporate rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col h-full ring-4 ring-corporate ring-opacity-10">
+                    <!-- Este es el botón "Destacado" (Invertido) para dar variedad visual pero manteniendo la temática -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-corporate-light rounded-bl-full opacity-50"></div>
+                    
+                    <div class="p-8 flex flex-col items-center text-center flex-grow z-10 text-white">
+                        <div class="w-20 h-20 bg-corporate-light rounded-full flex items-center justify-center mb-6 text-white shadow-lg border border-blue-800">
+                            <i class="fa-regular fa-newspaper text-3xl"></i>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-3">Noticias</h3>
+                        <p class="text-blue-100 text-sm mb-6 flex-grow">
+                            Actualidad nacional e internacional, reportajes y última hora.
+                        </p>
+                        
+                        <span class="bg-white text-corporate px-6 py-2 rounded-full font-bold text-sm shadow-md group-hover:bg-gray-100 transition-colors">
+                            Leer ahora
+                        </span>
+                    </div>
+                </a>
+
+                <!-- 3. Botón DIRECTORIO -->
+                <a href="/seccion/anunciate/directorio/" class="group relative overflow-hidden bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col h-full">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-gray-100 rounded-full opacity-50 group-hover:bg-blue-50 transition-colors"></div>
+                    
+                    <div class="p-8 flex flex-col items-center text-center flex-grow z-10">
+                        <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-corporate group-hover:text-white text-corporate transition-all duration-300 shadow-inner">
+                            <i class="fa-solid fa-address-card text-3xl"></i>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-corporate mb-3">Directorio</h3>
+                        <p class="text-gray-500 text-sm mb-6 flex-grow">
+                            Encuentra contactos, empresas y servicios cerca de tu ubicación.
+                        </p>
+                        
+                        <span class="text-corporate font-semibold text-sm group-hover:underline flex items-center gap-2">
+                            Buscar <i class="fa-solid fa-magnifying-glass transform group-hover:rotate-12 transition-transform"></i>
+                        </span>
+                    </div>
+                    
+                    <div class="h-2 w-full bg-corporate group-hover:h-3 transition-all duration-300"></div>
+                </a>
+
+            </div>
+
+            <!-- Variación: Botones Compactos (Por si prefieres un estilo barra lateral o menú rápido) -->
+            <div class="mt-16 pt-10 border-t border-gray-200">
+                <h4 class="text-center text-gray-400 text-sm mb-6 uppercase tracking-wider">Menú Rápido</h4>
+                <div class="flex flex-wrap justify-center gap-4">
+                    
+                    <a href="/seccion/deportes/" class="flex items-center gap-3 px-6 py-3 bg-corporate text-white rounded-lg shadow hover:bg-corporate-light transition-colors">
+                        <i class="fa-solid fa-futbol"></i>
+                        <span class="font-semibold">Deportes</span>
+                    </a>
+
+                    <a href="/seccion/noticias/" class="flex items-center gap-3 px-6 py-3 bg-corporate text-white rounded-lg shadow hover:bg-corporate-light transition-colors">
+                        <i class="fa-regular fa-newspaper"></i>
+                        <span class="font-semibold">Noticias</span>
+                    </a>
+
+                    <a href="/seccion/anunciate/directorio/" class="flex items-center gap-3 px-6 py-3 bg-corporate text-white rounded-lg shadow hover:bg-corporate-light transition-colors">
+                        <i class="fa-solid fa-address-book"></i>
+                        <span class="font-semibold">Directorio</span>
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- FIN DE LA SECCIÓN -->
+
+</body>
+</html>

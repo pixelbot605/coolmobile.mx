@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Directorio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- TU CONFIGURACIÓN DE FIREBASE (Misma que la app pública) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyBDQ2IZlZSkPZuPOB1S8GQzWtTacg38ZRE",
+            authDomain: "directorio-c1a58.firebaseapp.com",
+            projectId: "directorio-c1a58",
+            storageBucket: "directorio-c1a58.firebasestorage.app",
+            messagingSenderId: "31665525574",
+            appId: "1:31665525574:web:13c22bc54a89433f008b47",
+            measurementId: "G-2Q8MF80B0B"
+        };
+
+        const appId = "directorio-c1a58"; 
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Autenticación
+        async function initAuth() {
+            await signInAnonymously(auth);
+        }
+        initAuth();
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("Admin conectado:", user.uid);
+                loadPendingAds();
+                loadLiveAds();
+            }
+        });
+
+        // 1. Cargar Pendientes
+        function loadPendingAds() {
+            const q = collection(db, 'artifacts', appId, 'public', 'data', 'ads_pending');
+            onSnapshot(q, (snapshot) => {
+                const container = document.getElementById('pending-list');
+                if(!container) return; // Si aún no ha cargado el DOM del panel
+                container.innerHTML = '';
+                
+                const badge = document.getElementById('pending-count');
+                if(badge) badge.innerText = snapshot.size;
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<div class="p-4 text-center text-gray-400 italic">No hay solicitudes pendientes.</div>';
+                    return;
+                }
+
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const card = createAdminCard(docSnap.id, data, true); // true = es pendiente
+                    container.appendChild(card);
+                });
+            });
+        }
+
+        // 2. Cargar Ya Publicados (Para poder borrarlos)
+        function loadLiveAds() {
+            const q = collection(db, 'artifacts', appId, 'public', 'data', 'ads_live');
+            onSnapshot(q, (snapshot) => {
+                const container = document.getElementById('live-list');
+                if(!container) return;
+                container.innerHTML = '';
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<div class="p-4 text-center text-gray-400 italic">No hay anuncios activos.</div>';
+                    return;
+                }
+
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const card = createAdminCard(docSnap.id, data, false); // false = no es pendiente (es live)
+                    container.appendChild(card);
+                });
+            });
+        }
+
+        // Acciones
+        window.approveAd = async function(docId, dataString) {
+            if (!confirm("¿Publicar este anuncio?")) return;
+            const data = JSON.parse(decodeURIComponent(dataString));
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'ads_live'), data);
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'ads_pending', docId));
+            } catch (err) { alert("Error: " + err.message); }
+        };
+
+        window.rejectAd = async function(docId) {
+            if (!confirm("¿Eliminar solicitud para siempre?")) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'ads_pending', docId));
+            } catch (err) { alert("Error: " + err.message); }
+        };
+
+        window.deleteLiveAd = async function(docId) {
+            if (!confirm("¿Borrar este anuncio publicado? Desaparecerá del sitio público.")) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'ads_live', docId));
+            } catch (err) { alert("Error: " + err.message); }
+        };
+
+        // UI Card Mejorada
+        function createAdminCard(id, data, isPending) {
+            const div = document.createElement('div');
+            const dataStr = encodeURIComponent(JSON.stringify(data));
+            div.className = "bg-white p-4 rounded border border-gray-200 shadow-sm flex flex-col sm:flex-row gap-4";
+            
+            // Botones según estado
+            let buttonsHtml = '';
+            if (isPending) {
+                buttonsHtml = `
+                    <button onclick="approveAd('${id}', '${dataStr}')" class="bg-green-600 text-white px-3 py-2 rounded text-sm hover:bg-green-700 w-full mb-2"><i class="fas fa-check"></i> Aprobar</button>
+                    <button onclick="rejectAd('${id}')" class="bg-red-600 text-white px-3 py-2 rounded text-sm hover:bg-red-700 w-full"><i class="fas fa-trash"></i> Rechazar</button>
+                `;
+            } else {
+                buttonsHtml = `
+                    <button onclick="deleteLiveAd('${id}')" class="bg-gray-200 text-gray-700 px-3 py-2 rounded text-sm hover:bg-gray-300 w-full"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                `;
+            }
+
+            // Iconos de redes para visualización rápida
+            let socialIcons = [];
+            if (data.facebook) socialIcons.push('<i class="fab fa-facebook text-blue-600"></i>');
+            if (data.instagram) socialIcons.push('<i class="fab fa-instagram text-pink-600"></i>');
+            if (data.tiktok) socialIcons.push('<i class="fab fa-tiktok text-black"></i>');
+            
+            // Info de ubicación
+            let locationInfo = `<span class="text-gray-400"><i class="fas fa-map-marker-alt"></i> Solo texto</span>`;
+            if (data.lat && data.lng) locationInfo = `<span class="text-green-600 font-bold" title="${data.lat}, ${data.lng}"><i class="fas fa-crosshairs"></i> Coordenadas OK</span>`;
+            else if (data.mapsUrl) locationInfo = `<a href="${data.mapsUrl}" target="_blank" class="text-blue-600 hover:underline"><i class="fas fa-link"></i> Link Maps</a>`;
+
+            div.innerHTML = `
+                <!-- Imagen Thumbnail -->
+                <div class="w-full sm:w-24 h-24 bg-gray-100 rounded overflow-hidden flex-shrink-0 border border-gray-200">
+                    <img src="${data.imageUrl}" onerror="this.src='https://via.placeholder.com/150?text=No+Img'" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Contenido -->
+                <div class="flex-grow">
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-gray-800 text-lg">${data.businessName}</h4>
+                        <span class="text-xs bg-gray-100 px-2 py-0.5 rounded text-gray-600 border">${data.category}</span>
+                    </div>
+                    
+                    <p class="text-sm text-gray-600 mt-1 line-clamp-2 italic">"${data.description}"</p>
+                    
+                    <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs text-gray-500">
+                        <p><i class="fas fa-phone w-4"></i> ${data.phone}</p>
+                        <p><i class="fas fa-globe w-4"></i> ${data.website ? `<a href="${data.website}" target="_blank" class="text-blue-500 hover:underline">Ver Web</a>` : 'No'}</p>
+                        <p class="truncate"><i class="fas fa-map w-4"></i> ${data.address}</p>
+                        <p>${locationInfo}</p>
+                    </div>
+
+                    <div class="mt-2 text-xs flex items-center gap-2">
+                        <span class="font-semibold text-gray-400">Redes:</span>
+                        ${socialIcons.length > 0 ? socialIcons.join(' ') : '<span class="text-gray-300">Ninguna</span>'}
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="flex-shrink-0 min-w-[100px] flex flex-col justify-center">
+                    ${buttonsHtml}
+                </div>
+            `;
+            return div;
+        }
+
+        // --- SISTEMA DE CÓDIGO DE ACCESO ---
+        window.checkAccess = function() {
+            const input = document.getElementById('access-code');
+            const code = input.value;
+            const errorMsg = document.getElementById('error-msg');
+            
+            // CÓDIGO DE ACCESO (Cámbialo aquí si quieres otro)
+            const CORRECT_CODE = "admin123";
+
+            if (code === CORRECT_CODE) {
+                // Código correcto
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('main-content').classList.remove('hidden');
+                sessionStorage.setItem('admin_logged_in', 'true'); // Guardar sesión
+            } else {
+                // Código incorrecto
+                errorMsg.classList.remove('hidden');
+                input.classList.add('border-red-500', 'ring-2', 'ring-red-200');
+                setTimeout(() => {
+                    input.classList.remove('border-red-500', 'ring-2', 'ring-red-200');
+                }, 2000);
+            }
+        }
+
+        // Verificar si ya inició sesión al cargar
+        window.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('admin_logged_in') === 'true') {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('main-content').classList.remove('hidden');
+            }
+        });
+
+        // Permitir Enter en el input
+        window.handleEnter = function(e) {
+            if (e.key === 'Enter') checkAccess();
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans">
+    
+    <!-- PANTALLA DE BLOQUEO (LOGIN) -->
+    <div id="login-screen" class="fixed inset-0 bg-gradient-to-br from-gray-800 to-blue-900 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-sm w-full text-center">
+            <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-lock text-blue-600 text-2xl"></i>
+            </div>
+            
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Acceso Restringido</h2>
+            <p class="text-gray-500 text-sm mb-6">Esta área es solo para administradores. Ingresa el código para continuar.</p>
+            
+            <div class="relative mb-4">
+                <input type="password" id="access-code" placeholder="Código de acceso" 
+                    class="w-full border border-gray-300 rounded p-3 outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg tracking-widest transition"
+                    onkeypress="handleEnter(event)">
+            </div>
+            
+            <p id="error-msg" class="text-red-500 text-xs font-bold mb-4 hidden animate-bounce">
+                <i class="fas fa-times-circle"></i> Código incorrecto
+            </p>
+
+            <button onclick="checkAccess()" class="w-full bg-blue-900 text-white font-bold py-3 rounded hover:bg-blue-800 transition shadow-lg transform hover:-translate-y-0.5">
+                Entrar al Panel
+            </button>
+
+            <div class="mt-6 border-t pt-4">
+                <a href="app_directorio.html" class="text-gray-400 hover:text-blue-500 text-xs flex items-center justify-center gap-1">
+                    <i class="fas fa-arrow-left"></i> Volver al sitio público
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL DEL ADMIN (Oculto por defecto) -->
+    <div id="main-content" class="max-w-5xl mx-auto hidden p-4 sm:p-8">
+        <div class="flex justify-between items-center mb-8 border-b border-gray-300 pb-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800"><i class="fas fa-user-shield text-blue-900"></i> Panel de Control</h1>
+                <p class="text-sm text-gray-500">Administra las solicitudes y publicaciones.</p>
+            </div>
+            <div class="text-right flex items-center gap-4">
+                <a href="app_directorio.html" target="_blank" class="text-blue-600 hover:underline text-sm"><i class="fas fa-external-link-alt"></i> Ver App Pública</a>
+                <button onclick="sessionStorage.removeItem('admin_logged_in'); location.reload();" class="text-gray-500 hover:text-red-500 text-sm" title="Cerrar sesión"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </div>
+
+        <!-- Sección Pendientes -->
+        <div class="bg-blue-50 border-l-4 border-blue-600 p-4 sm:p-6 mb-8 rounded-r shadow-sm">
+            <h2 class="text-lg font-bold text-blue-900 mb-2 flex items-center gap-2">
+                <i class="fas fa-inbox"></i> Solicitudes Pendientes 
+                <span id="pending-count" class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">0</span>
+            </h2>
+            <p class="text-sm text-blue-800 mb-4 opacity-80">Revisa los datos, las fotos y la ubicación antes de aprobar.</p>
+            
+            <div id="pending-list" class="space-y-3">
+                <div class="text-center py-8 text-blue-400"><i class="fas fa-spinner fa-spin fa-2x"></i><br>Cargando solicitudes...</div>
+            </div>
+        </div>
+
+        <!-- Sección Publicados -->
+        <div class="bg-white p-6 rounded shadow border border-gray-200">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2 flex items-center gap-2">
+                <i class="fas fa-check-circle text-green-600"></i> Anuncios Publicados (En Vivo)
+            </h2>
+            <div id="live-list" class="space-y-3">
+                 <div class="text-center py-8 text-gray-400">Cargando anuncios activos...</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

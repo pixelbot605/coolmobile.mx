@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directorio Comercial</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS (Para el Mapa) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- CONFIGURACIÓN FIREBASE ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyBDQ2IZlZSkPZuPOB1S8GQzWtTacg38ZRE",
+            authDomain: "directorio-c1a58.firebaseapp.com",
+            projectId: "directorio-c1a58",
+            storageBucket: "directorio-c1a58.firebasestorage.app",
+            messagingSenderId: "31665525574",
+            appId: "1:31665525574:web:13c22bc54a89433f008b47",
+            measurementId: "G-2Q8MF80B0B"
+        };
+
+        const appId = "directorio-c1a58"; 
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let allAdsData = [];
+        let userPosition = null;
+        
+        // Variables para mapas
+        let mainMapInstance = null;
+        let mainMapMarkers = [];
+        let formMapInstance = null;
+        let formMarker = null;
+
+        // --- Autenticación ---
+        async function initAuth() {
+            await signInAnonymously(auth);
+        }
+        initAuth();
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) {
+                loadLiveAds(); 
+            }
+        });
+
+        // --- Lógica Principal ---
+        
+        function loadLiveAds() {
+            const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'ads_live'));
+            
+            onSnapshot(q, (snapshot) => {
+                allAdsData = [];
+                snapshot.forEach((docSnap) => {
+                    allAdsData.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                renderAds(allAdsData);
+                updateMainMap(allAdsData);
+            });
+        }
+
+        // Renderizado de lista
+        window.renderAds = function(adsList) {
+            const container = document.getElementById('ads-container');
+            container.innerHTML = ''; 
+
+            if (adsList.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-500 py-10">No hay anuncios para mostrar.</div>';
+                return;
+            }
+
+            adsList.forEach((data) => {
+                const card = createAdCard(data);
+                container.appendChild(card);
+            });
+        }
+
+        // --- MAPA PRINCIPAL (VISUALIZACIÓN) ---
+        window.initMainMap = function() {
+            if (mainMapInstance) return; 
+
+            const initialLat = userPosition ? userPosition.lat : 19.4326; 
+            const initialLng = userPosition ? userPosition.lng : -99.1332;
+
+            mainMapInstance = L.map('map-view').setView([initialLat, initialLng], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(mainMapInstance);
+
+            if (userPosition) {
+                L.marker([userPosition.lat, userPosition.lng]).addTo(mainMapInstance)
+                    .bindPopup("<b>Tú estás aquí</b>").openPopup();
+            }
+
+            updateMainMap(allAdsData);
+        }
+
+        window.updateMainMap = function(ads) {
+            if (!mainMapInstance) return;
+
+            // Limpiar marcadores anteriores
+            mainMapMarkers.forEach(m => mainMapInstance.removeLayer(m));
+            mainMapMarkers = [];
+
+            ads.forEach(ad => {
+                if (ad.lat && ad.lng) {
+                    
+                    // Iconos de redes sociales
+                    let socialHtml = '';
+                    if (ad.facebook) socialHtml += `<a href="${ad.facebook}" target="_blank" class="text-blue-600 hover:text-blue-800" title="Facebook"><i class="fab fa-facebook fa-lg"></i></a>`;
+                    if (ad.instagram) socialHtml += `<a href="${ad.instagram}" target="_blank" class="text-pink-600 hover:text-pink-800" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>`;
+                    if (ad.tiktok) socialHtml += `<a href="${ad.tiktok}" target="_blank" class="text-black hover:text-gray-700" title="TikTok"><i class="fab fa-tiktok fa-lg"></i></a>`;
+
+                    // Botón de Maps
+                    let mapsBtn = '';
+                    if (ad.mapsUrl) {
+                        mapsBtn = `<a href="${ad.mapsUrl}" target="_blank" class="bg-blue-600 text-white text-xs px-2 py-1 rounded hover:bg-blue-700 ml-auto flex items-center gap-1"><i class="fas fa-directions"></i> Cómo llegar</a>`;
+                    }
+
+                    const popupContent = `
+                        <div class="w-64 font-sans">
+                            <div class="relative h-32 mb-2">
+                                <img src="${ad.imageUrl}" onerror="this.src='https://via.placeholder.com/300x150?text=Sin+Imagen'" class="w-full h-full object-cover rounded-t-lg">
+                                <span class="absolute bottom-0 right-0 bg-blue-900 text-white text-xs px-2 py-1 rounded-tl-lg font-bold">${ad.category}</span>
+                            </div>
+                            
+                            <div class="px-1">
+                                <h3 class="font-bold text-base text-gray-900 leading-tight mb-1">${ad.businessName}</h3>
+                                
+                                <p class="text-xs text-gray-600 mt-1 mb-2 line-clamp-3 leading-snug">${ad.description}</p>
+                                
+                                <div class="space-y-1 text-xs text-gray-700 border-t border-gray-100 pt-2">
+                                    <p class="flex items-start gap-2"><i class="fas fa-map-marker-alt text-red-500 mt-0.5"></i> <span class="leading-tight">${ad.address}</span></p>
+                                    <p class="flex items-center gap-2"><i class="fas fa-phone text-green-600"></i> <b>${ad.phone}</b></p>
+                                    ${ad.website ? `<p class="flex items-center gap-2"><i class="fas fa-globe text-blue-500"></i> <a href="${ad.website}" target="_blank" class="text-blue-600 hover:underline truncate max-w-[150px]">Visitar Sitio Web</a></p>` : ''}
+                                </div>
+
+                                <div class="flex items-center justify-between mt-3 pt-2 border-t border-gray-100">
+                                    <div class="flex gap-3">
+                                        ${socialHtml || '<span class="text-xs text-gray-400 italic">Sin redes</span>'}
+                                    </div>
+                                    ${mapsBtn}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    const marker = L.marker([ad.lat, ad.lng])
+                        .addTo(mainMapInstance)
+                        .bindPopup(popupContent);
+                    mainMapMarkers.push(marker);
+                }
+            });
+        }
+
+        // --- MAPA DEL FORMULARIO (SELECCIÓN) ---
+        window.initFormMap = function() {
+            if (formMapInstance) {
+                setTimeout(() => { formMapInstance.invalidateSize(); }, 200);
+                return;
+            }
+
+            const defaultLat = userPosition ? userPosition.lat : 19.4326; 
+            const defaultLng = userPosition ? userPosition.lng : -99.1332;
+
+            formMapInstance = L.map('form-map-view').setView([defaultLat, defaultLng], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(formMapInstance);
+
+            formMapInstance.on('click', function(e) {
+                setFormLocation(e.latlng.lat, e.latlng.lng);
+            });
+        }
+
+        window.setFormLocation = function(lat, lng) {
+            document.getElementById('f-lat').value = lat;
+            document.getElementById('f-lng').value = lng;
+
+            const status = document.getElementById('location-status');
+            status.innerHTML = `<span class="text-green-600 font-bold"><i class="fas fa-check-circle"></i> Ubicación seleccionada en mapa</span>`;
+
+            if (formMarker) {
+                formMarker.setLatLng([lat, lng]);
+            } else {
+                formMarker = L.marker([lat, lng], {draggable: true}).addTo(formMapInstance);
+                formMarker.on('dragend', function(event) {
+                    const pos = event.target.getLatLng();
+                    document.getElementById('f-lat').value = pos.lat;
+                    document.getElementById('f-lng').value = pos.lng;
+                });
+            }
+            formMapInstance.panTo([lat, lng]);
+        }
+
+        // --- PROCESAMIENTO DE IMAGEN (Compresión) ---
+        window.processImage = function(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // Advertencia simple de tamaño inicial
+                if (file.size > 10 * 1024 * 1024) { 
+                    alert("La imagen es demasiado grande. Por favor elige una menor a 10MB.");
+                    input.value = ""; // Limpiar
+                    return;
+                }
+
+                // Mostrar estado de carga
+                const previewContainer = document.getElementById('img-preview-container');
+                const pText = previewContainer.querySelector('p');
+                const originalText = pText.innerText;
+                pText.innerText = "Optimizando imagen...";
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Lógica de Redimensionamiento (Max 800px)
+                        const MAX_WIDTH = 800;
+                        const MAX_HEIGHT = 800;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        // Comprimir a JPEG calidad 0.7 (70%)
+                        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                        
+                        // Actualizar UI y Campo Oculto
+                        document.getElementById('f-img-base64').value = dataUrl;
+                        document.getElementById('img-preview').src = dataUrl;
+                        document.getElementById('img-preview').classList.remove('hidden');
+                        document.getElementById('img-preview-container').classList.add('hidden');
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // --- GEOLOCALIZACIÓN Y "CERCA DE MÍ" ---
+        
+        window.filterNearMe = function() {
+            const btn = document.getElementById('btn-near-me');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Localizando...';
+            
+            if (!navigator.geolocation) {
+                alert("Tu navegador no soporta geolocalización");
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition((position) => {
+                userPosition = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                const adsWithDistance = allAdsData.map(ad => {
+                    let distance = null;
+                    if (ad.lat && ad.lng) {
+                        distance = calculateDistance(userPosition.lat, userPosition.lng, ad.lat, ad.lng);
+                    }
+                    return { ...ad, distance };
+                });
+
+                const sortedAds = adsWithDistance
+                    .filter(ad => ad.distance !== null)
+                    .sort((a, b) => a.distance - b.distance);
+                const noLocAds = adsWithDistance.filter(ad => ad.distance === null);
+                
+                renderAds([...sortedAds, ...noLocAds]);
+                
+                btn.innerHTML = '<i class="fas fa-check mr-2"></i> Ordenado por distancia';
+                btn.classList.add('bg-green-600', 'text-white');
+                btn.classList.remove('bg-blue-100', 'text-blue-800');
+                
+                if (mainMapInstance) {
+                    mainMapInstance.setView([userPosition.lat, userPosition.lng], 14);
+                    L.marker([userPosition.lat, userPosition.lng]).addTo(mainMapInstance).bindPopup("Tú").openPopup();
+                }
+
+            }, (error) => {
+                console.error(error);
+                alert("No pudimos obtener tu ubicación.");
+                btn.innerHTML = '<i class="fas fa-location-arrow mr-2"></i> Cerca de mí';
+            });
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; 
+            const dLat = deg2rad(lat2 - lat1);
+            const dLon = deg2rad(lon2 - lon1);
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2); 
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            return R * c;
+        }
+        function deg2rad(deg) { return deg * (Math.PI/180); }
+
+        // --- FORMULARIO: DETECCIÓN GPS ---
+        window.detectLocationForForm = function() {
+            const status = document.getElementById('location-status');
+            status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Detectando...';
+            
+            navigator.geolocation.getCurrentPosition((pos) => {
+                setFormLocation(pos.coords.latitude, pos.coords.longitude);
+            }, (err) => {
+                status.innerHTML = '<span class="text-red-500">Error GPS. Por favor usa el mapa manual.</span>';
+            });
+        }
+
+        window.submitAd = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            btn.innerText = "Enviando...";
+            btn.disabled = true;
+
+            const formData = {
+                businessName: document.getElementById('f-name').value,
+                description: document.getElementById('f-desc').value,
+                category: document.getElementById('f-cat').value,
+                address: document.getElementById('f-address').value,
+                phone: document.getElementById('f-phone').value,
+                website: document.getElementById('f-web').value,
+                
+                // Usar la imagen en Base64 comprimida
+                imageUrl: document.getElementById('f-img-base64').value || 'https://via.placeholder.com/800x600?text=Sin+Imagen',
+                
+                lat: document.getElementById('f-lat').value ? parseFloat(document.getElementById('f-lat').value) : null,
+                lng: document.getElementById('f-lng').value ? parseFloat(document.getElementById('f-lng').value) : null,
+                mapsUrl: document.getElementById('f-maps').value,
+
+                facebook: document.getElementById('f-fb').value,
+                instagram: document.getElementById('f-insta').value,
+                tiktok: document.getElementById('f-tiktok').value,
+                timestamp: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'ads_pending'), formData);
+                alert("Solicitud enviada. Espera aprobación.");
+                
+                // Resetear formulario y preview
+                document.getElementById('ad-form').reset();
+                document.getElementById('location-status').innerText = "";
+                document.getElementById('f-img-base64').value = "";
+                document.getElementById('img-preview').src = "";
+                document.getElementById('img-preview').classList.add('hidden');
+                document.getElementById('img-preview-container').classList.remove('hidden');
+                document.getElementById('img-preview-container').querySelector('p').innerText = "Toca para subir una foto";
+                
+                if(formMarker && formMapInstance) formMapInstance.removeLayer(formMarker);
+                formMarker = null;
+                
+                showSection('home');
+            } catch (err) {
+                console.error(err);
+                alert("Error al enviar. Es posible que la imagen sea aún muy grande para la base de datos de prueba.");
+            } finally {
+                btn.innerText = "Enviar Solicitud";
+                btn.disabled = false;
+            }
+        };
+
+        function createAdCard(data) {
+            let distBadge = '';
+            if (data.distance !== undefined && data.distance !== null) {
+                distBadge = `<span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded shadow animate-pulse"><i class="fas fa-walking"></i> A ${data.distance.toFixed(1)} km</span>`;
+            }
+
+            let socialLinks = '';
+            if (data.facebook) socialLinks += `<a href="${data.facebook}" target="_blank" class="text-gray-400 hover:text-blue-600 text-lg transition"><i class="fab fa-facebook"></i></a>`;
+            if (data.instagram) socialLinks += `<a href="${data.instagram}" target="_blank" class="text-gray-400 hover:text-pink-600 text-lg transition"><i class="fab fa-instagram"></i></a>`;
+            if (data.tiktok) socialLinks += `<a href="${data.tiktok}" target="_blank" class="text-gray-400 hover:text-black text-lg transition"><i class="fab fa-tiktok"></i></a>`;
+
+            let addressHtml = `<p class="flex items-center text-gray-700 text-sm"><i class="fas fa-map-marker-alt w-5 text-red-500"></i> ${data.address}</p>`;
+            if (data.mapsUrl) {
+                addressHtml = `<a href="${data.mapsUrl}" target="_blank" class="flex items-center text-gray-700 text-sm hover:text-blue-600 hover:underline cursor-pointer"><i class="fas fa-map-marker-alt w-5 text-red-500"></i> ${data.address} <span class="text-xs text-blue-500 ml-1">(Ver mapa)</span></a>`;
+            }
+
+            const div = document.createElement('div');
+            div.className = "bg-white rounded-lg card-shadow overflow-hidden flex flex-col md:flex-row border-l-4 border-transparent hover:border-blue-900 transition-colors mb-6 relative";
+            div.innerHTML = `
+                <div class="md:w-1/3 h-48 md:h-auto bg-gray-200 relative group overflow-hidden">
+                    <img src="${data.imageUrl}" onerror="this.src='https://via.placeholder.com/800x400?text=No+Image'" alt="${data.businessName}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    ${distBadge}
+                </div>
+                <div class="p-6 md:w-2/3 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-gray-900">${data.businessName}</h3>
+                            <span class="bg-blue-50 text-blue-800 text-xs px-2 py-1 rounded-full font-semibold border border-blue-200">${data.category}</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-3 line-clamp-2">${data.description}</p>
+                        <div class="flex gap-3 mt-3">${socialLinks}</div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100 grid md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            ${addressHtml}
+                            ${data.website ? `<a href="${data.website}" target="_blank" class="flex items-center text-blue-600 hover:underline text-sm"><i class="fas fa-globe w-5"></i> Sitio Web</a>` : ''}
+                        </div>
+                        <div class="flex flex-col items-end gap-2">
+                            <button onclick="showPhoneModal('${data.phone}')" class="w-full navy-btn px-4 py-2 rounded text-sm font-bold shadow">
+                                <i class="fas fa-phone-alt mr-1"></i> Llamar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return div;
+        }
+
+        window.showPhoneModal = function(phone) {
+            document.getElementById('modal-phone-text').innerText = phone;
+            document.getElementById('phoneModal').classList.remove('hidden');
+        }
+
+        window.toggleMap = function() {
+            const mapContainer = document.getElementById('map-container');
+            const listContainer = document.getElementById('ads-container');
+            const btn = document.getElementById('btn-toggle-map');
+
+            if (mapContainer.classList.contains('hidden')) {
+                mapContainer.classList.remove('hidden');
+                listContainer.classList.add('hidden');
+                btn.innerHTML = '<i class="fas fa-list mr-2"></i> Ver Lista';
+                initMainMap();
+                setTimeout(() => { if(mainMapInstance) mainMapInstance.invalidateSize(); }, 200);
+            } else {
+                mapContainer.classList.add('hidden');
+                listContainer.classList.remove('hidden');
+                btn.innerHTML = '<i class="fas fa-map-marked-alt mr-2"></i> Ver en Mapa';
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Roboto', sans-serif; background-color: #f3f4f6; }
+        .navy-brand { background-color: #021548; color: white; }
+        .navy-btn { background-color: #021548; color: white; transition: all 0.2s; }
+        .navy-btn:hover { background-color: #172554; transform: translateY(-1px); }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .section-view { display: none; }
+        .section-view.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* Fix Leaflet z-index */
+        .leaflet-pane { z-index: 10 !important; } 
+        .leaflet-top, .leaflet-bottom { z-index: 20 !important; }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación -->
+    <header class="navy-brand py-4 px-4 shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
+            <div class="flex items-center gap-3 mb-2 md:mb-0 cursor-pointer" onclick="showSection('home')">
+                <i class="fas fa-book-open text-2xl text-white"></i>
+                <h1 class="text-2xl font-bold tracking-tight text-white">TuDirectorioCool</h1>
+            </div>
+            <nav class="flex gap-4 text-sm font-medium items-center">
+                <button onclick="showSection('home')" class="hover:underline px-3 py-1 bg-white bg-opacity-20 rounded text-white">Directorio</button>
+                <button onclick="showSection('advertise')" class="bg-white text-blue-700 px-4 py-2 rounded hover:bg-gray-100 transition shadow-lg font-bold">¡Anúnciate!</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- VISTA 1: Directorio (Home) -->
+        <div id="home" class="section-view active">
+            
+            <!-- Barra de Herramientas -->
+            <div class="bg-white p-4 rounded-lg shadow mb-6 space-y-4">
+                <div class="flex flex-col md:flex-row gap-2">
+                    <div class="flex-1 flex bg-gray-100 rounded-md px-3 items-center">
+                        <i class="fas fa-search text-gray-400"></i>
+                        <input type="text" placeholder="¿Qué buscas? (Tacos, Plomero...)" class="bg-transparent w-full px-3 py-2 outline-none">
+                    </div>
+                    <button onclick="filterNearMe()" id="btn-near-me" class="bg-blue-100 text-blue-900 px-4 py-2 rounded font-bold hover:bg-blue-200 transition flex items-center justify-center min-w-[140px]">
+                        <i class="fas fa-location-arrow mr-2"></i> Cerca de mí
+                    </button>
+                    <button onclick="toggleMap()" id="btn-toggle-map" class="bg-gray-800 text-white px-4 py-2 rounded font-bold hover:bg-gray-700 transition flex items-center justify-center min-w-[140px]">
+                        <i class="fas fa-map-marked-alt mr-2"></i> Ver en Mapa
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenedor Lista -->
+            <div id="ads-container">
+                <div class="text-center py-8">
+                    <i class="fas fa-circle-notch fa-spin text-blue-900 text-3xl"></i>
+                    <p class="mt-2 text-gray-500">Cargando directorio...</p>
+                </div>
+            </div>
+
+            <!-- Contenedor Mapa (Oculto) -->
+            <div id="map-container" class="hidden h-[600px] w-full bg-gray-200 rounded-lg shadow-inner overflow-hidden border border-gray-300 relative z-0">
+                <div id="map-view" class="w-full h-full"></div>
+            </div>
+        </div>
+
+        <!-- VISTA 2: Formulario (Anúnciate) -->
+        <div id="advertise" class="section-view">
+            <div class="bg-white rounded-xl shadow-lg p-8 max-w-2xl mx-auto">
+                <div class="text-center mb-8">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bullhorn text-blue-900 text-2xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Publica tu Negocio</h2>
+                    <p class="text-sm text-gray-500">Completa el formulario.</p>
+                </div>
+
+                <form id="ad-form" onsubmit="submitAd(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nombre del Negocio *</label>
+                            <input type="text" id="f-name" required class="w-full border border-gray-300 rounded p-2 outline-none focus:ring-2 focus:ring-blue-900">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Categoría *</label>
+                            <select id="f-cat" class="w-full border border-gray-300 rounded p-2 outline-none focus:ring-2 focus:ring-blue-900">
+                                <option>Restaurantes</option>
+                                <option>Servicios Hogar</option>
+                                <option>Automotriz</option>
+                                <option>Salud</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Descripción Breve *</label>
+                        <textarea id="f-desc" required rows="3" class="w-full border border-gray-300 rounded p-2 outline-none focus:ring-2 focus:ring-blue-900"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono *</label>
+                            <input type="tel" id="f-phone" required class="w-full border border-gray-300 rounded p-2 outline-none focus:ring-2 focus:ring-blue-900">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Sitio Web</label>
+                            <input type="url" id="f-web" placeholder="https://..." class="w-full border border-gray-300 rounded p-2 outline-none focus:ring-2 focus:ring-blue-900">
+                        </div>
+                    </div>
+
+                    <!-- SECCIÓN DE UBICACIÓN MEJORADA -->
+                    <div class="bg-blue-50 p-4 rounded border border-blue-200">
+                        <label class="block text-sm font-bold text-blue-900 mb-3"><i class="fas fa-map-marker-alt"></i> Ubicación Exacta</label>
+                        
+                        <p class="text-xs text-gray-600 mb-3">
+                            <strong>Importante:</strong> Para aparecer en "Cerca de mí" necesitamos tus coordenadas. 
+                            <br>Usa el botón "Detectar" si estás en el local, O <strong>toca el mapa</strong> para seleccionar la ubicación manualmente.
+                        </p>
+
+                        <div class="flex flex-col gap-3">
+                            <button type="button" onclick="detectLocationForForm()" class="bg-white border border-blue-600 text-blue-600 font-bold py-2 px-4 rounded hover:bg-blue-50 transition flex items-center justify-center gap-2 text-sm">
+                                <i class="fas fa-crosshairs"></i> Detectar mi ubicación actual
+                            </button>
+                            
+                            <!-- Mapa para selección manual -->
+                            <div id="form-map-view" class="h-64 w-full rounded border border-gray-300 z-0"></div>
+                            
+                            <div id="location-status" class="text-xs font-bold text-center h-4 text-gray-500">Ninguna ubicación seleccionada</div>
+                            
+                            <input type="hidden" id="f-lat">
+                            <input type="hidden" id="f-lng">
+
+                            <div class="border-t border-blue-200 my-2"></div>
+
+                            <div>
+                                <label class="block text-xs font-medium text-gray-500 mb-1">Dirección (Texto para mostrar)</label>
+                                <input type="text" id="f-address" placeholder="Ej. Calle Principal 123" class="w-full border border-gray-300 rounded p-2 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-gray-500 mb-1">Link de Google Maps (Opcional)</label>
+                                <input type="url" id="f-maps" placeholder="https://maps.app.goo.gl/..." class="w-full border border-gray-300 rounded p-2 outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Redes Sociales -->
+                    <div class="bg-gray-50 p-4 rounded border border-gray-200">
+                        <label class="block text-sm font-bold text-gray-800 mb-2">Redes Sociales</label>
+                        <div class="space-y-3">
+                            <input type="url" id="f-fb" placeholder="Link de Facebook" class="w-full border border-gray-300 rounded p-2 text-sm">
+                            <input type="url" id="f-insta" placeholder="Link de Instagram" class="w-full border border-gray-300 rounded p-2 text-sm">
+                            <input type="url" id="f-tiktok" placeholder="Link de TikTok" class="w-full border border-gray-300 rounded p-2 text-sm">
+                        </div>
+                    </div>
+
+                    <!-- NUEVA CARGA DE IMAGEN CON COMPRESIÓN -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Imagen del Negocio</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:bg-gray-50 transition cursor-pointer relative" onclick="document.getElementById('f-img-file').click()">
+                            <!-- Input File Oculto -->
+                            <input type="file" id="f-img-file" accept="image/*" class="hidden" onchange="processImage(this)">
+                            <!-- Input Hidden para el Base64 -->
+                            <input type="hidden" id="f-img-base64">
+                            
+                            <div id="img-preview-container" class="space-y-2 pointer-events-none">
+                                <i class="fas fa-cloud-upload-alt text-4xl text-gray-400"></i>
+                                <p class="text-sm text-gray-500">Toca para subir una foto</p>
+                                <p class="text-xs text-gray-400">(Se optimizará automáticamente)</p>
+                            </div>
+                            <img id="img-preview" class="hidden w-full h-48 object-cover rounded mt-2 mx-auto pointer-events-none">
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" id="submit-btn" class="w-full navy-btn py-3 rounded-lg font-bold text-lg shadow">Enviar Solicitud</button>
+                    </div>
+                    <button type="button" onclick="showSection('home')" class="w-full text-center text-gray-500 text-sm mt-2 hover:underline">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Teléfono -->
+    <div id="phoneModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50" onclick="this.classList.add('hidden')">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center mx-4" onclick="event.stopPropagation()">
+            <h3 class="text-lg font-bold text-gray-900 mb-2">¡Llama ahora!</h3>
+            <div class="bg-gray-100 p-3 rounded font-mono text-xl font-bold text-gray-800 mb-6" id="modal-phone-text"></div>
+            <button onclick="document.getElementById('phoneModal').classList.add('hidden')" class="w-full bg-blue-900 text-white py-2 rounded font-bold hover:bg-blue-800">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0,0);
+            
+            // Inicializar mapa del formulario si se entra a esa sección
+            if (sectionId === 'advertise' && window.initFormMap) {
+                window.initFormMap();
+            }
+        }
+    </script>
+</body>
+</html>
