@@ -96,12 +96,12 @@
 
         // --- TU CONFIGURACIÓN DE FIREBASE (ACTUALIZADA) ---
         const firebaseConfig = {
-            apiKey: "AIzaSyDfWipMCe7cd47J_MV7mYTfwdq1-BekseM",
-            authDomain: "coolmobile-correo.firebaseapp.com",
-            projectId: "coolmobile-correo",
-            storageBucket: "coolmobile-correo.firebasestorage.app",
-            messagingSenderId: "48440097467",
-            appId: "1:48440097467:web:fc450007b000f81c08879e"
+            apiKey: "AIzaSyBsEjswLjrRT1oHaJPSgk4jUTekqfTQxUo",
+            authDomain: "oolmobile-mail-v2.firebaseapp.com",
+            projectId: "oolmobile-mail-v2",
+            storageBucket: "oolmobile-mail-v2.firebasestorage.app",
+            messagingSenderId: "888237253976",
+            appId: "1:888237253976:web:6747f10edd036534a7f12d"
         };
 
         // Inicializar Firebase
@@ -111,8 +111,8 @@
         // Exponer la función al objeto window para que Alpine.js pueda usarla
         window.guardarSolicitudEnFirebase = async function(datos) {
             try {
-                // 'solicitudes_portabilidad' es el nombre de la colección en tu base de datos
-                const docRef = await addDoc(collection(db, "solicitudes_portabilidad"), {
+                // 'mail' es el nombre de la colección en tu base de datos
+                const docRef = await addDoc(collection(db, "mail"), {
                     nombre: datos.fullName,
                     numero_a_portar: datos.phoneToPort,
                     nip: datos.nip,
