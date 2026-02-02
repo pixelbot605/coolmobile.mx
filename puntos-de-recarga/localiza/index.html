@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puntos de Recarga - Cool Mobile</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Alpine JS -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Leaflet CSS y JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Leaflet Marker Cluster (Optimización para miles de puntos) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg, #3a90ab, #ffffff, #3a6777, #1c5264, #003242, #000707);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            color: #BCEAD5;
+            transition: background-position 0.2s ease-out;
+        }
+        [x-cloak] { display: none !important; }
+        
+        .text-3d, .title-outline {
+            text-shadow: -1.5px -1.5px 0 #2C3333, 1.5px -1.5px 0 #2C3333, -1.5px 1.5px 0 #2C3333, 1.5px 1.5px 0 #2C3333, 4px 4px 8px rgba(0,0,0,0.5);
+        }
+
+        #map { height: 600px; width: 100%; border-radius: 1rem; z-index: 1; border: 2px solid #0E8388; background: #f0f0f0; }
+        
+        .cool-input {
+            background-color: rgba(44, 51, 51, 0.85);
+            border: 1px solid #4B5563;
+            color: white;
+            border-radius: 0.75rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .cool-input:focus { border-color: #57C5B6; box-shadow: 0 0 10px rgba(87, 197, 182, 0.3); }
+
+        .cool-card {
+            background-color: rgba(44, 51, 51, 0.5);
+            backdrop-filter: blur(12px);
+            /* Eliminado borde y sombra por defecto para mayor flexibilidad */
+            border-radius: 1.25rem;
+        }
+
+        .footer { background-color: #000707; color: #BCEAD5; border-top: 2px solid #0E8388; }
+        
+        /* Personalización de los Clusters */
+        .marker-cluster-small { background-color: rgba(14, 131, 136, 0.6); }
+        .marker-cluster-small div { background-color: rgba(87, 197, 182, 0.8); color: white; font-weight: bold; }
+        .marker-cluster-medium { background-color: rgba(14, 131, 136, 0.7); }
+        .marker-cluster-medium div { background-color: rgba(14, 131, 136, 0.9); color: white; }
+        .marker-cluster-large { background-color: rgba(12, 75, 89, 0.8); }
+        .marker-cluster-large div { background-color: rgba(12, 75, 89, 1); color: white; }
+
+        .loading-overlay {
+            position: fixed; inset: 0; background: rgba(0,7,7,0.9); 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 9999; backdrop-filter: blur(5px);
+        }
+
+        /* Estilos del carrusel de logos y botones de app */
+        .logo-carousel { display: flex; overflow: hidden; width: 100%; white-space: nowrap; margin-top: 2rem; }
+        .logo-carousel-inner { display: flex; animation: carousel 30s linear infinite; }
+        .logo-carousel-item { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 150px; margin: 0 1rem; }
+        .logo-carousel-item img { max-height: 45px; width: auto; object-fit: contain; filter: brightness(0) invert(1) opacity(0.7); transition: all 0.3s ease; }
+        .logo-carousel-item img:hover { filter: none; opacity: 1; transform: scale(1.1); }
+        @keyframes carousel { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+
+        .store-button { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .store-button:hover { transform: translateY(-3px); filter: brightness(1.1); }
+    </style>
+</head>
+<body>
+    <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+        <header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
+                :class="{ 'bg-[#0c4b59] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-24">
+                    <a href="/index.html" class="flex-shrink-0">
+                        <img src="logo.png" alt="Logo Cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                    </a>
+                    <div class="hidden lg:flex lg:space-x-8">
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Telefonía
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                                <a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia-simcard</a>
+                                <a href="/telefonia-eSIM/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia eSIM</a>
+                                <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
+                            </div>
+                        </div>
+                            <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Internet
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                                <a href="/internet-de-casa/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">En casa</a>
+                                <a href="/internet-movil/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Mifi</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Consulta
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                                <a href="/portabilidad/index.html" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Portabilidad</a>
+                                <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Compatibilidad</a>
+                                <a href="/manual-configuraciones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Manual</a>
+                                <a href="/puntos-de-recarga/localiza/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Puntos de recarga</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Contacto
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                                <a href="/faqs/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Faqs</a>
+                                <a href="/contacto/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Contactos</a>
+                            </div>
+                        </div>
+                        <a href="/vincula-tu-linea/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Vincula tu línea</a>
+                    </div>
+
+                    <a href="https://crmxpace.com/coolmobile/recargas-stripe" class="hidden lg:block bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105">
+                        Recargas
+                    </a>
+
+                    <div class="lg:hidden flex items-center">
+                        <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                            <span class="sr-only">Abrir menú principal</span>
+                            <svg class="h-6 w-6" x-show="!openMenu" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                            <svg class="h-6 w-6" x-show="openMenu" x-cloak fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#0c4b59] z-40"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95">
+                <!-- Mobile menu content same as before -->
+                <div class="px-2 pt-20 pb-3 space-y-1 sm:px-3">
+                    <div class="absolute top-4 right-4">
+                        <button @click="openMenu = false" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                            <span class="sr-only">Cerrar menú principal</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Telefonía</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="/telefonia_simcard/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia-simcard</a>
+                            <a href="/telefonia-eSIM/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia eSIM</a>
+                            <a href="/promociones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Promociones</a>
+                        </div>
+                    </div>
+                    <a href="internet-de-casa/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet de Casa</a>
+                    <a href="internet-movil/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet Móvil</a>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Consulta</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="portabilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Portabilidad</a>
+                            <a href="compatibilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Compatibilidad</a>
+                            <a href="/manual-configuraciones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Manual</a>
+                            <a href="/puntos-de-recarga/localiza/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Puntos de recarga</a>
+                        </div>
+                    </div>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Contacto</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="faqs/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Faqs</a>
+                            <a href="contacto/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Contactos</a>
+                        </div>
+                    </div>
+                    <a href="/vincula-tu-linea/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Vincula tu línea</a>
+                    <div class="pt-4 border-t border-[#BCEAD5]">
+                        <a href="https://crmxpace.com/coolmobile/recargas-stripe" class="block text-center bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 w-full">
+                            Recargas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+    <main class="pt-32 pb-10 px-4 max-w-7xl mx-auto">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl md:text-6xl font-black text-[#CBE4DE] text-3d mb-2 uppercase">Red de Recarga</h1>
+            <p class="text-[#BCEAD5] text-lg opacity-80">Localiza tu punto más cercano entre más de 24,000 opciones en todo México.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- Sidebar de Filtros -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Se añade shadow-2xl y border específicamente aquí para el sidebar -->
+                <div class="cool-card p-6 shadow-2xl border border-white/10 lg:sticky lg:top-28">
+                    <h3 class="text-lg font-bold text-[#57C5B6] mb-4 flex items-center gap-2 uppercase tracking-tight">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+                        Filtrar Zona
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Estado</label>
+                            <select id="filter-state" class="w-full p-3 mt-1 cool-input text-sm font-bold">
+                                <option value="all">Todo México</option>
+                                <option value="Aguascalientes">Aguascalientes</option><option value="Baja California">Baja California</option><option value="Baja California Sur">Baja California Sur</option><option value="Campeche">Campeche</option><option value="Chiapas">Chiapas</option><option value="Chihuahua">Chihuahua</option><option value="Ciudad de México">Ciudad de México</option><option value="Coahuila">Coahuila</option><option value="Colima">Colima</option><option value="Durango">Durango</option><option value="Estado de México">Estado de México</option><option value="Guanajuato">Guanajuato</option><option value="Guerrero">Guerrero</option><option value="Hidalgo">Hidalgo</option><option value="Jalisco">Jalisco</option><option value="Michoacán">Michoacán</option><option value="Morelos">Morelos</option><option value="Nayarit">Nayarit</option><option value="Nuevo León">Nuevo León</option><option value="Oaxaca">Oaxaca</option><option value="Puebla">Puebla</option><option value="Querétaro">Querétaro</option><option value="Quintana Roo">Quintana Roo</option><option value="San Luis Potosí">San Luis Potosí</option><option value="Sinaloa">Sinaloa</option><option value="Sonora">Sonora</option><option value="Tabasco">Tabasco</option><option value="Tamaulipas">Tamaulipas</option><option value="Tlaxcala">Tlaxcala</option><option value="Veracruz">Veracruz</option><option value="Yucatán">Yucatán</option><option value="Zacatecas">Zacatecas</option>
+                            </select>
+                        </div>
+                        <button onclick="findNearest()" class="w-full bg-[#0E8388] hover:bg-[#57C5B6] text-white py-3 rounded-xl font-black transition flex items-center justify-center gap-2 shadow-lg text-xs uppercase tracking-tighter">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                            Buscar por mi GPS
+                        </button>
+                    </div>
+
+                    <div class="mt-6 border-t border-gray-700 pt-4">
+                        <div class="flex justify-between items-center text-[10px] text-slate-400 font-bold uppercase mb-2">
+                            <span id="list-title">Puntos Encontrados</span>
+                            <span id="store-count" class="text-[#57C5B6]">0</span>
+                        </div>
+                        <ul id="store-list-user" class="divide-y divide-gray-700 max-h-[300px] overflow-y-auto pr-1">
+                            <!-- Items -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Area del Mapa -->
+            <div class="lg:col-span-3">
+                <div class="cool-card p-2 shadow-2xl border border-white/10">
+                    <div id="map"></div>
+                </div>
+                <p class="text-[10px] text-center mt-3 text-slate-500 uppercase font-bold italic">Sugerencia: Usa el GPS para ver opciones en un radio de 10km a la redonda.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Nueva sección de 2 columnas (Tiendas y App) - Sin bordes ni sombras -->
+    <section class="bg-transparent py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start tiendas-app-grid">
+                
+                <!-- Columna 1: Tiendas Afiliadas - Limpio -->
+                <div id="recharge-widget" class="cool-card p-8">
+                    <div class="w-full flex flex-col items-center text-center">
+                        <a href="https://www.paynet.com.mx" target="_blank">
+                            <img src="img/paynet.png" alt="Logo de Paynet" class="mb-4 max-w-full h-auto" onerror="this.src='https://placehold.co/200x60/2C3333/CBE4DE?text=Paynet';">
+                        </a>
+                        <h3 class="text-2xl sm:text-3xl font-bold mb-6 title-outline text-[#CBE4DE]">TIENDAS AFILIADAS</h3>
+                        <a href="https://www.paynet.com.mx" target="_blank">
+                            <p class="text-lg text-[#BCEAD5] mb-2 font-medium">Genera tu código y realiza tus recargas</p>
+                            <p class="text-sm text-[#BCEAD5] mb-8 opacity-80">Conoce todo lo que puedes comprar en línea y pagar con efectivo</p>
+                        </a>
+                        
+                        <!-- Carrusel de logos sin el recuadro "glass-box" -->
+                        <div class="logo-carousel p-4">
+                            <div class="logo-carousel-inner">
+                                <div class="logo-carousel-item"><img src="img/circle.png" alt="circle"></div>
+                                <div class="logo-carousel-item"><img src="img/extra.png" alt="extra"></div>
+                                <div class="logo-carousel-item"><img src="img/farmacia.png" alt="farmacia"></div>
+                                <div class="logo-carousel-item"><img src="img/seven.png" alt="seven"></div>
+                                <div class="logo-carousel-item"><img src="img/waldo.png" alt="waldo"></div>
+                                <div class="logo-carousel-item"><img src="img/walmart.png" alt="walmart"></div>
+                                <div class="logo-carousel-item"><img src="img/bodega.png" alt="bodega"></div>
+                                <div class="logo-carousel-item"><img src="img/circle.png" alt="circle"></div>
+                                <div class="logo-carousel-item"><img src="img/extra.png" alt="extra"></div>
+                                <div class="logo-carousel-item"><img src="img/farmacia.png" alt="farmacia"></div>
+                                <div class="logo-carousel-item"><img src="img/seven.png" alt="seven"></div>
+                                <div class="logo-carousel-item"><img src="img/waldo.png" alt="waldo"></div>
+                                <div class="logo-carousel-item"><img src="img/walmart.png" alt="walmart"></div>
+                                <div class="logo-carousel-item"><img src="img/bodega.png" alt="bodega"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna 2: Descarga App - Limpio -->
+                <div id="app-download-section" class="cool-card p-8">
+                    <h3 class="text-2xl text-center sm:text-3xl font-bold mb-6 title-outline text-[#CBE4DE]">Descarga Nuestra Nueva App</h3>
+                    
+                    <div class="flex justify-center items-center p-4 md:p-6 mb-4">
+                        <img src="img/appcool.png" alt="App Preview" class="rounded-lg w-full h-full object-contain hover:scale-105 transition duration-300" style="max-height: 250px;" onerror="this.src='https://placehold.co/300x500/0c4b59/57C5B6?text=App+Preview';">
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mx-auto max-w-md">
+                        <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
+                            <img src="img/appstore.png" class="h-12 w-auto rounded-xl" alt="App Store">
+                        </a>
+                        <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button">
+                            <img src="img/googleplay.png" class="h-12 w-auto rounded-xl" alt="Google Play">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+        <footer class="footer">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div>
+                        <img src="footer.png" alt="Cool Mobile Logo" class="mb-4">
+                        <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
+                        <p class="mb-2">Atención las 24 horas del día en los 365 días del año.</p>
+                        <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
+                        <p>C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
+                    </div>
+                    <div>
+                        <h4 class="footer-title">Mapa del Sitio</h4>
+                        <ul class="space-y-2">
+                            <li><a href="/index.html" class="footer-link">Inicio</a></li>
+                            <li><a href="https://crmxpace.com/coolmobile/recargas-stripe" class="footer-link">Recargas</a></li>
+                            <li><a href="/portabilidad/" class="footer-link">Portabilidad</a></li>
+                            <li><a href="https://crmxpace.com/coolmobile/factura/cfdi" class="footer-link">Facturación</a></li>
+                            <li><a href="compatibilidad/" class="footer-link">Revisar Compatibilidad</a></li>
+                            <li><a href="/contacto/" class="footer-link">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="footer-title">Acerca</h4>
+                        <ul class="space-y-2">
+                            <li><a href="/nosotros/" class="footer-link">Nosotros</a></li>
+                            <li><a href="/faqs/" class="footer-link">FAQs</a></li>
+                            <li><a href="/avisos-de-privacidad/" class="footer-link">Avisos de Privacidad</a></li>
+                            <li><a href="/terminos-de-condiciones/" class="footer-link">Términos y Condiciones</a></li>
+                            <div x-data="{ open: false }">
+                                <button @click="open = !open" class="flex items-center footer-link w-full"><span>Legal</span><svg class="w-4 h-4 ml-1 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+                                <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2">
+                                     <a href="contrato-de-adhesion-prepago/" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
+                                     <a href="/codigo-de-politicas-de-gestion-de-trafico/" class="block footer-link text-sm">Código de Políticas de Gestión de Tráfico</a>
+                                     <a href="/carta-de-derecho/" class="block footer-link text-sm">Carta de Derechos</a>
+                                     <a href="/politica-de-uso-justo/" class="block footer-link text-sm">Política de Uso Justo</a>
+                                     <a href="/codigo-de-practicas-comerciales/" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
+                                     <a href="/registro-de-tarifas/" class="block footer-link text-sm">Registro de Tarifas</a>
+                                     <a href="/colaboracion-en-materia-de-seguridad/" class="block footer-link text-sm">Colaboración en materia de seguridad y justicia</a>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="footer-title">Descarga Nuestras Apps</h4>
+                        <div class="space-y-6">
+                             <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button"><img src="img/appstore.png" class="rounded-lg" alt="Get it on Google Play"></a>
+                            <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button"><img src="img/googleplay.png" class="rounded-lg" alt="Download on the App Store"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    <!-- Burbuja Flotante -->
+    <div class="fixed bottom-5 right-5 z-50">
+        <button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white rounded-full p-4 shadow-xl transition transform hover:scale-110">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+        </button>
+    </div>
+
+    <div id="toast" class="fixed top-28 right-5 px-6 py-3 rounded-lg shadow-2xl opacity-0 transition-all duration-300 z-[1000] text-white font-bold text-sm"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA4ZiFpsPw8fZoChlbFg2f-Ox3rlnbFFDw",
+            authDomain: "puntos-recarga.firebaseapp.com",
+            projectId: "puntos-recarga",
+            storageBucket: "puntos-recarga.firebasestorage.app",
+            messagingSenderId: "280928383235",
+            appId: "1:280928383235:web:76e88f18f0c905a79fb936"
+        };
+
+        const appId = "puntos-recarga";
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const storesCol = collection(db, 'artifacts', appId, 'public', 'data', 'stores');
+
+        let map, stores = [], markerCluster, userMarker, userCircle, markersMap = {};
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) listenToStores();
+            else signInAnonymously(auth);
+        });
+
+        window.onload = () => {
+            initMap();
+            document.getElementById('filter-state').addEventListener('change', () => {
+                if (userCircle) map.removeLayer(userCircle);
+                if (userMarker) map.removeLayer(userMarker);
+                renderUserView();
+            });
+            
+            window.addEventListener('scroll', () => {
+                const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+                if (scrollableHeight > 0) {
+                    const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                    document.body.style.backgroundPosition = `50% ${scrollPercentage}%`;
+                }
+            });
+        };
+
+        function initMap() {
+            map = L.map('map', { preferCanvas: true }).setView([19.4326, -99.1332], 5);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap', maxZoom: 18 }).addTo(map);
+            markerCluster = L.markerClusterGroup({ chunkedLoading: true, spiderfyOnMaxZoom: true, showCoverageOnHover: false, zoomToBoundsOnClick: true });
+            map.addLayer(markerCluster);
+        }
+
+        function listenToStores() {
+            onSnapshot(storesCol, (snapshot) => {
+                stores = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return { id: doc.id, ...data, lat: parseFloat(data.lat), lng: parseFloat(data.lng) };
+                });
+                window.dispatchEvent(new CustomEvent('data-ready'));
+                renderUserView();
+            }, (error) => {
+                console.error("Firebase Snapshot Error:", error);
+                window.dispatchEvent(new CustomEvent('data-ready'));
+            });
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; 
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        }
+
+        function renderUserView(nearbyStores = null) {
+            const filterState = document.getElementById('filter-state').value;
+            let filtered = [];
+            let isGPSMode = false;
+
+            if (nearbyStores) { filtered = nearbyStores; isGPSMode = true; document.getElementById('list-title').innerText = "Cercanos (10km)"; } 
+            else { filtered = filterState === 'all' ? stores : stores.filter(s => (s.state || s.city) === filterState); document.getElementById('list-title').innerText = "Puntos Encontrados"; }
+            
+            document.getElementById('store-count').innerText = filtered.length.toLocaleString();
+            const list = document.getElementById('store-list-user');
+            const listToDisplay = filtered.slice(0, 100);
+            
+            list.innerHTML = listToDisplay.length ? listToDisplay.map(s => `
+                <li class="py-3 hover:bg-[#0E8388] hover:bg-opacity-10 cursor-pointer transition px-2 rounded-lg" onclick="window.focusOnStore(${s.lat}, ${s.lng}, '${s.id}')">
+                    <div class="font-bold text-[#BCEAD5] text-[11px] leading-tight mb-1">${s.name}</div>
+                    <div class="text-[9px] text-slate-400 truncate">${s.address}</div>
+                    ${isGPSMode ? `<div class="text-[9px] text-[#57C5B6] font-bold mt-1 uppercase">A ${s.distance.toFixed(2)} KM</div>` : ''}
+                </li>
+            `).join('') : '<li class="p-8 text-center text-slate-600 text-xs italic">Sin resultados</li>';
+            
+            if (filtered.length > 100) list.innerHTML += `<li class="p-2 text-center text-[9px] text-[#57C5B6] font-bold">Y ${filtered.length - 100} más...</li>`;
+
+            markerCluster.clearLayers();
+            markersMap = {};
+            const newMarkers = [];
+
+            filtered.forEach(s => {
+                if (!isNaN(s.lat) && !isNaN(s.lng)) {
+                    const marker = L.marker([s.lat, s.lng]);
+                    marker.bindPopup(`<div style="font-family: 'Poppins', sans-serif; min-width: 150px;"><b style="color:#0E8388">${s.name}</b><br><small>${s.address}</small><br><a href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}" target="_blank" style="color:#57C5B6; font-weight:bold; text-decoration:none; display:block; margin-top:5px;">IR AHORA &rarr;</a></div>`);
+                    newMarkers.push(marker);
+                    markersMap[s.id] = marker;
+                }
+            });
+
+            markerCluster.addLayers(newMarkers);
+            if (newMarkers.length > 0) {
+                if (isGPSMode) {
+                    map.fitBounds(userCircle.getBounds());
+                    if (filtered.length > 0) {
+                        const closest = filtered[0];
+                        setTimeout(() => { const m = markersMap[closest.id]; if(m) markerCluster.zoomToShowLayer(m, () => m.openPopup()); }, 1000);
+                    }
+                } else if (filterState !== 'all') { map.fitBounds(markerCluster.getBounds(), { padding: [50, 50] }); } 
+                else { map.setView([19.4326, -99.1332], 5); }
+            }
+        }
+
+        window.focusOnStore = (lat, lng, id) => {
+            if (!isNaN(lat) && !isNaN(lng)) {
+                const m = markersMap[id];
+                if (m) { markerCluster.zoomToShowLayer(m, () => { map.flyTo([lat, lng], 17, { duration: 1.5 }); m.openPopup(); }); } 
+                else { map.flyTo([lat, lng], 17, { duration: 1.5 }); }
+            }
+        };
+
+        window.findNearest = () => {
+            if (!navigator.geolocation) return showToast("GPS no disponible", "error");
+            showToast("Buscando tu ubicación...", "success");
+            navigator.geolocation.getCurrentPosition((pos) => {
+                const { latitude: uLat, longitude: uLng } = pos.coords;
+                if (userMarker) map.removeLayer(userMarker);
+                if (userCircle) map.removeLayer(userCircle);
+                userMarker = L.circleMarker([uLat, uLng], { radius: 10, fillColor: "#57C5B6", color: "#fff", weight: 3, fillOpacity: 0.9 }).addTo(map).bindPopup("Estás aquí").openPopup();
+                userCircle = L.circle([uLat, uLng], { color: '#0E8388', fillColor: '#0E8388', fillOpacity: 0.15, radius: 10000, weight: 2, dashArray: '5, 10' }).addTo(map);
+                const nearby = stores.map(s => ({ ...s, distance: calculateDistance(uLat, uLng, s.lat, s.lng) })).filter(s => s.distance <= 10).sort((a, b) => a.distance - b.distance);
+                if (nearby.length > 0) { showToast(`Encontramos ${nearby.length} puntos`, "success"); renderUserView(nearby); } 
+                else { showToast("No hay puntos en 10km", "error"); renderUserView([]); }
+            }, () => showToast("Error de GPS", "error"), { enableHighAccuracy: true });
+        };
+
+        function showToast(msg, type = "success") {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.className = `fixed top-28 right-5 px-6 py-3 rounded-lg shadow-2xl transition-all duration-300 z-[1000] text-white font-bold opacity-100 ${type === 'success' ? 'bg-[#0E8388]' : 'bg-red-600'}`;
+            setTimeout(() => t.classList.replace('opacity-100', 'opacity-0'), 4000);
+        }
+    </script>
+</body>
+</html>

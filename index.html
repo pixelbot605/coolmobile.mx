@@ -21,17 +21,22 @@
 
     <!-- 3. CSS del Carrusel -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'" />
-    <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    </noscript>
+    
+    <!-- 4. Leaflet CSS (Mapa) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 
-    <!-- 4. Alpine JS -->
+    <!-- 5. Scripts JS (Leaflet + Alpine) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
-    <!-- 5. CSS OPTIMIZADO (Producción) -->
-    <!-- El script de CDN ha sido eliminado para mejorar velocidad -->
-    <!-- Este archivo 'output.css' será creado automáticamente por Vercel -->
+    <!-- 6. CSS OPTIMIZADO (Producción) -->
     <link href="output.css" rel="stylesheet">
+
+    <!-- Tailwind CDN como respaldo para visualización correcta en este entorno -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
         /* CSS Crítico en línea */
@@ -46,7 +51,7 @@
         }
         [x-cloak] { display: none !important; }
         
-        /* Estilos que no dependen de Tailwind o son específicos de componentes */
+        /* Estilos Swiper */
         .swiper-button-next, .swiper-button-prev { display: none; }
         .swiper-pagination-bullet-active { background-color: #57C5B6; }
         .swiper-slide { background-size: cover; background-position: center; }
@@ -117,6 +122,32 @@
         .chat-modal-overlay { background-color: rgba(0, 0, 0, 0.6); z-index: 999; }
         .chat-modal-content { z-index: 9999; max-height: 90vh; }
 
+        /* Estilos del Mapa Personalizado */
+        #map-widget { 
+            height: 400px; 
+            width: 100%; 
+            border-radius: 0.75rem; /* rounded-xl */
+            z-index: 1;
+        }
+        .marker-cluster-small { background-color: rgba(14, 131, 136, 0.6); }
+        .marker-cluster-small div { background-color: rgba(87, 197, 182, 0.8); color: white; font-weight: bold; }
+        .marker-cluster-medium { background-color: rgba(14, 131, 136, 0.7); }
+        .marker-cluster-medium div { background-color: rgba(14, 131, 136, 0.9); color: white; }
+        .marker-cluster-large { background-color: rgba(12, 75, 89, 0.8); }
+        .marker-cluster-large div { background-color: rgba(12, 75, 89, 1); color: white; }
+        
+        .gps-btn {
+            background: #0E8388;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 2px solid white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .gps-btn:active { transform: scale(0.9); }
+
         @media (max-width: 768px) {
             .video-bloque { width: 90%; }
             .video-container { gap: 20px; }
@@ -171,6 +202,7 @@
                                 <a href="/portabilidad/index.html" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Portabilidad</a>
                                 <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Compatibilidad</a>
                                 <a href="/manual-configuraciones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Manual</a>
+                                <a href="/puntos-de-recarga/localiza/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Puntos de recarga</a>
                             </div>
                         </div>
                         <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
@@ -241,6 +273,7 @@
                             <a href="portabilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Portabilidad</a>
                             <a href="compatibilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Compatibilidad</a>
                             <a href="/manual-configuraciones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Manual</a>
+                            <a href="/puntos-de-recarga/localiza/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Puntos de recarga</a>
                         </div>
                     </div>
                     <div x-data="{ open: false }">
@@ -375,13 +408,35 @@
             </div>
         </section>
 
+        <!-- SECCION PUNTOS DE RECARGA MODIFICADA -->
         <section class="bg-transparent py-16">
             <div id="recharge-widget" class="container mx-auto px-4">
                 <div class="flex flex-col md:flex-row bg-transparent md:bg-gray-800 md:bg-opacity-20 rounded-xl shadow-lg overflow-hidden">
-                    <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col items-center justify-center text-center border-b md:border-b-0 md:border-r border-gray-200 border-opacity-20">
+                    
+                    <!-- Lado izquierdo: MAPA (Reemplazando video) -->
+                    <div class="w-full md:w-1/2 p-4 md:p-6 flex flex-col items-center justify-center text-center border-b md:border-b-0 md:border-r border-gray-200 border-opacity-20">
                         <h3 class="text-2xl sm:text-3xl font-bold mb-4 title-outline">PUNTOS DE RECARGA</h3>
-                        <a href="https://www.paynet.com.mx/" target="_blank"><video class="rounded-lg shadow-md mb-8 max-w-full h-auto" autoplay muted loop playsinline><source src="media/puntoderecarga.mp4" type="video/mp4">Tu navegador no soporta la etiqueta de video.</video></a>
+                        <div class="relative w-full h-[400px] rounded-lg overflow-hidden shadow-md bg-gray-100">
+                             <div id="map-widget"></div>
+                             
+                             <div id="map-loader" class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-80 z-[1001] text-[#57C5B6]">
+                                 <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 border-4 border-[#57C5B6] border-t-transparent rounded-full animate-spin mb-2"></div>
+                                    <span class="text-xs font-bold uppercase">Cargando...</span>
+                                 </div>
+                             </div>
+
+                             <button onclick="window.findMe()" class="gps-btn absolute bottom-4 right-4 z-[1000] hover:scale-110" title="Mi ubicación">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-300 mt-2">Encuentra tu punto más cercano</p>
                     </div>
+
+                    <!-- Lado derecho: TIENDAS AFILIADAS (Original) -->
                     <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col items-center text-center">
                         <a href="https://www.paynet.com.mx" target="_blank"><img src="img/paynet.png" alt="Logo de Paynet" class="mb-4 max-w-full h-auto"></a>
                         <h3 class="text-2xl sm:text-3xl font-bold mb-6 title-outline">TIENDAS AFILIADAS</h3>
@@ -436,7 +491,7 @@
         </section>
 
         <footer class="footer">
-            <div class="container mx-auto px-6 lg:px-8">
+            <div class="container mx-auto px-8 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div>
                         <img src="footer.png" alt="Cool Mobile Logo" class="mb-4">
@@ -727,6 +782,111 @@
                 bg.style.backgroundPosition = `50% 0%`;
             }
         });
+    </script>
+
+    <!-- SCRIPTS DEL MAPA E INTEGRACIÓN FIREBASE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA4ZiFpsPw8fZoChlbFg2f-Ox3rlnbFFDw",
+            authDomain: "puntos-recarga.firebaseapp.com",
+            projectId: "puntos-recarga",
+            storageBucket: "puntos-recarga.firebasestorage.app",
+            messagingSenderId: "280928383235",
+            appId: "1:280928383235:web:76e88f18f0c905a79fb936"
+        };
+
+        const appId = "puntos-recarga";
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const storesCol = collection(db, 'artifacts', appId, 'public', 'data', 'stores');
+
+        let map, markerCluster, userMarker, stores = [];
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) listenToStores();
+            else signInAnonymously(auth);
+        });
+
+        // Inicializar Mapa apuntando al div 'map-widget'
+        // Centrado en CDMX por defecto
+        map = L.map('map-widget', { preferCanvas: true }).setView([19.4326, -99.1332], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap',
+            maxZoom: 18
+        }).addTo(map);
+
+        markerCluster = L.markerClusterGroup({
+            chunkedLoading: true,
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true
+        });
+        map.addLayer(markerCluster);
+
+        function listenToStores() {
+            onSnapshot(storesCol, (snapshot) => {
+                stores = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return { ...data, lat: parseFloat(data.lat), lng: parseFloat(data.lng) };
+                });
+                
+                renderMarkers();
+                const loader = document.getElementById('map-loader');
+                if(loader) loader.style.display = 'none';
+            });
+        }
+
+        function renderMarkers() {
+            markerCluster.clearLayers();
+            const newMarkers = [];
+
+            stores.forEach(s => {
+                if (!isNaN(s.lat) && !isNaN(s.lng)) {
+                    const marker = L.marker([s.lat, s.lng]);
+                    marker.bindPopup(`
+                        <div style="font-family: 'Poppins', sans-serif; min-width: 150px; text-align: center;">
+                            <b style="color:#0E8388">${s.name}</b><br>
+                            <small style="color: #666">${s.address || ''}</small><br>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}" 
+                               target="_blank" 
+                               style="background:#0E8388; color:white; padding:5px 10px; border-radius:15px; text-decoration:none; display:inline-block; margin-top:8px; font-size: 10px; font-weight: bold;">
+                               ¿CÓMO LLEGAR?
+                            </a>
+                        </div>
+                    `);
+                    newMarkers.push(marker);
+                }
+            });
+            markerCluster.addLayers(newMarkers);
+        }
+
+        // Hacer la función findMe global para que el botón HTML pueda llamarla
+        window.findMe = () => {
+            if (!navigator.geolocation) return;
+            
+            navigator.geolocation.getCurrentPosition((pos) => {
+                const { latitude: uLat, longitude: uLng } = pos.coords;
+                if (userMarker) map.removeLayer(userMarker);
+                
+                userMarker = L.circleMarker([uLat, uLng], { 
+                    radius: 10, 
+                    fillColor: "#57C5B6", 
+                    color: "#fff", 
+                    weight: 3, 
+                    fillOpacity: 0.9 
+                }).addTo(map).bindPopup("Estás aquí").openPopup();
+                
+                map.flyTo([uLat, uLng], 15);
+            }, (err) => {
+                console.warn("GPS error", err);
+                alert("No pudimos obtener tu ubicación. Verifica los permisos de tu navegador.");
+            }, { enableHighAccuracy: true });
+        };
     </script>
 </body>
 </html>
