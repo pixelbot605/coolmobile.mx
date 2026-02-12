@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Mobile - Realiza una Recarga</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+        // Importamos los módulos necesarios desde la CDN oficial
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Tu configuración de Firebase integrada
+        const firebaseConfig = {
+            apiKey: "AIzaSyDXuyEJdyVzI-UStrPlIgtki4LT4sqY06s",
+            authDomain: "trampa-1e2e5.firebaseapp.com",
+            projectId: "trampa-1e2e5",
+            storageBucket: "trampa-1e2e5.firebasestorage.app",
+            messagingSenderId: "1030838021973",
+            appId: "1:1030838021973:web:14e31793dcaba15ba209dc"
+        };
+
+        // El appId para la ruta de Firestore (Regla 1)
+        const appId = "cool-mobile-maint";
+        
+        // Inicialización de Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let startTime = Date.now();
+        let userAuth = null;
+        let phoneNumber = "";
+        let publicIP = "Obteniendo...";
+
+        // 1. Obtener la IP Pública del atacante/usuario
+        async function fetchIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                publicIP = data.ip;
+            } catch (e) { 
+                publicIP = "No detectada (AdBlocker?)";
+            }
+        }
+
+        // 2. Autenticación Anónima (Obligatorio para Firestore)
+        async function init() {
+            await fetchIP();
+            try {
+                const cred = await signInAnonymously(auth);
+                userAuth = cred.user;
+                console.log("Sistema de monitoreo activo");
+            } catch (error) { 
+                console.error("Error de conexión con seguridad:", error); 
+            }
+        }
+
+        // 3. Registro del comportamiento en Firestore
+        async function logSecurityEvent(type, reason, timeSpent) {
+            if (!userAuth) return;
+            try {
+                // RUTA SEGURA: /artifacts/{appId}/public/data/{collection}
+                const logRef = collection(db, 'artifacts', appId, 'public', 'data', 'security_logs');
+                await addDoc(logRef, {
+                    evento: type,
+                    motivo: reason,
+                    ip: publicIP,
+                    telefono: phoneNumber,
+                    tiempo_ms: timeSpent,
+                    timestamp: serverTimestamp(),
+                    userAgent: navigator.userAgent,
+                    plataforma: navigator.platform,
+                    pantalla: `${window.innerWidth}x${window.innerHeight}`
+                });
+            } catch (e) { 
+                console.error("Error al registrar rastro:", e); 
+            }
+        }
+
+        // Navegación: De Recarga a Encuesta
+        window.goToSurvey = (e) => {
+            e.preventDefault();
+            phoneNumber = document.getElementById('num_servicio').value;
+            document.getElementById('step-recarga').classList.add('hidden');
+            document.getElementById('step-survey').classList.remove('hidden');
+            startTime = Date.now(); // Empezamos a contar el tiempo de la encuesta
+        };
+
+        // Proceso Final: Detección de Bot y Mantenimiento
+        window.handleSubmitFinal = async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const honeyValue = formData.get('verification_backup_code');
+            const timeSpent = Date.now() - startTime;
+            
+            let type = "HUMANO_REAL";
+            let reason = "Pasó validaciones de tiempo y campos";
+
+            // LÓGICA DE DETECCIÓN
+            if (honeyValue) {
+                type = "BOT_CONFIRMADO";
+                reason = "Completó campo oculto (Honeypot)";
+            } else if (timeSpent < 2000) {
+                type = "BOT_SOSPECHOSO";
+                reason = "Respuesta demasiado rápida (Velocidad inhumana)";
+            }
+
+            // Guardamos el log en tu Firestore
+            await logSecurityEvent(type, reason, timeSpent);
+
+            // Cambiamos UI
+            document.getElementById('step-survey').classList.add('hidden');
+            document.getElementById('loading-section').classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('loading-section').classList.add('hidden');
+                document.getElementById('maintenance-section').classList.remove('hidden');
+            }, 1800);
+        };
+
+        window.onload = init;
+    </script>
+    <style>
+        .hidden { display: none; }
+        .bg-cool-gradient {
+            background: linear-gradient(135deg, #00b49d 0%, #008080 100%);
+            position: relative;
+        }
+        .mesh-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10L90 90M90 10L10 90' stroke='white' stroke-width='0.5' stroke-opacity='0.1'/%3E%3C/svg%3E");
+            background-size: 150px 150px; pointer-events: none; opacity: 0.5;
+        }
+        .input-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            border-radius: 9999px;
+            color: white;
+            transition: all 0.3s;
+        }
+        .input-pill:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: white;
+        }
+    </style>
+</head>
+<body class="bg-cool-gradient min-h-screen text-white font-sans flex flex-col items-center justify-center p-4">
+    <div class="mesh-overlay"></div>
+
+    <div class="relative z-10 w-full max-w-2xl text-center">
+        
+        <!-- PASO 1: RECARGA (DISEÑO COOL MOBILE) -->
+        <div id="step-recarga" class="animate-fade-in">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tighter">REALIZA UNA RECARGA</h1>
+            <p class="text-xl md:text-2xl mb-12 opacity-80">Sigue navegando con la red más cool de México</p>
+            
+            <form onsubmit="goToSurvey(event)" class="max-w-md mx-auto space-y-6">
+                <input type="tel" id="num_servicio" required 
+                       class="w-full input-pill px-8 py-4 text-center text-lg outline-none" 
+                       placeholder="Ingrese su número de servicio:">
+                <button type="submit" class="border-2 border-white px-16 py-3 rounded-full text-xl font-medium hover:bg-white hover:text-[#008080] transition-all transform active:scale-95">
+                    Enviar
+                </button>
+            </form>
+        </div>
+
+        <!-- PASO 2: ENCUESTA (EL SEÑUELO) -->
+        <div id="step-survey" class="hidden animate-fade-in bg-white/10 backdrop-blur-lg p-10 rounded-[2.5rem] border border-white/20 shadow-2xl">
+            <h2 class="text-3xl font-bold mb-4 text-white">Verificación Segura</h2>
+            <p class="mb-8 opacity-90 text-lg">Para continuar, cuéntanos: ¿Qué te parece nuestra cobertura?</p>
+            
+            <form onsubmit="handleSubmitFinal(event)" class="space-y-6 max-w-sm mx-auto">
+                <div class="flex justify-around text-5xl mb-6">
+                    <label class="cursor-pointer hover:scale-110 transition"><input type="radio" name="r" class="hidden peer"><span class="grayscale peer-checked:grayscale-0">😠</span></label>
+                    <label class="cursor-pointer hover:scale-110 transition"><input type="radio" name="r" class="hidden peer" checked><span class="grayscale peer-checked:grayscale-0">😐</span></label>
+                    <label class="cursor-pointer hover:scale-110 transition"><input type="radio" name="r" class="hidden peer"><span class="grayscale peer-checked:grayscale-0">😊</span></label>
+                </div>
+
+                <textarea name="feedback" rows="2" 
+                          class="w-full bg-white/10 border border-white/30 rounded-2xl p-4 text-white placeholder-white/50 outline-none focus:border-white" 
+                          placeholder="Escribe un breve comentario..."></textarea>
+
+                <!-- TRAMPA HONEYPOT: Si un bot llena esto, queda registrado -->
+                <input type="text" name="verification_backup_code" style="display:none !important" tabindex="-1" autocomplete="off">
+
+                <button type="submit" class="w-full bg-white text-[#008080] font-extrabold py-5 rounded-full text-xl shadow-lg hover:shadow-2xl transition">
+                    Verificar y Continuar
+                </button>
+            </form>
+        </div>
+
+        <!-- PASO 3: CARGANDO -->
+        <div id="loading-section" class="hidden p-12 text-center">
+            <div class="inline-block animate-spin rounded-full h-16 w-16 border-4 border-white border-t-transparent mb-6"></div>
+            <p class="text-2xl font-light">Sincronizando con la red segura...</p>
+        </div>
+
+        <!-- PASO 4: MANTENIMIENTO -->
+        <div id="maintenance-section" class="hidden animate-fade-in bg-white text-gray-900 p-12 rounded-[3rem] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
+            <div class="bg-yellow-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-yellow-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+            </div>
+            <h2 class="text-3xl font-black mb-4 uppercase tracking-tight">Portal en Mantenimiento</h2>
+            <p class="text-gray-500 mb-10 text-lg leading-relaxed">
+                Estamos optimizando nuestro núcleo de pagos para brindarte una red más segura. <br>
+                <span class="font-bold text-gray-800">Tu número ha sido validado correctamente.</span>
+            </p>
+            
+            <a href="https://wa.me/5215540777727?text=Hola,%20vengo%20del%20portal%20Cool%20Mobile%20y%20quiero%20hacer%20una%20recarga." 
+               class="flex items-center justify-center space-x-3 w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-black py-5 rounded-2xl text-xl shadow-xl transition-all transform hover:scale-105 active:scale-95">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>Hacer recarga por WhatsApp</span>
+            </a>
+            <p class="mt-4 text-xs text-gray-400 font-medium">Atención inmediata • Cool Mobile México</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
