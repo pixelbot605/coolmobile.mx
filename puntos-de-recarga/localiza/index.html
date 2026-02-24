@@ -70,9 +70,9 @@
         .marker-cluster-large div { background-color: rgba(12, 75, 89, 1); color: white; }
 
         .loading-overlay {
-            position: fixed; inset: 0; background: rgba(0,7,7,0.9); 
+            position: fixed; inset: 0; background: rgba(0,7,7,0.95); 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 9999; backdrop-filter: blur(5px);
+            z-index: 99999; backdrop-filter: blur(10px);
         }
 
         /* Estilos del carrusel de logos y botones de app */
@@ -88,6 +88,15 @@
     </style>
 </head>
 <body>
+
+    <!-- Pantalla de Carga Agregada -->
+    <div id="loading-overlay" class="loading-overlay transition-opacity duration-500">
+        <div class="w-16 h-16 border-4 border-[#0E8388] border-t-[#57C5B6] rounded-full animate-spin mb-6"></div>
+        <h2 class="text-2xl md:text-3xl font-bold text-[#CBE4DE] animate-pulse title-outline uppercase">Cargando Mapa</h2>
+        <p class="text-[#BCEAD5] mt-2 opacity-80 text-sm font-medium">Sincronizando puntos de recarga en tiempo real...</p>
+    </div>
+    <!-- Fin Pantalla de Carga -->
+
     <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
         <header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
                 :class="{ 'bg-[#0c4b59] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
@@ -187,16 +196,16 @@
                             <a href="/promociones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Promociones</a>
                         </div>
                     </div>
-                    <a href="internet-de-casa/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet de Casa</a>
-                    <a href="internet-movil/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet Móvil</a>
+                    <a href="/internet-de-casa/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet de Casa</a>
+                    <a href="/internet-movil/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet Móvil</a>
                     <div x-data="{ open: false }">
                         <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
                             <span>Consulta</span>
                             <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
-                            <a href="portabilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Portabilidad</a>
-                            <a href="compatibilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Compatibilidad</a>
+                            <a href="/portabilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Portabilidad</a>
+                            <a href="/compatibilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Compatibilidad</a>
                             <a href="/manual-configuraciones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Manual</a>
                             <a href="/puntos-de-recarga/localiza/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Puntos de recarga</a>
                         </div>
@@ -207,7 +216,7 @@
                             <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
-                            <a href="faqs/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Faqs</a>
+                            <a href="/faqs/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Faqs</a>
                             <a href="contacto/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Contactos</a>
                         </div>
                     </div>
@@ -336,52 +345,52 @@
     </section>
 
         <footer class="footer">
-            <div class="container mx-auto px-6 lg:px-8">
+            <div class="container mx-auto px-6 lg:px-8 py-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div>
                         <img src="footer.png" alt="Cool Mobile Logo" class="mb-4">
-                        <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
+                        <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link hover:text-white">contacto@coolmobile.mx</a></p>
                         <p class="mb-2">Atención las 24 horas del día en los 365 días del año.</p>
                         <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
-                        <p>C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
+                        <p class="text-sm opacity-80">C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
                     </div>
                     <div>
-                        <h4 class="footer-title">Mapa del Sitio</h4>
+                        <h4 class="font-bold text-lg mb-4 text-[#57C5B6]">Mapa del Sitio</h4>
                         <ul class="space-y-2">
-                            <li><a href="/index.html" class="footer-link">Inicio</a></li>
-                            <li><a href="https://crmxpace.com/coolmobile/recargas-stripe" class="footer-link">Recargas</a></li>
-                            <li><a href="/portabilidad/" class="footer-link">Portabilidad</a></li>
-                            <li><a href="https://crmxpace.com/coolmobile/factura/cfdi" class="footer-link">Facturación</a></li>
-                            <li><a href="compatibilidad/" class="footer-link">Revisar Compatibilidad</a></li>
-                            <li><a href="/contacto/" class="footer-link">Contacto</a></li>
+                            <li><a href="/index.html" class="footer-link hover:text-white transition">Inicio</a></li>
+                            <li><a href="/recargas/" class="footer-link hover:text-white transition">Recargas</a></li>
+                            <li><a href="/portabilidad/" class="footer-link hover:text-white transition">Portabilidad</a></li>
+                            <li><a href="https://crmxpace.com/coolmobile/factura/cfdi" class="footer-link hover:text-white transition">Facturación</a></li>
+                            <li><a href="/compatibilidad/" class="footer-link hover:text-white transition">Revisar Compatibilidad</a></li>
+                            <li><a href="/contacto/" class="footer-link hover:text-white transition">Contacto</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="footer-title">Acerca</h4>
+                        <h4 class="font-bold text-lg mb-4 text-[#57C5B6]">Acerca</h4>
                         <ul class="space-y-2">
-                            <li><a href="/nosotros/" class="footer-link">Nosotros</a></li>
-                            <li><a href="/faqs/" class="footer-link">FAQs</a></li>
-                            <li><a href="/avisos-de-privacidad/" class="footer-link">Avisos de Privacidad</a></li>
-                            <li><a href="/terminos-de-condiciones/" class="footer-link">Términos y Condiciones</a></li>
+                            <li><a href="/nosotros/" class="footer-link hover:text-white transition">Nosotros</a></li>
+                            <li><a href="/faqs/" class="footer-link hover:text-white transition">FAQs</a></li>
+                            <li><a href="/avisos-de-privacidad/" class="footer-link hover:text-white transition">Avisos de Privacidad</a></li>
+                            <li><a href="/terminos-de-condiciones/" class="footer-link hover:text-white transition">Términos y Condiciones</a></li>
                             <div x-data="{ open: false }">
-                                <button @click="open = !open" class="flex items-center footer-link w-full"><span>Legal</span><svg class="w-4 h-4 ml-1 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
-                                <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2">
-                                     <a href="contrato-de-adhesion-prepago/" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
-                                     <a href="/codigo-de-politicas-de-gestion-de-trafico/" class="block footer-link text-sm">Código de Políticas de Gestión de Tráfico</a>
-                                     <a href="/carta-de-derecho/" class="block footer-link text-sm">Carta de Derechos</a>
-                                     <a href="/politica-de-uso-justo/" class="block footer-link text-sm">Política de Uso Justo</a>
-                                     <a href="/codigo-de-practicas-comerciales/" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
-                                     <a href="/registro-de-tarifas/" class="block footer-link text-sm">Registro de Tarifas</a>
-                                     <a href="/colaboracion-en-materia-de-seguridad/" class="block footer-link text-sm">Colaboración en materia de seguridad y justicia</a>
+                                <button @click="open = !open" class="flex items-center footer-link w-full hover:text-white transition"><span>Legal</span><svg class="w-4 h-4 ml-1 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+                                <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2 border-l border-[#0E8388] ml-2">
+                                     <a href="/contrato-de-adhesion-prepago/" class="block footer-link text-sm hover:text-white transition">Contrato de Adhesión Prepago</a>
+                                     <a href="/codigo-de-politicas-de-gestion-de-trafico/" class="block footer-link text-sm hover:text-white transition">Código de Políticas de Gestión de Tráfico</a>
+                                     <a href="/carta-de-derecho/" class="block footer-link text-sm hover:text-white transition">Carta de Derechos</a>
+                                     <a href="/politica-de-uso-justo/" class="block footer-link text-sm hover:text-white transition">Política de Uso Justo</a>
+                                     <a href="/codigo-de-practicas-comerciales/" class="block footer-link text-sm hover:text-white transition">Código de Prácticas Comerciales</a>
+                                     <a href="/registro-de-tarifas/" class="block footer-link text-sm hover:text-white transition">Registro de Tarifas</a>
+                                     <a href="/colaboracion-en-materia-de-seguridad/" class="block footer-link text-sm hover:text-white transition">Colaboración en materia de seguridad y justicia</a>
                                 </div>
                             </div>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="footer-title">Descarga Nuestras Apps</h4>
-                        <div class="space-y-6">
-                             <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button"><img src="img/appstore.png" class="rounded-lg" alt="Get it on Google Play"></a>
-                            <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button"><img src="img/googleplay.png" class="rounded-lg" alt="Download on the App Store"></a>
+                        <h4 class="font-bold text-lg mb-4 text-[#57C5B6]">Descarga Nuestras Apps</h4>
+                        <div class="space-y-4">
+                             <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button block w-max"><img src="img/appstore.png" class="rounded-lg h-10" alt="Get it on Google Play"></a>
+                            <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button block w-max"><img src="img/googleplay.png" class="rounded-lg h-10" alt="Download on the App Store"></a>
                         </div>
                     </div>
                 </div>
@@ -395,12 +404,22 @@
         </button>
     </div>
 
-    <div id="toast" class="fixed top-28 right-5 px-6 py-3 rounded-lg shadow-2xl opacity-0 transition-all duration-300 z-[1000] text-white font-bold text-sm"></div>
+    <div id="toast" class="fixed top-28 right-5 px-6 py-3 rounded-lg shadow-2xl opacity-0 transition-all duration-300 z-[1000] text-white font-bold text-sm pointer-events-none"></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // Listener Global para ocultar la pantalla de carga
+        window.addEventListener('data-ready', () => {
+            const loader = document.getElementById('loading-overlay');
+            if (loader) {
+                loader.classList.add('opacity-0');
+                // Removerlo del DOM completamente después de la animación para no estorbar
+                setTimeout(() => { loader.remove(); }, 500);
+            }
+        });
 
         const firebaseConfig = {
             apiKey: "AIzaSyA4ZiFpsPw8fZoChlbFg2f-Ox3rlnbFFDw",
@@ -454,11 +473,14 @@
                     const data = doc.data();
                     return { id: doc.id, ...data, lat: parseFloat(data.lat), lng: parseFloat(data.lng) };
                 });
+                // Evento para ocultar el panel de carga cuando se terminaron de procesar los datos
                 window.dispatchEvent(new CustomEvent('data-ready'));
                 renderUserView();
             }, (error) => {
                 console.error("Firebase Snapshot Error:", error);
+                // Si hay error también ocultamos el loader para no dejar al usuario trabado
                 window.dispatchEvent(new CustomEvent('data-ready'));
+                showToast("Error al cargar puntos", "error");
             });
         }
 

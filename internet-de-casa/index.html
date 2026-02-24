@@ -419,7 +419,7 @@
                 </div>
             </div>
 
-            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#111827] z-40" <!-- CAMBIADO: de #2E4F4F a gray-900 -->
+            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#111827] z-40" 
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 scale-95"
                  x-transition:enter-end="opacity-100 scale-100"
@@ -446,15 +446,15 @@
                             <a href="/promociones/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Promociones</a> <!-- CAMBIADO: Colores -->
                         </div>
                     </div>
-                    <a href="internet-de-casa/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]">Internet de Casa</a> <!-- CAMBIADO: hover naranja -->
-                    <a href="internet-movil/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]">Internet Móvil</a> <!-- CAMBIADO: hover naranja -->
+                    <a href="/internet-de-casa/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]">Internet de Casa</a> <!-- CAMBIADO: hover naranja -->
+                    <a href="/internet-movil/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]">Internet Móvil</a> <!-- CAMBIADO: hover naranja -->
                     <div x-data="{ open: false }">
                         <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]"> <!-- CAMBIADO: hover naranja -->
                             <span>Consulta</span>
                             <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
-                            <a href="portabilidad/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Portabilidad</a> <!-- CAMBIADO: Colores -->
+                            <a href="/portabilidad/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Portabilidad</a> <!-- CAMBIADO: Colores -->
                             <a href="compatibilidad/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Compatibilidad</a> <!-- CAMBIADO: Colores -->
                             <a href="/manual-configuraciones/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Manual</a> <!-- CAMBIADO: Colores -->
                             <a href="/puntos-de-recarga/localiza/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Puntos de recarga</a> <!-- CAMBIADO: Colores -->
@@ -466,11 +466,11 @@
                             <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
-                            <a href="faqs/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Faqs</a> <!-- CAMBIADO: Colores -->
-                            <a href="contacto/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Contactos</a> <!-- CAMBIADO: Colores -->
+                            <a href="/faqs/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Faqs</a> <!-- CAMBIADO: Colores -->
+                            <a href="/contacto/" class="block px-3 py-2 text-sm text-[#E5E7EB] hover:bg-[#EA580C]">Contactos</a> <!-- CAMBIADO: Colores -->
                         </div>
                     </div>
-                    <a href="facturacion/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]">Facturación</a> <!-- CAMBIADO: hover naranja -->
+                    <a href="/facturacion/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#EA580C]">Facturación</a> <!-- CAMBIADO: hover naranja -->
                     <div class="pt-4 border-t border-[#E5E7EB]"> <!-- CAMBIADO: Color borde -->
                         <a href="/recargas/" class="block text-center bg-[#EA580C] hover:bg-[#F97316] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 w-full"> <!-- CAMBIADO: Colores -->
                             Recargas
@@ -526,22 +526,22 @@
                         
                         <!-- Plan 1 -->
                         <div class="w-full max-w-[300px] transition-all duration-300 transform hover:scale-105 rounded-xl overflow-hidden ">
-                            <a href="#">
+                            <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Club%20Internet%20en%20Casa" target="_blank" rel="noopener">
                                 <img src="img/coolclub.png" alt="Plan Básico Internet" class="w-full h-auto">
                             </a>
                         </div>
 
                         <!-- Plan 2 (Destacado) -->
                         <div class="w-full max-w-[300px] transition-all duration-300 transform hover:scale-105 md:scale-110 md:hover:scale-115 rounded-xl overflow-hidden ">
-                            <a href="#">
+                            <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Friends%20Internet%20en%20Casa" target="_blank" rel="noopener">
                                 <img src="img/coolfriends.png" alt="Plan Pro Internet" class="w-full h-auto">
                             </a>
                         </div>
 
                         <!-- Plan 3 -->
                         <div class="w-full max-w-[300px] transition-all duration-300 transform hover:scale-105 rounded-xl overflow-hidden ">
-                            <a href="#">
-                                <img src="img/coolfriends.png" alt="Plan Total Internet" class="w-full h-auto">
+                            <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Studio%20Internet%20en%20Casa" target="_blank" rel="noopener">
+                                <img src="img/coolstudio.png" alt="Plan Total Internet" class="w-full h-auto">
                             </a>
                         </div>
                         
@@ -709,10 +709,10 @@
                         <h4 class="footer-title">Mapa del Sitio</h4>
                         <ul class="space-y-2">
                             <li><a href="/index.html" class="footer-link">Inicio</a></li>
-                            <li><a href="https://crmxpace.com/coolmobile/recargas-stripe" class="footer-link">Recargas</a></li>
+                            <li><a href="/recargas/" class="footer-link">Recargas</a></li>
                             <li><a href="/portabilidad/" class="footer-link">Portabilidad</a></li>
                             <li><a href="/cobertura/" class="footer-link">Cobertura</a></li>
-                            <li><a href="compatibilidad/" class="footer-link">Revisar Compatibilidad</a></li>
+                            <li><a href="/compatibilidad/" class="footer-link">Revisar Compatibilidad</a></li>
                             <li><a href="/contacto/" class="footer-link">Contacto</a></li>
                         </ul>
                     </div>
