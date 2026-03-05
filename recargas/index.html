@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool Mobile - Realiza una Recarga</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <script type="module">
         // Importamos los módulos necesarios desde la CDN oficial
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -21,7 +24,7 @@
             appId: "1:1030838021973:web:14e31793dcaba15ba209dc"
         };
 
-        // El appId para la ruta de Firestore (Regla 1)
+        // El appId para la ruta de Firestore
         const appId = "cool-mobile-maint";
         
         // Inicialización de Firebase
@@ -58,7 +61,7 @@
         }
 
         // 3. Registro del comportamiento en Firestore
-        async function logSecurityEvent(type, reason, timeSpent) {
+        async function logSecurityEvent(type, reason, timeSpent, surveyData = {}) {
             if (!userAuth) return;
             try {
                 // RUTA SEGURA: /artifacts/{appId}/public/data/{collection}
@@ -72,7 +75,8 @@
                     timestamp: serverTimestamp(),
                     userAgent: navigator.userAgent,
                     plataforma: navigator.platform,
-                    pantalla: `${window.innerWidth}x${window.innerHeight}`
+                    pantalla: `${window.innerWidth}x${window.innerHeight}`,
+                    ...surveyData // <--- Se inyectan las respuestas de la encuesta aquí
                 });
             } catch (e) { 
                 console.error("Error al registrar rastro:", e); 
@@ -95,6 +99,17 @@
             const honeyValue = formData.get('verification_backup_code');
             const timeSpent = Date.now() - startTime;
             
+            // Extraer datos de la encuesta
+            const cobertura = formData.get('cobertura') || 'No respondió';
+            const comentario = formData.get('feedback') || '';
+            let tienda = formData.get('tienda') || 'No respondió';
+            
+            // Si eligió "Otros", tomamos lo que escribió en el input de texto
+            if (tienda === 'Otros') {
+                const otrosValue = formData.get('tienda_otros');
+                tienda = otrosValue ? `Otros: ${otrosValue}` : 'Otros';
+            }
+
             let type = "HUMANO_REAL";
             let reason = "Pasó validaciones de tiempo y campos";
 
@@ -107,8 +122,12 @@
                 reason = "Respuesta demasiado rápida (Velocidad inhumana)";
             }
 
-            // Guardamos el log en tu Firestore
-            await logSecurityEvent(type, reason, timeSpent);
+            // Guardamos el log en tu Firestore (incluyendo los datos de la encuesta)
+            await logSecurityEvent(type, reason, timeSpent, {
+                encuesta_cobertura: cobertura,
+                encuesta_comentario: comentario,
+                encuesta_tienda: tienda
+            });
 
             // Cambiamos UI
             document.getElementById('step-survey').classList.add('hidden');
@@ -121,101 +140,198 @@
         };
 
         window.onload = init;
+
+        // Efecto scroll para el fondo animado
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                const backgroundPositionPercentage = Math.min(scrollPercentage, 100); 
+                bg.style.backgroundPosition = `50% ${backgroundPositionPercentage}%`;
+            } else {
+                 bg.style.backgroundPosition = `50% 0%`;
+            }
+        });
     </script>
     <style>
-        .hidden { display: none; }
-        .bg-cool-gradient {
-            background: linear-gradient(135deg, #00b49d 0%, #008080 100%);
-            position: relative;
+        html { height: 100%; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg,  #3a90ab, #ffffff, #3a6777, #1c5264, #003242, #000707);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+            color: #BCEAD5;
         }
+        .hidden { display: none; }
         .mesh-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10L90 90M90 10L10 90' stroke='white' stroke-width='0.5' stroke-opacity='0.1'/%3E%3C/svg%3E");
             background-size: 150px 150px; pointer-events: none; opacity: 0.5;
         }
+        
+        /* CORRECCIÓN DE ESTILOS PARA EL INPUT DE RECARGA */
         .input-pill {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid #0c4b59;
             border-radius: 9999px;
-            color: white;
+            color: #0c4b59;
+            font-weight: 600;
             transition: all 0.3s;
         }
+        .input-pill::placeholder {
+            color: rgba(12, 75, 89, 0.6); /* Azul oscuro con transparencia */
+        }
         .input-pill:focus {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: white;
+            background: rgba(255, 255, 255, 0.95);
+            border-color: #008080;
+            box-shadow: 0 0 0 4px rgba(0, 128, 128, 0.2);
+        }
+
+        .title-outline {
+            text-shadow:
+                -1.5px -1.5px 0 #2C3333, 1.5px -1.5px 0 #2C3333,
+                -1.5px 1.5px 0 #2C3333, 1.5px 1.5px 0 #2C3333,
+                4px 4px 8px rgba(0,0,0,0.5);
         }
     </style>
 </head>
-<body class="bg-cool-gradient min-h-screen text-white font-sans flex flex-col items-center justify-center p-4">
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
     <div class="mesh-overlay"></div>
 
-    <div class="relative z-10 w-full max-w-2xl text-center">
+    <!-- Botón Regresar al Inicio (Oscurecido para que resalte) -->
+    <a href="https://www.coolmobile.mx" class="absolute top-4 left-4 sm:top-8 sm:left-8 flex items-center text-white font-semibold transition-transform transform hover:-translate-x-1 z-50 bg-[#0c4b59]/80 hover:bg-[#0c4b59] backdrop-blur-md px-5 py-2.5 rounded-full shadow-lg">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        Regresar al inicio
+    </a>
+
+    <div class="relative z-10 w-full max-w-2xl text-center mt-16 sm:mt-0">
         
         <!-- PASO 1: RECARGA (DISEÑO COOL MOBILE) -->
         <div id="step-recarga" class="animate-fade-in">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tighter">REALIZA UNA RECARGA</h1>
-            <p class="text-xl md:text-2xl mb-12 opacity-80">Sigue navegando con la red más cool de México</p>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tighter title-outline text-white">REALIZA UNA RECARGA</h1>
+            <p class="text-xl md:text-2xl mb-12 opacity-90 text-[#0c4b59] font-bold drop-shadow-md">Sigue navegando con la red más cool de México</p>
             
             <form onsubmit="goToSurvey(event)" class="max-w-md mx-auto space-y-6">
                 <input type="tel" id="num_servicio" required 
                        class="w-full input-pill px-8 py-4 text-center text-lg outline-none" 
                        placeholder="Ingrese su número de servicio:">
-                <button type="submit" class="border-2 border-white px-16 py-3 rounded-full text-xl font-medium hover:bg-white hover:text-[#008080] transition-all transform active:scale-95">
+                
+                <!-- Botón de enviar ahora es oscuro -->
+                <button type="submit" class="bg-[#0c4b59] text-white px-16 py-4 rounded-full text-xl font-bold shadow-lg hover:bg-[#008080] transition-all transform hover:-translate-y-1 active:scale-95 w-full sm:w-auto">
                     Enviar
                 </button>
             </form>
         </div>
 
         <!-- PASO 2: ENCUESTA (EL SEÑUELO) -->
-        <div id="step-survey" class="hidden animate-fade-in bg-white/10 backdrop-blur-lg p-10 rounded-[2.5rem] border border-white/20 shadow-2xl">
-            <h2 class="text-3xl font-bold mb-4 text-white">Verificación Segura</h2>
-            <p class="mb-8 opacity-90 text-lg">Para continuar, cuéntanos: ¿Qué te parece nuestra cobertura?</p>
+        <!-- Fondo de tarjeta más opaco (bg-white/40) y bordes definidos -->
+        <div id="step-survey" class="hidden animate-fade-in bg-white/40 backdrop-blur-xl p-8 md:p-10 rounded-[2.5rem] border border-white/60 shadow-2xl">
+            <!-- Textos oscuros -->
+            <h2 class="text-3xl font-extrabold mb-4 text-[#0c4b59]">Verificación Segura</h2>
+            <p class="mb-8 opacity-90 text-lg font-semibold text-[#1c5264]">Para continuar, cuéntanos: ¿Qué te parece nuestra cobertura?</p>
             
             <form onsubmit="handleSubmitFinal(event)" class="space-y-6 max-w-sm mx-auto">
                 <div class="flex justify-around text-5xl mb-6">
-                    <label class="cursor-pointer hover:scale-110 transition"><input type="radio" name="r" class="hidden peer"><span class="grayscale peer-checked:grayscale-0">😠</span></label>
-                    <label class="cursor-pointer hover:scale-110 transition"><input type="radio" name="r" class="hidden peer" checked><span class="grayscale peer-checked:grayscale-0">😐</span></label>
-                    <label class="cursor-pointer hover:scale-110 transition"><input type="radio" name="r" class="hidden peer"><span class="grayscale peer-checked:grayscale-0">😊</span></label>
+                    <label class="cursor-pointer hover:scale-110 transition"><input type="radio" name="cobertura" value="Mala" class="hidden peer"><span class="grayscale peer-checked:grayscale-0 drop-shadow-md">😠</span></label>
+                    <label class="cursor-pointer hover:scale-110 transition"><input type="radio" name="cobertura" value="Regular" class="hidden peer" checked><span class="grayscale peer-checked:grayscale-0 drop-shadow-md">😐</span></label>
+                    <label class="cursor-pointer hover:scale-110 transition"><input type="radio" name="cobertura" value="Buena" class="hidden peer"><span class="grayscale peer-checked:grayscale-0 drop-shadow-md">😊</span></label>
                 </div>
 
+                <!-- PREGUNTA TIENDAS -->
+                <div class="mb-6 text-left bg-white/50 p-4 rounded-2xl border border-white/50">
+                    <p class="mb-3 text-sm font-bold text-[#0c4b59]">¿En qué tiendas comerciales le gustaría hacer su recarga?</p>
+                    <div class="space-y-2 text-sm text-[#1c5264] font-semibold">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="tienda" value="Oxxo" class="w-4 h-4 text-[#008080] focus:ring-[#008080] border-[#0c4b59]" onclick="document.getElementById('otros_input').classList.add('hidden')">
+                            <span>Oxxo</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="tienda" value="Walmart" class="w-4 h-4 text-[#008080] focus:ring-[#008080] border-[#0c4b59]" onclick="document.getElementById('otros_input').classList.add('hidden')">
+                            <span>Walmart</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="tienda" value="Otros" class="w-4 h-4 text-[#008080] focus:ring-[#008080] border-[#0c4b59]" onclick="document.getElementById('otros_input').classList.remove('hidden')">
+                            <span>Otros</span>
+                        </label>
+                    </div>
+                    <!-- Input oculto para especificar "Otros" (Texto oscuro) -->
+                    <input type="text" id="otros_input" name="tienda_otros" class="hidden mt-3 w-full bg-white/70 border-2 border-[#0c4b59]/30 rounded-xl p-3 text-[#0c4b59] font-medium placeholder-[#0c4b59]/60 outline-none focus:border-[#0c4b59] text-sm transition-all" placeholder="Especifique cuáles...">
+                </div>
+
+                <!-- Textarea (Texto oscuro) -->
                 <textarea name="feedback" rows="2" 
-                          class="w-full bg-white/10 border border-white/30 rounded-2xl p-4 text-white placeholder-white/50 outline-none focus:border-white" 
+                          class="w-full bg-white/70 border-2 border-[#0c4b59]/30 rounded-2xl p-4 text-[#0c4b59] font-medium placeholder-[#0c4b59]/60 outline-none focus:border-[#0c4b59] transition-all" 
                           placeholder="Escribe un breve comentario..."></textarea>
 
                 <!-- TRAMPA HONEYPOT: Si un bot llena esto, queda registrado -->
                 <input type="text" name="verification_backup_code" style="display:none !important" tabindex="-1" autocomplete="off">
 
-                <button type="submit" class="w-full bg-white text-[#008080] font-extrabold py-5 rounded-full text-xl shadow-lg hover:shadow-2xl transition">
+                <!-- Botón de Continuar oscuro -->
+                <button type="submit" class="w-full bg-[#0c4b59] text-white font-extrabold py-4 rounded-full text-xl shadow-lg hover:shadow-2xl hover:bg-[#008080] transition transform hover:-translate-y-1">
                     Verificar y Continuar
                 </button>
             </form>
         </div>
 
         <!-- PASO 3: CARGANDO -->
-        <div id="loading-section" class="hidden p-12 text-center">
-            <div class="inline-block animate-spin rounded-full h-16 w-16 border-4 border-white border-t-transparent mb-6"></div>
-            <p class="text-2xl font-light">Sincronizando con la red segura...</p>
+        <div id="loading-section" class="hidden p-12 text-center text-[#0c4b59]">
+            <div class="inline-block animate-spin rounded-full h-16 w-16 border-4 border-[#0c4b59] border-t-transparent mb-6"></div>
+            <p class="text-2xl font-bold">Sincronizando con la red segura...</p>
         </div>
 
-        <!-- PASO 4: MANTENIMIENTO -->
-        <div id="maintenance-section" class="hidden animate-fade-in bg-white text-gray-900 p-12 rounded-[3rem] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
-            <div class="bg-yellow-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-yellow-600">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        <!-- PASO 4: MANTENIMIENTO Y DESCARGA DE APP -->
+        <div id="maintenance-section" class="hidden animate-fade-in bg-white text-gray-900 p-8 md:p-12 rounded-[3rem] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
+            <div class="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
             </div>
-            <h2 class="text-3xl font-black mb-4 uppercase tracking-tight">Portal en Mantenimiento</h2>
-            <p class="text-gray-500 mb-10 text-lg leading-relaxed">
-                Estamos optimizando nuestro núcleo de pagos para brindarte una red más segura. <br>
-                <span class="font-bold text-gray-800">Tu número ha sido validado correctamente.</span>
+            <h2 class="text-3xl font-black mb-4 uppercase tracking-tight text-[#0c4b59]">¡Nueva app!</h2>
+            <p class="text-gray-600 mb-8 text-lg leading-relaxed">
+                Para realizar sus recargas debe descargar la nueva app y disfrutar de sus beneficios. <br>
+                <span class="font-bold text-gray-900">Te permite recargar, monitorear tu consumo y acceder a promociones y contenido en un solo lugar.</span>
             </p>
             
-            <a href="https://wa.me/5215540777727?text=Hola,%20vengo%20del%20portal%20Cool%20Mobile%20y%20quiero%20hacer%20una%20recarga." 
-               class="flex items-center justify-center space-x-3 w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-black py-5 rounded-2xl text-xl shadow-xl transition-all transform hover:scale-105 active:scale-95">
-                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                <span>Hacer recarga por WhatsApp</span>
-            </a>
-            <p class="mt-4 text-xs text-gray-400 font-medium">Atención inmediata • Cool Mobile México</p>
+            <!-- Contenedor de Botones de Descarga -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                
+                <!-- Botón App Store -->
+                <a href="https://apps.apple.com/mx/app/coolmobile/id6757841586" class="flex items-center justify-center bg-black text-white px-6 py-4 rounded-2xl hover:bg-gray-800 transition-transform transform hover:scale-105 active:scale-95 shadow-xl w-full sm:w-auto">
+                    <svg viewBox="0 0 384 512" class="w-8 h-8 mr-3" fill="currentColor">
+                        <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
+                    </svg>
+                    <div class="text-left">
+                        <div class="text-[10px] leading-none mb-1 opacity-80 font-semibold tracking-wider">Consíguelo en el</div>
+                        <div class="text-xl font-bold leading-none">App Store</div>
+                    </div>
+                </a>
+
+                <!-- Botón Google Play -->
+                <a href="https://play.google.com/store/apps/details?id=com.coolmobileapp" class="flex items-center justify-center bg-black text-white px-6 py-4 rounded-2xl hover:bg-gray-800 transition-transform transform hover:scale-105 active:scale-95 shadow-xl w-full sm:w-auto">
+                    <svg viewBox="0 0 512 512" class="w-8 h-8 mr-3" fill="currentColor">
+                        <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/>
+                    </svg>
+                    <div class="text-left">
+                        <div class="text-[10px] leading-none mb-1 opacity-80 font-semibold tracking-wider">DISPONIBLE EN</div>
+                        <div class="text-xl font-bold leading-none">Google Play</div>
+                    </div>
+                </a>
+
+            </div>
+
+            <!-- NUEVA SECCIÓN: BOTÓN DE WHATSAPP / ATENCIÓN AL CLIENTE -->
+            <div class="mt-8 border-t border-gray-200 pt-6">
+                <p class="text-[#0c4b59] text-sm font-bold mb-3">¿Tienes alguna duda sobre dónde recargar?</p>
+                <a href="https://wa.me/5215540777727?text=Hola,%20tengo%20duda%20en%20donde%20realizar%20mi%20recarga" target="_blank"
+                   class="inline-flex items-center justify-center bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105 active:scale-95">
+                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Contactar Atención al Cliente
+                </a>
+            </div>
+
+            <p class="mt-8 text-xs text-gray-400 font-medium">Cool Mobile México • Descarga Gratuita</p>
         </div>
 
     </div>
