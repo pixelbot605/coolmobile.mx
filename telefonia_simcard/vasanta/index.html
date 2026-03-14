@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alianza Tecnológica | Vasanta & Cool Mobile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#001a23',
+                        brandMain: '#003242', 
+                        brandLight: '#006580',
+                        brandAccent: '#00b4d8'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #001a23 0%, #003242 100%);
+        }
+        .card-gradient {
+            background: linear-gradient(180deg, #ffffff 0%, #e6f4f9 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <!-- Logos text fallback (You can replace with actual img tags later) -->
+                <div class="font-bold text-xl text-gray-800 flex items-center">
+                    <i class="fa-solid fa-wifi text-brandMain mr-2"></i> Vasanta
+                </div>
+                <span class="text-gray-300">|</span>
+                <div class="font-bold text-xl text-brandMain flex items-center">
+                    <i class="fa-solid fa-circle-nodes text-brandAccent mr-2"></i> Cool Mobile
+                </div>
+            </div>
+            <a href="https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.tiktok.com%2Fview%2Fproduct%2F1734640604597617952%3Fencode_params%3DMIIBtAQMiHN7bP1WM5eqh7n_BIIBkMkv6BGGUAIXObzNeEJbGm0HaoOcaTQYXcc0C8ULJdZbsyg45uIe6xnFkXO_gOd5_jeOuCJ4Ni4o_Vg2_F_N9FW7aF6gu4dervIjNbx8_EahFg5qb-nojcuS4Ql_NW4Mr5RgfTewV9Z0HFm5kVJjl3lKg8EwOlZ9bxOSfpEXRugwnk0bVniGrMr9SiFb3_U1jlOcYMyOt4AWrfbSY678rdl-4icdTCXisIcD5BhThOgeZbXZ2cp4SqQK_wZ7V6Uj9UeC7TphcxSd-vQk_Im8lzUdUdAgs6RecycaPBNjJNZCI36cdaV9s8JpuEPo5IvPtvA2G9FGCt3eeRju-M6aRhNIhNl6u2M3xdWuFJkpFbUjNytepV3EGH2Mv3fS70GVfqtiwruYJGKdJeeC1mTJW3G-Uj9hsvzohhWa_6pvR2SbBEwJ4RrynH6R53Hx6pgoTv3D9eh_h6HWzfjHL_bYn8rAwSzcn0ayxlFrZRr5c74KIHxgKAobrFK5VPMRlUgAmAT1_Mmi7AyjhleDbQ20CpMEEKi4GZ3Z7eJ1tFWzD6obvho%253D%26region%3DMX%26locale%3Des-419%26source%3Dseller_center%26hide_tips%3D%26no-cache%3D1%26e%3D1%26fbclid%3DIwZXh0bgNhZW0CMTAAYnJpZBExV0FaZG5FSVRuQTR2NmQySXNydGMGYXBwX2lkDzUxNDc3MTU2OTIyODA2MQABHma9gginc3aHAjnLA8X3J-xryuLbtaGZnAnL8oEWRlwkFd31B7gexGpBpjQq_aem_1-QQO1VLSd8jUk2JkQ1TCw&h=AT7B4cWeW5Bsr4IyLVIHitu8jpL8nA_4adaInfvUu_lPaoJFxc_QscHMBCTYytvzi4oqClrF93kZBBpAiaSvCVuOIUXvLAdZhwQgNaqcQH_fS4SVWbA9aBhCJBXDcKz2Urkn5NxnjOgG78nBEz91aw" class="hidden md:inline-flex bg-black text-white px-5 py-2 rounded-full font-semibold hover:bg-gray-800 transition shadow-lg items-center gap-2">
+                <i class="fa-brands fa-tiktok"></i> Comprar SIM 
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16 md:py-24 px-4 relative overflow-hidden">
+        <!-- Canvas Animado de Redes Neuronales -->
+        <canvas id="network-canvas" class="absolute inset-0 w-full h-full z-0 opacity-40"></canvas>
+
+        <!-- Decorative background elements -->
+        <div class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-brandAccent opacity-20 rounded-full blur-3xl z-0 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-brandLight opacity-20 rounded-full blur-3xl z-0 pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h2 class="text-brandAccent font-bold tracking-wider uppercase mb-2">Alianza Tecnológica</h2>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                Tu Internet en casa evoluciona. <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandLight to-brandAccent">Bienvenido a Cool Mobile</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
+                Vasanta dejará de proveer el servicio de internet en casa, ¡pero no te quedarás desconectado! Nos hemos unido para ofrecerte una transición transparente, más rápida y con grandes beneficios.
+            </p>
+            <div class="bg-white/10 border border-white/20 p-4 rounded-xl inline-block backdrop-blur-sm mb-8">
+                <p class="font-semibold text-xl">
+                    <i class="fa-solid fa-gift text-brandAccent mr-2"></i> 
+                    SIM SIN COSTO + ENVÍO GRATIS con tu primera recarga
+                </p>
+            </div>
+            <br>
+            <a href="https://www.tiktok.com/view/product/1734640604597617952?encode_params=MIIBtAQMiHN7bP1WM5eqh7n_BIIBkMkv6BGGUAIXObzNeEJbGm0HaoOcaTQYXcc0C8ULJdZbsyg45uIe6xnFkXO_gOd5_jeOuCJ4Ni4o_Vg2_F_N9FW7aF6gu4dervIjNbx8_EahFg5qb-nojcuS4Ql_NW4Mr5RgfTewV9Z0HFm5kVJjl3lKg8EwOlZ9bxOSfpEXRugwnk0bVniGrMr9SiFb3_U1jlOcYMyOt4AWrfbSY678rdl-4icdTCXisIcD5BhThOgeZbXZ2cp4SqQK_wZ7V6Uj9UeC7TphcxSd-vQk_Im8lzUdUdAgs6RecycaPBNjJNZCI36cdaV9s8JpuEPo5IvPtvA2G9FGCt3eeRju-M6aRhNIhNl6u2M3xdWuFJkpFbUjNytepV3EGH2Mv3fS70GVfqtiwruYJGKdJeeC1mTJW3G-Uj9hsvzohhWa_6pvR2SbBEwJ4RrynH6R53Hx6pgoTv3D9eh_h6HWzfjHL_bYn8rAwSzcn0ayxlFrZRr5c74KIHxgKAobrFK5VPMRlUgAmAT1_Mmi7AyjhleDbQ20CpMEEKi4GZ3Z7eJ1tFWzD6obvho%3D&region=MX&locale=es-419&source=seller_center&hide_tips=&no-cache=1&e=1" class="inline-flex items-center gap-3 bg-black text-white px-8 py-4 rounded-full font-bold text-lg hover:-translate-y-1 hover:shadow-2xl transition duration-300">
+                <i class="fa-brands fa-tiktok text-xl text-brandAccent"></i> Activar Promo en TikTok Shop
+            </a>
+        </div>
+    </section>
+
+    <!-- Instrucciones (Cómo reemplazar) -->
+    <section class="py-16 bg-white px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-brandDark mb-4">¿Cómo mantengo mi internet en casa?</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Sigue estos sencillos pasos para cambiar tu antigua SIM de Vasanta por la nueva red de Cool Mobile. ¡Es muy fácil y lo haces tú mismo en 5 minutos!</p>
+            </div>
+
+            <div class="grid md:grid-cols-5 gap-4 lg:gap-6">
+                <!-- Paso 1 -->
+                <div class="text-center relative">
+                    <div class="w-20 h-20 mx-auto bg-[#003242]/10 text-brandMain rounded-full flex items-center justify-center text-3xl mb-4 shadow-sm relative z-10">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <div class="hidden md:block absolute top-10 left-[60%] w-full border-t-2 border-dashed border-gray-200"></div>
+                    <h3 class="font-bold text-xl mb-2">1. Adquiere tu SIM</h3>
+                    <p class="text-sm text-gray-600">Pídela en TikTok Shop. <strong>Si no tienes la app, descárgala</strong> para obtener el envío GRATIS al pagar tu recarga.</p>
+                </div>
+                
+                <!-- Paso 2 -->
+                <div class="text-center relative">
+                    <div class="w-20 h-20 mx-auto bg-[#003242]/10 text-brandMain rounded-full flex items-center justify-center text-3xl mb-4 shadow-sm relative z-10">
+                        <i class="fa-solid fa-power-off"></i>
+                    </div>
+                    <div class="hidden md:block absolute top-10 left-[60%] w-full border-t-2 border-dashed border-gray-200"></div>
+                    <h3 class="font-bold text-xl mb-2">2. Apaga tu módem</h3>
+                    <p class="text-sm text-gray-600">Una vez que recibas la SIM, desconecta tu módem de internet de la corriente eléctrica.</p>
+                </div>
+
+                <!-- Paso 3 -->
+                <div class="text-center relative">
+                    <div class="w-20 h-20 mx-auto bg-[#003242]/10 text-brandMain rounded-full flex items-center justify-center text-3xl mb-4 shadow-sm relative z-10">
+                        <i class="fa-solid fa-sim-card"></i>
+                    </div>
+                    <div class="hidden md:block absolute top-10 left-[60%] w-full border-t-2 border-dashed border-gray-200"></div>
+                    <h3 class="font-bold text-xl mb-2">3. Cambia la SIM</h3>
+                    <p class="text-sm text-gray-600">Retira la tarjeta SIM de Vasanta e inserta cuidadosamente tu nueva SIM Cool Mobile.</p>
+                </div>
+
+                <!-- Paso 4 -->
+                <div class="text-center relative">
+                    <div class="w-20 h-20 mx-auto bg-[#003242]/10 text-brandMain rounded-full flex items-center justify-center text-3xl mb-4 shadow-sm relative z-10">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <div class="hidden md:block absolute top-10 left-[60%] w-full border-t-2 border-dashed border-gray-200"></div>
+                    <h3 class="font-bold text-xl mb-2">4. Alta de ubicación</h3>
+                    <p class="text-sm text-gray-600">Comunícate con soporte para dar de alta las coordenadas exactas de tu domicilio.</p>
+                </div>
+
+                <!-- Paso 5 -->
+                <div class="text-center relative">
+                    <div class="w-20 h-20 mx-auto bg-[#003242]/10 text-brandMain rounded-full flex items-center justify-center text-3xl mb-4 shadow-sm relative z-10">
+                        <i class="fa-solid fa-wifi"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">5. ¡Navega!</h3>
+                    <p class="text-sm text-gray-600">Enciende tu módem, espera unos minutos a que tome señal y sigue disfrutando de tu internet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planes y Precios -->
+    <section id="comprar" class="py-16 bg-gray-100 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-brandDark mb-4">Elige tu nuevo plan Cool Mobile</h2>
+                <p class="text-gray-600 mb-8">Mantén tu hogar conectado con la mejor velocidad. Vigencia de 30 días.</p>
+                
+                <!-- Banner Alerta Descargar TikTok -->
+                <div class="max-w-3xl mx-auto bg-gradient-to-r from-black to-gray-800 rounded-2xl p-6 md:p-8 text-white shadow-xl border-b-4 border-brandAccent transform hover:-translate-y-1 transition duration-300">
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                        <div class="bg-gray-900 p-4 rounded-full shadow-inner">
+                            <i class="fa-brands fa-tiktok text-5xl text-brandAccent"></i>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <h3 class="text-2xl font-bold mb-2">¿Aún no tienes TikTok?</h3>
+                            <p class="text-gray-300 text-sm md:text-base">
+                                ¡Descarga la aplicación en tu celular para aprovechar nuestra promoción! Realiza tu compra a través de <strong>TikTok Shop</strong> y llévate tu SIM con <strong>ENVÍO TOTALMENTE GRATIS</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- Plan 1: Cool Club -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 hover:-translate-y-2 transition duration-300">
+                    <div class="bg-brandLight text-center py-4">
+                        <h3 class="text-white font-extrabold tracking-widest text-xl uppercase">Cool Club</h3>
+                    </div>
+                    <div class="p-8 text-center card-gradient">
+                        <div class="text-5xl font-black text-gray-700 mb-2">40 GB</div>
+                        <div class="flex justify-center items-center text-brandMain font-semibold mb-6">
+                            <i class="fa-solid fa-gauge-high mr-2"></i> 5 Mbps de velocidad
+                        </div>
+                        
+                        <!-- Promo Banner -->
+                        <div class="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded-full mb-6 inline-block">
+                            <i class="fa-solid fa-truck-fast"></i> ENVÍO GRATIS en TikTok
+                        </div>
+
+                        <div class="text-4xl font-extrabold text-brandDark mb-1">
+                            $225<span class="text-xl">.00</span>
+                        </div>
+                        <p class="text-gray-500 text-sm italic mb-8">Vigencia 30 días</p>
+
+                        <a href="https://www.tiktok.com/view/product/1734640604597617952?encode_params=MIIBtAQMiHN7bP1WM5eqh7n_BIIBkMkv6BGGUAIXObzNeEJbGm0HaoOcaTQYXcc0C8ULJdZbsyg45uIe6xnFkXO_gOd5_jeOuCJ4Ni4o_Vg2_F_N9FW7aF6gu4dervIjNbx8_EahFg5qb-nojcuS4Ql_NW4Mr5RgfTewV9Z0HFm5kVJjl3lKg8EwOlZ9bxOSfpEXRugwnk0bVniGrMr9SiFb3_U1jlOcYMyOt4AWrfbSY678rdl-4icdTCXisIcD5BhThOgeZbXZ2cp4SqQK_wZ7V6Uj9UeC7TphcxSd-vQk_Im8lzUdUdAgs6RecycaPBNjJNZCI36cdaV9s8JpuEPo5IvPtvA2G9FGCt3eeRju-M6aRhNIhNl6u2M3xdWuFJkpFbUjNytepV3EGH2Mv3fS70GVfqtiwruYJGKdJeeC1mTJW3G-Uj9hsvzohhWa_6pvR2SbBEwJ4RrynH6R53Hx6pgoTv3D9eh_h6HWzfjHL_bYn8rAwSzcn0ayxlFrZRr5c74KIHxgKAobrFK5VPMRlUgAmAT1_Mmi7AyjhleDbQ20CpMEEKi4GZ3Z7eJ1tFWzD6obvho%3D&region=MX&locale=es-419&source=seller_center&hide_tips=&no-cache=1&e=1" target="_blank" class="block w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-gray-800 transition flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-tiktok"></i> Comprar su SIM
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Plan 2: Cool Friends -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-2xl border-2 border-brandMain relative transform scale-100 md:scale-105 z-10 hover:-translate-y-2 transition duration-300">
+                    <div class="absolute top-0 right-0 bg-brandAccent text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
+                        Más Popular
+                    </div>
+                    <div class="bg-brandMain text-center py-4">
+                        <h3 class="text-white font-extrabold tracking-widest text-xl uppercase">Cool Friends</h3>
+                    </div>
+                    <div class="p-8 text-center card-gradient">
+                        <div class="text-5xl font-black text-gray-700 mb-2">80 GB</div>
+                        <div class="flex justify-center items-center text-brandMain font-semibold mb-6">
+                            <i class="fa-solid fa-gauge-high mr-2"></i> 5 Mbps de velocidad
+                        </div>
+                        
+                        <!-- Promo Banner -->
+                        <div class="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded-full mb-6 inline-block">
+                            <i class="fa-solid fa-truck-fast"></i> ENVÍO GRATIS en TikTok
+                        </div>
+
+                        <div class="text-4xl font-extrabold text-brandDark mb-1">
+                            $370<span class="text-xl">.00</span>
+                        </div>
+                        <p class="text-gray-500 text-sm italic mb-8">Vigencia 30 días</p>
+
+                        <a href="https://www.tiktok.com/view/product/1734640604597617952?encode_params=MIIBtAQMiHN7bP1WM5eqh7n_BIIBkMkv6BGGUAIXObzNeEJbGm0HaoOcaTQYXcc0C8ULJdZbsyg45uIe6xnFkXO_gOd5_jeOuCJ4Ni4o_Vg2_F_N9FW7aF6gu4dervIjNbx8_EahFg5qb-nojcuS4Ql_NW4Mr5RgfTewV9Z0HFm5kVJjl3lKg8EwOlZ9bxOSfpEXRugwnk0bVniGrMr9SiFb3_U1jlOcYMyOt4AWrfbSY678rdl-4icdTCXisIcD5BhThOgeZbXZ2cp4SqQK_wZ7V6Uj9UeC7TphcxSd-vQk_Im8lzUdUdAgs6RecycaPBNjJNZCI36cdaV9s8JpuEPo5IvPtvA2G9FGCt3eeRju-M6aRhNIhNl6u2M3xdWuFJkpFbUjNytepV3EGH2Mv3fS70GVfqtiwruYJGKdJeeC1mTJW3G-Uj9hsvzohhWa_6pvR2SbBEwJ4RrynH6R53Hx6pgoTv3D9eh_h6HWzfjHL_bYn8rAwSzcn0ayxlFrZRr5c74KIHxgKAobrFK5VPMRlUgAmAT1_Mmi7AyjhleDbQ20CpMEEKi4GZ3Z7eJ1tFWzD6obvho%3D&region=MX&locale=es-419&source=seller_center&hide_tips=&no-cache=1&e=1" target="_blank" class="block w-full bg-black text-white py-4 rounded-xl font-bold hover:bg-gray-800 transition text-lg shadow-lg flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-tiktok"></i> Comprar su SIM
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Plan 3: Cool Studio -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 hover:-translate-y-2 transition duration-300">
+                    <div class="bg-brandDark text-center py-4">
+                        <h3 class="text-white font-extrabold tracking-widest text-xl uppercase">Cool Studio</h3>
+                    </div>
+                    <div class="p-8 text-center card-gradient">
+                        <div class="text-5xl font-black text-gray-700 mb-2">120 GB</div>
+                        <div class="flex justify-center items-center text-brandMain font-semibold mb-6">
+                            <i class="fa-solid fa-gauge-high mr-2"></i> 5 Mbps de velocidad
+                        </div>
+                        
+                        <!-- Promo Banner -->
+                        <div class="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded-full mb-6 inline-block">
+                            <i class="fa-solid fa-truck-fast"></i> ENVÍO GRATIS en TikTok
+                        </div>
+
+                        <div class="text-4xl font-extrabold text-brandDark mb-1">
+                            $430<span class="text-xl">.00</span>
+                        </div>
+                        <p class="text-gray-500 text-sm italic mb-8">Vigencia 30 días</p>
+
+                        <a href="https://www.tiktok.com/view/product/1734640604597617952?encode_params=MIIBtAQMiHN7bP1WM5eqh7n_BIIBkMkv6BGGUAIXObzNeEJbGm0HaoOcaTQYXcc0C8ULJdZbsyg45uIe6xnFkXO_gOd5_jeOuCJ4Ni4o_Vg2_F_N9FW7aF6gu4dervIjNbx8_EahFg5qb-nojcuS4Ql_NW4Mr5RgfTewV9Z0HFm5kVJjl3lKg8EwOlZ9bxOSfpEXRugwnk0bVniGrMr9SiFb3_U1jlOcYMyOt4AWrfbSY678rdl-4icdTCXisIcD5BhThOgeZbXZ2cp4SqQK_wZ7V6Uj9UeC7TphcxSd-vQk_Im8lzUdUdAgs6RecycaPBNjJNZCI36cdaV9s8JpuEPo5IvPtvA2G9FGCt3eeRju-M6aRhNIhNl6u2M3xdWuFJkpFbUjNytepV3EGH2Mv3fS70GVfqtiwruYJGKdJeeC1mTJW3G-Uj9hsvzohhWa_6pvR2SbBEwJ4RrynH6R53Hx6pgoTv3D9eh_h6HWzfjHL_bYn8rAwSzcn0ayxlFrZRr5c74KIHxgKAobrFK5VPMRlUgAmAT1_Mmi7AyjhleDbQ20CpMEEKi4GZ3Z7eJ1tFWzD6obvho%3D&region=MX&locale=es-419&source=seller_center&hide_tips=&no-cache=1&e=1" target="_blank" class="block w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-gray-800 transition flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-tiktok"></i> Comprar su SIM
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- App de Recargas -->
+    <section class="py-16 bg-white px-4 border-t border-gray-100">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#003242]/10 text-brandMain text-sm font-bold mb-6">
+                    <i class="fa-solid fa-mobile-screen"></i> Gestión total
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-brandDark mb-4">¿Ya tienes tu SIM Cool Mobile?</h2>
+                <h3 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brandMain to-brandAccent mb-6">Haz tus recargas desde nuestra App</h3>
+                <p class="text-gray-600 mb-8 text-lg">
+                    Descarga la aplicación oficial <strong>Cool Mobile</strong> para gestionar tu servicio de internet en casa, consultar tus consumos y realizar tus recargas mensuales de manera rápida, fácil y 100% segura.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <!-- Google Play Button -->
+                    <a href="https://play.google.com/store/apps/details?id=com.coolmobileapp" class="bg-black text-white px-6 py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-800 transition shadow-lg hover:-translate-y-1">
+                        <i class="fa-brands fa-google-play text-2xl text-green-400"></i>
+                        <div class="text-left">
+                            <div class="text-[10px] leading-tight uppercase text-gray-300">Disponible en</div>
+                            <div class="font-bold leading-tight">Google Play</div>
+                        </div>
+                    </a>
+                    <!-- App Store Button -->
+                    <a href="https://apps.apple.com/mx/app/coolmobile/id6757841586" class="bg-black text-white px-6 py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-800 transition shadow-lg hover:-translate-y-1">
+                        <i class="fa-brands fa-apple text-3xl"></i>
+                        <div class="text-left">
+                            <div class="text-[10px] leading-tight uppercase text-gray-300">Consíguelo en el</div>
+                            <div class="font-bold leading-tight">App Store</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <!-- Teléfono Mockup CSS -->
+                <div class="w-72 h-[500px] bg-gray-900 rounded-[3rem] p-4 shadow-2xl relative border-[6px] border-gray-800">
+                    <!-- Notch (cámara) -->
+                    <div class="absolute top-0 inset-x-0 h-6 bg-gray-800 rounded-b-3xl w-32 mx-auto z-20"></div>
+                    
+                    <!-- Pantalla del Mockup -->
+                    <div class="w-full h-full bg-gradient-to-b from-brandDark to-brandMain rounded-[2rem] flex flex-col items-center pt-16 px-6 text-center relative overflow-hidden">
+                        <!-- Luces decorativas fondo -->
+                        <div class="absolute -top-10 -right-10 w-32 h-32 bg-brandAccent rounded-full blur-2xl opacity-40"></div>
+                        <div class="absolute bottom-10 -left-10 w-32 h-32 bg-brandLight rounded-full blur-2xl opacity-40"></div>
+                        
+                        <div class="relative z-10 w-full">
+                            <i class="fa-solid fa-circle-nodes text-brandAccent text-4xl mb-2"></i>
+                            <h4 class="font-bold text-xl text-white mb-8">Cool Mobile App</h4>
+                            
+                            <!-- Tarjeta de Saldo Mockup -->
+                            <div class="bg-white/10 p-5 rounded-2xl w-full backdrop-blur-md border border-white/20 text-left mb-4 shadow-lg">
+                                <div class="text-gray-300 text-xs uppercase tracking-wider mb-1">Tu Plan de Casa</div>
+                                <div class="font-bold text-white text-xl mb-1">Cool Friends</div>
+                                <div class="text-brandAccent text-sm font-bold mb-4">80 GB disponibles</div>
+                                
+                                <div class="w-full bg-gray-700 rounded-full h-2 mb-4">
+                                  <div class="bg-brandAccent h-2 rounded-full" style="width: 75%"></div>
+                                </div>
+                                
+                                <button class="bg-brandAccent text-white font-bold py-3 px-4 rounded-xl w-full text-sm shadow-lg pointer-events-none">
+                                    <i class="fa-solid fa-bolt mr-2"></i> Recargar ahora
+                                </button>
+                            </div>
+                            
+                            <div class="flex gap-2 mt-4 justify-center text-white/50 text-xs">
+                                <i class="fa-solid fa-lock"></i> Pago 100% seguro
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contacto -->
+    <footer class="bg-brandDark text-white pt-12 pb-6 px-4 border-t-8 border-brandMain">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
+            
+            <div>
+                <h4 class="text-2xl font-bold mb-4">Cool Mobile</h4>
+                <p class="text-gray-400 mb-6">La red que conecta contigo.<br>Alianza tecnológica con Vasanta comunicaciones.</p>
+                <a href="https://coolmobile.mx" target="_blank" class="inline-flex items-center gap-2 bg-transparent border-2 border-brandAccent text-brandAccent hover:bg-brandAccent hover:text-brandDark px-6 py-2 rounded-full font-bold transition duration-300">
+                    <i class="fa-solid fa-house"></i> Ir a la página principal
+                </a>
+            </div>
+
+            <div class="flex flex-col space-y-4 items-center md:items-start">
+                <h4 class="text-xl font-bold mb-2">Soporte y Contacto</h4>
+                <a href="https://wa.me/525540777727" class="flex items-center text-gray-300 hover:text-green-400 transition">
+                    <i class="fa-brands fa-whatsapp text-2xl mr-3 text-green-400"></i>
+                    <span class="text-lg">55 4077 7727</span>
+                </a>
+                <a href="mailto:contacto@coolmobile.mx" class="flex items-center text-gray-300 hover:text-white transition">
+                    <i class="fa-solid fa-envelope text-xl mr-3"></i>
+                    <span>contacto@coolmobile.mx</span>
+                </a>
+            </div>
+
+            <div class="flex flex-col items-center md:items-start">
+                <h4 class="text-xl font-bold mb-2">Horario de Atención</h4>
+                <div class="flex items-center text-gray-300">
+                    <i class="fa-solid fa-clock text-xl mr-3"></i>
+                    <span>8:00 am a 10:00 pm</span>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="text-center border-t border-gray-700 pt-6 text-gray-500 text-sm">
+            <p>&copy; 2024 Cool Mobile. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Script para la animación de redes neuronales -->
+    <script>
+        const canvas = document.getElementById('network-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        // Redimensionar canvas al tamaño del contenedor
+        function resize() {
+            width = canvas.width = canvas.offsetWidth;
+            height = canvas.height = canvas.offsetHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Clase para las partículas (nodos)
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.8; // Velocidad X
+                this.vy = (Math.random() - 0.5) * 0.8; // Velocidad Y
+                this.radius = Math.random() * 1.5 + 0.5; // Tamaño del nodo
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                // Rebotar en los bordes
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#00b4d8'; // Color brandAccent
+                ctx.fill();
+            }
+        }
+
+        // Inicializar partículas
+        function init() {
+            particles = [];
+            // Cantidad responsiva según el tamaño de la pantalla
+            let numParticles = Math.min((width * height) / 8000, 120); 
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        // Ciclo de animación
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                // Conectar nodos cercanos
+                for (let j = i + 1; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+
+                    // Si están a menos de 130px de distancia, trazar línea
+                    if (dist < 130) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        // La línea se hace más transparente a medida que se alejan
+                        ctx.strokeStyle = `rgba(0, 180, 216, ${1 - dist / 130})`; 
+                        ctx.lineWidth = 0.6;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>

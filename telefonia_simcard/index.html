@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Todo el <head> se conserva igual para mantener estilos y librerías --><link rel="icon" href="favicon.png" type="image/png">
+    <!-- Todo el <head> se conserva igual para mantener estilos y librerías -->
+    <link rel="icon" href="favicon.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- El título de la página se actualiza --><title>Telefonia Sim Card - Cool Mobile</title>
+    <!-- El título de la página se actualiza -->
+    <title>Telefonia Sim Card - Cool Mobile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Fuente 'Roboto' agregada para los nuevos estilos de pestañas --><link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <!-- Fuente 'Roboto' agregada para los nuevos estilos de pestañas -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     
-    <!-- Todos los estilos se conservan --><style>
+    <!-- Todos los estilos se conservan -->
+    <style>
         html {
             height: 100%;
         }
@@ -198,7 +202,6 @@
             max-height: 90vh; /* Limit modal height */
         }
 
-
         /* Estilos Mobile Responsive Conservados */
         @media (max-width: 768px) {
             .video-bloque { width: 90%; }
@@ -240,10 +243,6 @@
                 padding-top: 4rem; /* Add some top padding */
             }
         }
-
-        /* Estilos para la imagen de promoción ELIMINADOS */
-        /* .promo-img-box { ... } */
-        /* .promo-img-box img { ... } */
 
         /* Ajustar el padding superior del main para que la imagen no quede bajo el header */
         main {
@@ -333,7 +332,6 @@
         .plan-card:nth-child(3) { animation-delay: 0.3s; }
         .plan-card:nth-child(4) { animation-delay: 0.4s; }
         .plan-card:nth-child(5) { animation-delay: 0.5s; }
-        /* Añadir más si es necesario */
 
         @keyframes slideIn {
           to {
@@ -360,28 +358,26 @@
 
         /* Estilos de las cajas cristalinas */
         .glass-box {
-            background-color: rgba(46, 79, 79, 0.7); /* Fondo color base con transparencia */
-            backdrop-filter: blur(10px); /* Efecto cristal */
-            border: 1px solid rgba(203, 228, 222, 0.3); /* Borde con color del tema */
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Sombra */
-            border-radius: 15px; /* Bordes redondeados */
+            background-color: rgba(46, 79, 79, 0.7); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(203, 228, 222, 0.3); 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
+            border-radius: 15px; 
             padding: 2rem;
             transition: all 0.3s ease;
-            height: 100%; /* Asegura que ocupe toda la altura */
+            height: 100%; 
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
         }
 
-        /* Asegurar que el contenido dentro de .glass-box tenga el color adecuado */
         .glass-box h3, .glass-box p, .glass-box a {
-            color: #000000; /* O un color que contraste bien con la transparencia */
+            color: #000000; 
         }
         .glass-box .text-gray-800, .glass-box .text-gray-900 {
-             color: #000000; /* Sobreescribir colores de texto específicos */
+             color: #000000; 
         }
-
 
         /* Estilos para el nuevo input de IMEI */
         #imei-input::placeholder {
@@ -401,7 +397,7 @@
 
         .boton-resultado {
           margin-top: 15px;
-          background-color: #0E8388; /* Color base */
+          background-color: #0E8388; 
           color: white;
           padding: 10px 25px;
           font-size: 16px;
@@ -411,12 +407,12 @@
           display: inline-block;
           font-weight: bold;
           transition: background-color 0.2s ease, transform 0.2s ease;
-          margin-left: 5px; /* Espacio entre botones */
+          margin-left: 5px; 
           margin-right: 5px;
-          cursor: pointer; /* Añadir cursor pointer */
+          cursor: pointer; 
         }
         .boton-resultado:hover {
-          background-color: #57C5B6; /* Color hover */
+          background-color: #57C5B6; 
           transform: translateY(-2px);
         }
 
@@ -428,20 +424,19 @@
 
         /* Estilos para el contenido del modal de resultado */
         #resultado-imei {
-            color: #CBE4DE; /* Color de texto base para el modal */
+            color: #CBE4DE; 
             font-size: 18px; 
             min-height: 40px;
         }
         #resultado-imei p {
-            color: #CBE4DE; /* Párrafos dentro del modal */
+            color: #CBE4DE; 
             margin-bottom: 0.75rem;
         }
         /* FIN: Estilos para el modal de resultado IMEI */
-
     </style>
 </head>
 <body>
-    <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+    <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false, isResultModalOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false" @open-result-modal.window="isResultModalOpen = true" @close-result-modal.window="isResultModalOpen = false">
         <header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
                 :class="{ 'bg-[#0c4b59] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -574,11 +569,12 @@
             </div>
         </header>
 
-        <!-- INICIO: Nuevo contenido principal para la página "Telefonia Sim Card" --><main class="pt-24 pb-16 min-h-screen"> <!-- pt-24 para dejar espacio al header, min-h-screen para que el footer baje --><!-- INICIO: Imagen de Promoción ELIMINADA -->
-            <!-- <div class="promo-img-box"> ... </div> -->
-            <!-- FIN: Imagen de Promoción ELIMINADA --><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- INICIO: Nuevo contenido principal para la página "Telefonia Sim Card" -->
+        <main class="pt-24 pb-16 min-h-screen">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                <!-- INICIO: Nueva sección 2 Columnas (Info eSIM + Imagen) --><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-8">
+                <!-- INICIO: Nueva sección 2 Columnas (Info eSIM + Imagen) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-8">
                     <!-- Columna 1: Texto y Formulario -->
                     <div class="text-white md:text-left">
                         <h1 class="text-4xl lg:text-4xl font-bold title-outline mb-4">Escoge tu recarga ideal, ahora todas aplican:</h1>
@@ -589,7 +585,8 @@
                         <p class="text-lg text-[#2C3333] mb-6">✅ <span class="font-bold text-black">Acumulación</span> de GB</p>
                         <p class="text-sm text-[#2C3333] mb-4">Revisa tu compatibilidad. Obtén el IMEI de tu teléfono marcando al <span class="font-bold text-black">*#06#</span></p>
                         
-                        <!-- Formulario IMEI --><div class="flex flex-col sm:flex-row gap-3">
+                        <!-- Formulario IMEI -->
+                        <div class="flex flex-col sm:flex-row gap-3">
                             <input type="tel" id="imei-input" placeholder="Ingresa tu IMEI (15 dígitos)" class="flex-grow p-3 rounded-full bg-[#2E4F4F] border border-[#0E8388] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#57C5B6]" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="15">
                             <button onclick="consultarIMEI()" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 whitespace-nowrap">
                                 Verificar Compatibilidad
@@ -603,7 +600,8 @@
                 </div>
                 <!-- FIN: Nueva sección 2 Columnas -->
 
-                <!-- INICIO: Nuevo módulo de Pestañas --><div class="mt-8">
+                <!-- INICIO: Nuevo módulo de Pestañas -->
+                <div class="mt-8">
                   <div class="tab-container" id="planes-sim-fisica"> <!-- ID añadido para el scroll -->
                     <div class="tab-buttons">
                       <button onclick="showTab(event, 'dias')">7 DÍAS</button>
@@ -672,53 +670,98 @@
                     <!-- Nuevos contenidos de pestañas -->
                     <div id="3meses" class="tab-content">
                         <div class="plan-card">
-                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%203%20meses" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%203%20meses" target="_blank">
                             <img src="img/kids3meses.png" alt="Plan 3 Meses kids">
                           </a>
                         </div>
                         <div class="plan-card">
-                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%203%20meses" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%203%20meses" target="_blank">
                             <img src="img/teens3meses.png" alt="Plan 3 Meses teens">
                           </a>
                         </div>
                     </div>
                     <div id="6meses" class="tab-content">
                         <div class="plan-card">
-                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%206%20meses" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%206%20meses" target="_blank">
                             <img src="img/kids6meses.png" alt="Plan 6 Meses kids">
                           </a>
                         </div>
                         <div class="plan-card">
-                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%206%20meses" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%206%20meses" target="_blank">
                             <img src="img/teens6meses.png" alt="Plan 6 Meses 2">
                           </a>
                         </div>
                     </div>
                     <div id="12meses" class="tab-content">
                          <div class="plan-card">
-                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%2012%20meses" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%2012%20meses" target="_blank">
                             <img src="img/kids12meses.png" alt="Plan 12 Meses 1">
                           </a>
                         </div>
                         <div class="plan-card">
-                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%2012%20meses" target="_blank"> <!-- Reemplaza # con el enlace real -->
+                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%2012%20meses" target="_blank">
                             <img src="img/teens12meses.png" alt="Plan 12 Meses 2">
                           </a>
                         </div>
                     </div>
 
+                  </div> <!-- Cierre de tab-container -->
 
-                  </div> <!-- Cierre de tab-container --><!-- INICIO: Leyenda de Términos y Condiciones --><p class="text-center text-xs text-[#2C3333] opacity-80 mt-8">
+                  <!-- INICIO: Botones de Adquisición de SIM -->
+                  <div class="mt-12 text-center fade-in">
+                      <h3 class="text-2xl font-bold text-[#CBE4DE] mb-6 title-outline">Adquiere tu SIM Física en:</h3>
+                      <div class="flex flex-wrap justify-center gap-4">
+                          
+                          <!-- Amazon -->
+                          <!-- Reemplaza el '#' en el atributo href con el enlace real de tu tienda -->
+                          <a href="#" target="_blank" class="flex items-center gap-2 bg-[#FF9900] hover:bg-[#e68a00] text-black font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg">
+                              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                              </svg>
+                              Amazon
+                          </a>
+                          
+                          <!-- Mercado Libre -->
+                          <!-- Reemplaza el '#' en el atributo href con el enlace real de tu tienda -->
+                          <a href="#" target="_blank" class="flex items-center gap-2 bg-[#FFE600] hover:bg-[#e5cf00] text-[#2D3277] font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg">
+                              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                              </svg>
+                              Mercado Libre
+                          </a>
+                          
+                          <!-- TikTokShop -->
+                          <!-- Reemplaza el '#' en el atributo href con el enlace real de tu tienda -->
+                          <a href="#" target="_blank" class="flex items-center gap-2 bg-black hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg border border-gray-700">
+                              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12.53.02C13.84 0 15.14.01 16.44.06c.15 1.5.83 2.92 1.83 3.97.99 1.05 2.37 1.63 3.85 1.65v3.47c-1.35-.01-2.67-.39-3.81-1.09-.01 1.48-.02 2.96-.02 4.45 0 3.79-2.91 6.96-6.68 7.33-3.77.37-7.23-2.1-8.15-5.78-.92-3.68.73-7.53 3.99-9.28.32-.17.66-.31 1.01-.42v3.6c-.95.3-1.74 1.02-2.14 1.95-.4 1.01-.29 2.16.29 3.07.57.92 1.55 1.48 2.64 1.51 1.48.05 2.82-.93 3.23-2.36.19-.66.21-1.37.21-2.06V.02z"/>
+                              </svg>
+                              TikTokShop
+                          </a>
+                      </div>
+                  </div>
+                  <!-- FIN: Botones de Adquisición de SIM -->
+
+                  <!-- INICIO: Leyenda de Términos y Condiciones -->
+                  <p class="text-center text-xs text-[#2C3333] opacity-80 mt-8">
                     *REDES SOCIALES ILIMITADOS CON POLÍTICA DE USO JUSTO, CONSULTE TÉRMINOS Y CONDICIONES, MÁS INFORMACIÓN EN COOLMOBILE.MX / TARIFAS REGISTRADAS en IFT
                   </p>
-                  <!-- FIN: Leyenda de Términos y Condiciones --></div>
-                <!-- FIN: Nuevo módulo de Pestañas --></div>
+                  <!-- FIN: Leyenda de Términos y Condiciones -->
+                </div>
+                <!-- FIN: Nuevo módulo de Pestañas -->
+            </div>
         </main>
-        <!-- FIN: Nuevo contenido principal --><!-- INICIO: Nueva sección de 2 columnas (Tiendas y App) --><section class="bg-transparent py-16">
+        <!-- FIN: Nuevo contenido principal -->
+
+        <!-- INICIO: Nueva sección de 2 columnas (Tiendas y App) -->
+        <section class="bg-transparent py-16">
             <div class="container mx-auto px-4">
-                <!-- Grid principal de 2 columnas --><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start tiendas-app-grid">
+                <!-- Grid principal de 2 columnas -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start tiendas-app-grid">
                     
-                    <!-- Columna 1: Tiendas Afiliadas --><!-- Aplica la clase glass-box aquí --><div id="recharge-widget">
+                    <!-- Columna 1: Tiendas Afiliadas -->
+                    <!-- Aplica la clase glass-box aquí -->
+                    <div id="recharge-widget">
                         <div class="w-full flex flex-col items-center text-center">
                             <a href="https://www.paynet.com.mx" target="_blank">
                                 <img src="img/paynet.png" alt="Logo de Paynet" class="mb-4 max-w-full h-auto">
@@ -737,7 +780,8 @@
                                     <div class="logo-carousel-item"><img src="img/waldo.png" alt="waldo"></div>
                                     <div class="logo-carousel-item"><img src="img/walmart.png" alt="walmart"></div>
                                     <div class="logo-carousel-item"><img src="img/bodega.png" alt="bodega"></div>
-                                    <!-- Repetición para el efecto continuo --><div class="logo-carousel-item"><img src="img/circle.png" alt="circle"></div>
+                                    <!-- Repetición para el efecto continuo -->
+                                    <div class="logo-carousel-item"><img src="img/circle.png" alt="circle"></div>
                                     <div class="logo-carousel-item"><img src="img/extra.png" alt="extra"></div>
                                     <div class="logo-carousel-item"><img src="img/farmacia.png" alt="farmacia"></div>
                                     <div class="logo-carousel-item"><img src="img/seven.png" alt="seven"></div>
@@ -749,8 +793,11 @@
                         </div>
                     </div>
 
-                    <!-- Columna 2: Descarga App --><!-- Aplica la clase glass-box aquí --><div id="app-download-section" >
-                        <!-- Contenido simplificado: Título e Imagen --><h3 class="text-2xl text-center sm:text-3xl font-bold mb-6 title-outline">Descarga Nuestra Nueva App</h3>
+                    <!-- Columna 2: Descarga App -->
+                    <!-- Aplica la clase glass-box aquí -->
+                    <div id="app-download-section" >
+                        <!-- Contenido simplificado: Título e Imagen -->
+                        <h3 class="text-2xl text-center sm:text-3xl font-bold mb-6 title-outline">Descarga Nuestra Nueva App</h3>
                         
                         <div class="flex justify-center items-center p-4 md:p-6 rounded-2xl ">
                             <img src="img/appcool.png" alt="App Preview" class="rounded-lg w-full h-full object-contain" style="max-height: 250px;">
@@ -766,19 +813,25 @@
                         </div>
                     </div>
 
-                </div> <!-- Fin del grid principal de 2 columnas --></div>
+                </div> <!-- Fin del grid principal de 2 columnas -->
+            </div>
         </section>
-        <!-- FIN: Nueva sección de 2 columnas --><!-- Footer (pie de página) CONSERVADO --><footer class="footer">
+        <!-- FIN: Nueva sección de 2 columnas -->
+
+        <!-- Footer (pie de página) CONSERVADO -->
+        <footer class="footer">
             <div class="container mx-auto px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Columna 1: Contacto --><div>
+                    <!-- Columna 1: Contacto -->
+                    <div>
                         <img src="footer.png" alt="Cool Mobile Logo" class="mb-4">
                         <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
                         <p class="mb-2">Atención las 24 horas del día en los 365 días del año.</p>
                         <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
                         <p>C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
                     </div>
-                    <!-- Columna 2: Mapa del Sitio --><div>
+                    <!-- Columna 2: Mapa del Sitio -->
+                    <div>
                         <h4 class="footer-title">Mapa del Sitio</h4>
                         <ul class="space-y-2">
                             <li><a href="/index.html" class="footer-link">Inicio</a></li>
@@ -789,7 +842,8 @@
                             <li><a href="/contacto/" class="footer-link">Contacto</a></li>
                         </ul>
                     </div>
-                    <!-- Columna 3: Acerca de y Legal --><div>
+                    <!-- Columna 3: Acerca de y Legal -->
+                    <div>
                         <h4 class="footer-title">Acerca</h4>
                         <ul class="space-y-2">
                             <li><a href="/nosotros/" class="footer-link">Nosotros</a></li>
@@ -803,7 +857,7 @@
                                 </button>
                                 <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2">
                                      <a href="contrato-de-adhesion-prepago/" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
-                                     <a href="/codigo-de-politicas-de-gestion-de-trafico/" class="block footer-link text-sm">Código de Políticas de Gestión de Tráfico</a>
+                                     <a href="/codigo-de-politicas-de-gestion-de-trafico/" class="block footer-link text-sm">Código de Políticas de Gestión de Tráfico</a>
                                      <a href="/carta-de-derecho/" class="block footer-link text-sm">Carta de Derechos</a>
                                      <a href="/politica-de-uso-justo/" class="block footer-link text-sm">Política de Uso Justo</a>
                                      <a href="/codigo-de-practicas-comerciales/" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
@@ -813,7 +867,8 @@
                             </div>
                         </ul>
                     </div>
-                    <!-- Columna 4: Descarga App --><div>
+                    <!-- Columna 4: Descarga App -->
+                    <div>
                         <h4 class="footer-title">Descarga Nuestras Apps</h4>
                         <!-- Modifica el valor de space-y-6 para ajustar el espacio vertical entre botones. Ej: space-y-4, space-y-8 -->
                         <div class="space-y-6">
@@ -829,8 +884,8 @@
             </div>
         </footer>
 
-
-        <!-- Iconos de Redes Sociales (Desktop) CONSERVADOS --><div class="hidden md:flex flex-col space-y-4 fixed left-4 top-1/2 -translate-y-1/2 z-20">
+        <!-- Iconos de Redes Sociales (Desktop) CONSERVADOS -->
+        <div class="hidden md:flex flex-col space-y-4 fixed left-4 top-1/2 -translate-y-1/2 z-20">
             <a href="https://www.facebook.com/CoolMobileMx" class="p-2 hover:scale-110 transition-transform">
                 <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
             </a>
@@ -842,7 +897,8 @@
             </a>
         </div>
         
-        <!-- Iconos de Redes Sociales (Móvil) CONSERVADOS --><div class="md:hidden flex justify-center items-center space-x-6 fixed bottom-0 left-0 right-0 bg-[#2C3333] bg-opacity-50 backdrop-blur-sm p-3 z-20">
+        <!-- Iconos de Redes Sociales (Móvil) CONSERVADOS -->
+        <div class="md:hidden flex justify-center items-center space-x-6 fixed bottom-0 left-0 right-0 bg-[#2C3333] bg-opacity-50 backdrop-blur-sm p-3 z-20">
             <a href="https://www.facebook.com/CoolMobileMx" class="p-2">
                 <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
             </a>
@@ -854,8 +910,10 @@
             </a>
         </div>
 
-        <!-- Burbuja Flotante de Chat CONSERVADA --><div class="fixed bottom-5 right-5 z-50">
-            <!-- Menú de Opciones --><div x-show="chatOptionsOpen" 
+        <!-- Burbuja Flotante de Chat CONSERVADA -->
+        <div class="fixed bottom-5 right-5 z-50">
+            <!-- Menú de Opciones -->
+            <div x-show="chatOptionsOpen" 
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 translate-y-2"
                  x-transition:enter-end="opacity-100 translate-y-0"
@@ -865,23 +923,27 @@
                  class="chat-bubble-options absolute bottom-16 right-0 mb-2 w-60 bg-[#2E4F4F] rounded-lg shadow-xl py-2"
                  @click.outside="chatOptionsOpen = false"
                  x-cloak>
-                <!-- Opción WhatsApp --><a href="https://wa.me/5215540777727" target="_blank" class="flex items-center px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
+                <!-- Opción WhatsApp -->
+                <a href="https://wa.me/5215540777727" target="_blank" class="flex items-center px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M13.545 6.455a4.49 4.49 0 00-6.35 0L6.455 7.19a4.5 4.5 0 106.357 6.357l.735-.735a4.49 4.49 0 000-6.35l-.735.735zm-.707 5.643l-4.95-4.95a3.5 3.5 0 114.95 4.95zm2.121-2.121a1.5 1.5 0 11-2.121-2.121 1.5 1.5 0 012.121 2.121zM10 18.25a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5zm0-1.5a6.75 6.75 0 110-13.5 6.75 6.75 0 010 13.5z"></path></svg>
                    Chat WhatsApp
                 </a>
-                <!-- Opción Asistente Virtual --><button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
+                <!-- Opción Asistente Virtual -->
+                <button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
                     Asistente Virtual
                 </button>
             </div>
 
-            <!-- Botón de la Burbuja --><button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none">
+            <!-- Botón de la Burbuja -->
+            <button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none">
                 <svg x-show="!chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
                 <svg x-show="chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
 
-        <!-- Modal del Chat CONSERVADO --><div x-show="isChatOpen" 
+        <!-- Modal del Chat CONSERVADO -->
+        <div x-show="isChatOpen" 
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
@@ -890,9 +952,11 @@
              x-transition:leave-end="opacity-0"
              class="chat-modal-container fixed inset-0 flex items-start justify-center pt-20 p-4 z-[100]" 
              x-cloak>
-            <!-- Overlay --><div class="chat-modal-overlay fixed inset-0" @click="isChatOpen = false"></div>
+            <!-- Overlay -->
+            <div class="chat-modal-overlay fixed inset-0" @click="isChatOpen = false"></div>
             
-            <!-- Contenido del Modal --><div id="chat-modal" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col" @click.stop>
+            <!-- Contenido del Modal -->
+            <div id="chat-modal" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col" @click.stop>
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-bold text-[#57C5B6] title-outline">Asistente Virtual</h3>
                     <button @click="isChatOpen = false" class="text-gray-400 hover:text-white">&times;</button>
@@ -907,7 +971,8 @@
             </div>
         </div>
 
-        <!-- INICIO: Modal de Resultado IMEI --><div x-show="isResultModalOpen" 
+        <!-- INICIO: Modal de Resultado IMEI -->
+        <div x-show="isResultModalOpen" 
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
@@ -916,18 +981,25 @@
              x-transition:leave-end="opacity-0"
              class="chat-modal-container fixed inset-0 flex items-center justify-center p-4 z-[100]" 
              x-cloak>
-            <!-- Overlay --><div class="chat-modal-overlay fixed inset-0" @click="isResultModalOpen = false"></div>
+            <!-- Overlay -->
+            <div class="chat-modal-overlay fixed inset-0" @click="isResultModalOpen = false"></div>
             
-            <!-- Contenido del Modal --><div id="resultado-modal-content" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col relative" @click.stop>
+            <!-- Contenido del Modal -->
+            <div id="resultado-modal-content" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col relative" @click.stop>
                 <button @click="isResultModalOpen = false" class="text-gray-400 hover:text-white absolute top-4 right-4 text-3xl">&times;</button>
                  <div id="resultado-imei" class="text-center p-4">
                      <!-- El contenido se insertará aquí por JavaScript -->
                  </div>
             </div>
         </div>
-        <!-- FIN: Modal de Resultado IMEI --></div> <!-- Fin del div x-data principal --><!-- La librería Swiper se mantiene por si se usa en otro lado, pero la inicialización se elimina --><script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <!-- FIN: Modal de Resultado IMEI -->
+    </div> <!-- Fin del div x-data principal -->
 
-    <!-- Scripts --><script>
+    <!-- La librería Swiper se mantiene por si se usa en otro lado, pero la inicialización se elimina -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Scripts -->
+    <script>
         // ELIMINADO: Swiper Initialization
         // var swiper = new Swiper(...);
 
@@ -1183,4 +1255,3 @@
     </script>
 </body>
 </html>
-
