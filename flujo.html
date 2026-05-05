@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Mobile - FlowCenter</title>
+    <!-- Tailwind CSS vía CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Animaciones personalizadas */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        .animate-zoom-in { animation: zoomIn 0.3s ease-out forwards; }
+        
+        /* Fondo con textura sutil */
+        .bg-texture {
+            background-image: url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%2306b6d4" fill-opacity="0.03" fill-rule="evenodd"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E');
+        }
+
+        /* Ocultar elementos */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="flex h-screen bg-slate-950 text-slate-100 font-sans overflow-hidden">
+
+    <!-- Sidebar -->
+    <div class="w-72 bg-slate-900 border-r border-slate-800 flex flex-col shadow-xl z-10 flex-shrink-0">
+        <div class="p-6 flex items-center space-x-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/30 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-400 tracking-tight">
+                    Cool Mobile
+                </h1>
+                <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-0.5">FlowCenter</p>
+            </div>
+        </div>
+
+        <nav class="flex-1 px-4 py-6 space-y-2" id="sidebar-nav">
+            <!-- Los items de navegación se renderizan aquí mediante JS -->
+        </nav>
+
+        <div class="p-4 border-t border-slate-800">
+            <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700/50 flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-sm font-bold text-white">AG</div>
+                <div>
+                    <p class="text-sm font-medium text-white">Agente Soporte</p>
+                    <p class="text-xs text-green-400 flex items-center">
+                        <span class="w-2 h-2 rounded-full bg-green-400 mr-2"></span> En línea
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 overflow-auto bg-slate-950/90 bg-texture bg-blend-overlay" id="main-content">
+        
+        <!-- VISTA: DASHBOARD -->
+        <div id="view-dashboard" class="max-w-6xl mx-auto p-8 animate-fade-in">
+            <header class="mb-10">
+                <h2 class="text-3xl font-bold text-white mb-2">Catálogo de Procedimientos</h2>
+                <p class="text-slate-400">Selecciona el problema que reporta el cliente para iniciar el flujo de atención.</p>
+            </header>
+            <div id="dashboard-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Tarjetas de flujos inyectadas por JS -->
+            </div>
+        </div>
+
+        <!-- VISTA: AGENT RUNNER -->
+        <div id="view-runner" class="hidden h-full flex flex-col max-w-4xl mx-auto p-8 animate-zoom-in">
+            <!-- Cabecera del Flujo -->
+            <div class="flex items-center justify-between bg-slate-900 p-4 rounded-t-2xl border-b border-slate-800 shadow-sm flex-shrink-0">
+                <div>
+                    <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-1 block">Procedimiento Activo</span>
+                    <h2 id="runner-flow-title" class="text-lg font-bold text-white flex items-center">Título del Flujo</h2>
+                </div>
+                <button onclick="resetRunner()" class="text-slate-400 hover:text-white text-sm flex items-center px-3 py-1.5 rounded-md hover:bg-slate-800 transition-colors">
+                    Reiniciar Flujo
+                </button>
+            </div>
+
+            <!-- Contenedor Principal de la Pregunta/Respuesta -->
+            <div class="flex-1 bg-slate-900 border border-t-0 border-slate-800 rounded-b-2xl p-8 shadow-2xl flex flex-col justify-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl"></div>
+                
+                <button id="runner-back-btn" onclick="handleBack()" class="hidden absolute top-6 left-6 text-slate-400 hover:text-white flex items-center space-x-2 bg-slate-800/50 hover:bg-slate-700 px-3 py-1.5 rounded-lg transition-colors text-sm z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    <span>Paso anterior</span>
+                </button>
+
+                <div id="runner-content" class="max-w-2xl mx-auto w-full text-center mt-8 z-10">
+                    <!-- Contenido del nodo inyectado por JS -->
+                </div>
+            </div>
+            
+            <!-- Breadcrumbs -->
+            <div id="runner-breadcrumbs" class="mt-6 flex flex-wrap justify-center gap-2">
+               <!-- Breadcrumbs inyectados por JS -->
+            </div>
+        </div>
+
+        <!-- VISTA: VISUALIZER (Tree Map Diagram) -->
+        <div id="view-visualizer" class="hidden p-8 animate-fade-in">
+            <header class="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-slate-900 p-6 rounded-2xl border border-slate-800 gap-4">
+                <div>
+                    <h2 id="visualizer-flow-title" class="text-2xl font-bold text-white mb-1">Mapa de Decisiones</h2>
+                    <p class="text-slate-400">Vista panorámica para supervisores y editores de contenido.</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center text-sm text-slate-400"><div class="w-3 h-3 bg-blue-900 border border-blue-500 rounded-full mr-2"></div> Pregunta</div>
+                    <div class="flex items-center text-sm text-slate-400"><div class="w-3 h-3 bg-green-900 border border-green-500 rounded-full mr-2"></div> Resolución</div>
+                </div>
+            </header>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 overflow-x-auto">
+                <div class="min-w-[800px]" id="visualizer-tree">
+                    <!-- Árbol inyectado por JS -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Lógica JavaScript -->
+    <script>
+        // --- Iconos SVG como strings ---
+        const ICONS = {
+            home: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+            play: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
+            gitMerge: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>`,
+            checkCircle: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`
+        };
+
+        // --- Datos Iniciales (Mock) ---
+        const initialFlows = [
+            {
+                id: 'f1',
+                title: 'Falla de Datos Móviles (Internet)',
+                description: 'Guía paso a paso para diagnosticar y resolver problemas de conexión a internet en el celular del cliente.',
+                nodes: {
+                    'root': {
+                        id: 'root', type: 'question',
+                        text: '¿El cliente visualiza el ícono de 4G o 5G en la barra superior de su celular?',
+                        options: [{ label: 'Sí', next: 'n2' }, { label: 'No', next: 'n3' }]
+                    },
+                    'n2': {
+                        id: 'n2', type: 'question',
+                        text: 'Verifica en el sistema: ¿El cliente tiene saldo activo o un paquete de datos vigente?',
+                        options: [{ label: 'Sí tiene saldo/paquete', next: 'n4' }, { label: 'No tiene saldo/paquete', next: 'n5' }]
+                    },
+                    'n3': {
+                        id: 'n3', type: 'question',
+                        text: 'Pide al cliente que active el "Modo Avión" por 10 segundos y lo desactive. ¿Se solucionó?',
+                        options: [{ label: 'Sí, ya tiene señal', next: 'success_1' }, { label: 'No, sigue sin señal', next: 'n6' }]
+                    },
+                    'n4': {
+                        id: 'n4', type: 'answer',
+                        text: 'Solución técnica: Realiza un "Reinicio de Línea" desde el panel HLR. Pide al cliente que reinicie su equipo en 2 minutos. Esto forzará la reconexión a la antena más cercana.'
+                    },
+                    'n5': {
+                        id: 'n5', type: 'answer',
+                        text: 'Respuesta al cliente: "Señor/a, verifico en sistema que sus datos se han agotado. Le ofrezco realizar una recarga ahora mismo o adquirir nuestro Paquete Cool Max de 5GB para que siga navegando. ¿Le interesa?"'
+                    },
+                    'n6': {
+                        id: 'n6', type: 'answer',
+                        text: 'Respuesta al cliente: "Al parecer es un problema de configuración de APN o su chip (SIM) podría estar dañado. Le enviaré un SMS con los pasos para configurar el APN. Si persiste, debe acudir a una sucursal Cool Mobile para cambio de SIM."'
+                    },
+                    'success_1': {
+                        id: 'success_1', type: 'answer',
+                        text: 'Respuesta al cliente: "Excelente, la antena se ha refrescado correctamente. ¿Hay algo más en lo que pueda ayudarle hoy con su línea Cool Mobile?"'
+                    }
+                }
+            },
+            {
+                id: 'f2',
+                title: 'Dudas sobre Portabilidad',
+                description: 'Flujo de respuesta cuando un cliente quiere cambiar su número de otra compañía a Cool Mobile.',
+                nodes: {
+                    'root': {
+                        id: 'root', type: 'question',
+                        text: '¿El cliente ya tiene su nuevo CHIP (SIM Card) de Cool Mobile en sus manos?',
+                        options: [{ label: 'Sí, ya lo compró', next: 'n2' }, { label: 'No lo tiene', next: 'n3' }]
+                    },
+                    'n2': {
+                        id: 'n2', type: 'question',
+                        text: '¿El cliente ya solicitó su NIP de portabilidad (enviando NIP al 051)?',
+                        options: [{ label: 'Sí, ya tiene el NIP', next: 'n4' }, { label: 'No lo ha solicitado', next: 'n5' }]
+                    },
+                    'n3': {
+                        id: 'n3', type: 'answer',
+                        text: 'Respuesta al cliente: "Para iniciar la portabilidad y conservar su número, primero debe adquirir un Chip Cool Mobile en cualquier OXXO o tienda autorizada. Una vez lo tenga, llámenos de nuevo para iniciar el proceso."'
+                    },
+                    'n4': {
+                        id: 'n4', type: 'answer',
+                        text: 'Proceso: Solicita al cliente su número actual, el número del nuevo chip Cool Mobile y el NIP. Ingresa los datos en el Sistema de Portabilidad. Infórmale que el cambio se realizará en la madrugada del día siguiente.'
+                    },
+                    'n5': {
+                        id: 'n5', type: 'answer',
+                        text: 'Respuesta al cliente: "Por favor, desde su chip de la compañía anterior envíe un SMS con la palabra NIP al 051. Cuando le llegue el código de 4 dígitos, me lo dicta para procesar su cambio."'
+                    }
+                }
+            },
+            {
+                id: 'f3',
+                title: 'Me interesa la promo de cuadruple de GB',
+                description: 'Flujo de ventas para ofrecer 4x GB. Incluye validación de portabilidad (No Altán), revisión de IMEI y enlaces de compra.',
+                nodes: {
+                    'root': {
+                        id: 'root', type: 'question',
+                        text: '¿De qué compañía es el número actual del cliente? <br><span class="text-sm text-slate-400 font-normal mt-2 block">(Recuerda: No aplica si ya es de la red Altán)</span>',
+                        options: [{ label: 'Telcel / AT&T / Movistar / Otras', next: 'n_porta' }, { label: 'Red Altán (Bait, Pillofon, etc.)', next: 'n_altan' }]
+                    },
+                    'n_altan': {
+                        id: 'n_altan', type: 'answer',
+                        text: 'Respuesta al cliente: "Lo sentimos, esta promoción no aplica para líneas que ya son de la red Altán. Si deseas, te puedo ofrecer otras promociones para un número nuevo."'
+                    },
+                    'n_porta': {
+                        id: 'n_porta', type: 'question',
+                        text: '<span class="text-green-400 font-bold block mb-2">¡Sí aplica para la promoción!</span><span class="text-sm text-slate-300 font-normal block mb-6">Vigencia: 1 al 13 de mayo | Beneficio: 1er mes CUÁDRUPLE de GB, Meses 2-12 DOBLE de GB.</span>Dile al cliente: "Antes de comprar tu SIM, necesitamos verificar que tu equipo sea compatible. ¿Me compartes tu IMEI marcando al *#06#?"',
+                        options: [{ label: 'El equipo SÍ es compatible', next: 'n_comp' }, { label: 'El equipo NO es compatible', next: 'n_incomp' }]
+                    },
+                    'n_incomp': {
+                        id: 'n_incomp', type: 'answer',
+                        text: 'Respuesta al cliente: "Tu equipo no es compatible con la red. Debes contar con un equipo liberado y compatible con la Banda 28 para poder usar nuestro servicio."'
+                    },
+                    'n_comp': {
+                        id: 'n_comp', type: 'question',
+                        text: 'Dile al cliente: "Perfecto, tu equipo sí es compatible. Puedes conseguir tu SIM aquí en TikTok Shop, Mercado Libre o Amazon. <span class="text-cyan-400">Te recomiendo TikTok porque ahorita tiene cupones y te sale más económico.</span> ¿En qué medio te gustaría adquirirlo?"',
+                        options: [{ label: 'TikTok Shop', next: 'n_tk' }, { label: 'Mercado Libre', next: 'n_ml' }, { label: 'Amazon', next: 'n_amz' }]
+                    },
+                    'n_tk': {
+                        id: 'n_tk', type: 'answer',
+                        text: 'Envía este mensaje al cliente:<br><br><span class="text-cyan-300 font-normal">"Te paso el link para que la compres ahora y asegures la promoción en TikTok Shop:<br>👉 https://www.tiktok.com/@coolmobile"</span>'
+                    },
+                    'n_ml': {
+                        id: 'n_ml', type: 'answer',
+                        text: 'Envía este mensaje al cliente:<br><br><span class="text-yellow-300 font-normal">"Te paso el link para que la compres ahora y asegures la promoción en Mercado Libre:<br>👉 https://www.mercadolibre.com.mx/cool-mobile"</span>'
+                    },
+                    'n_amz': {
+                        id: 'n_amz', type: 'answer',
+                        text: 'Envía este mensaje al cliente:<br><br><span class="text-orange-300 font-normal">"Te paso el link para que la compres ahora y asegures la promoción en Amazon:<br>👉 https://www.amazon.com.mx/cool-mobile"</span>'
+                    }
+                }
+            }
+        ];
+
+        // --- Estado de la Aplicación ---
+        let activeTab = 'dashboard';
+        let selectedFlowId = null;
+        let currentNodeId = 'root';
+        let flowHistory = [];
+
+        // --- Referencias al DOM ---
+        const els = {
+            sidebarNav: document.getElementById('sidebar-nav'),
+            viewDashboard: document.getElementById('view-dashboard'),
+            viewRunner: document.getElementById('view-runner'),
+            viewVisualizer: document.getElementById('view-visualizer'),
+            dashboardGrid: document.getElementById('dashboard-grid'),
+            runnerFlowTitle: document.getElementById('runner-flow-title'),
+            runnerContent: document.getElementById('runner-content'),
+            runnerBreadcrumbs: document.getElementById('runner-breadcrumbs'),
+            runnerBackBtn: document.getElementById('runner-back-btn'),
+            visualizerFlowTitle: document.getElementById('visualizer-flow-title'),
+            visualizerTree: document.getElementById('visualizer-tree')
+        };
+
+        // --- Inicialización ---
+        function init() {
+            renderDashboardCards();
+            updateUI();
+        }
+
+        // --- Funciones de Renderizado Principal ---
+        function updateUI() {
+            // Actualizar Vistas
+            els.viewDashboard.classList.toggle('hidden', activeTab !== 'dashboard');
+            els.viewRunner.classList.toggle('hidden', activeTab !== 'agent_runner');
+            els.viewVisualizer.classList.toggle('hidden', activeTab !== 'visualizer');
+
+            // Renderizar Sidebar
+            renderSidebar();
+
+            // Renderizar vista activa
+            if (activeTab === 'agent_runner' && selectedFlowId) {
+                renderRunnerNode();
+            } else if (activeTab === 'visualizer' && selectedFlowId) {
+                renderVisualizer();
+            }
+        }
+
+        function renderSidebar() {
+            let html = `
+                <button onclick="navigate('dashboard')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${activeTab === 'dashboard' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}">
+                    ${ICONS.home} <span class="font-medium">Tablero de Flujos</span>
+                </button>
+            `;
+
+            if (selectedFlowId) {
+                html += `
+                    <div class="pt-4 pb-2 px-4">
+                        <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Flujo Activo</p>
+                    </div>
+                    <button onclick="navigate('agent_runner')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${activeTab === 'agent_runner' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}">
+                        ${ICONS.play} <span class="font-medium">Modo Agente</span>
+                    </button>
+                    <button onclick="navigate('visualizer')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${activeTab === 'visualizer' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}">
+                        ${ICONS.gitMerge} <span class="font-medium">Ver Diagrama Visual</span>
+                    </button>
+                `;
+            }
+            els.sidebarNav.innerHTML = html;
+        }
+
+        function renderDashboardCards() {
+            els.dashboardGrid.innerHTML = initialFlows.map(flow => `
+                <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 hover:border-cyan-500/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] transition-all duration-300 group">
+                    <h3 class="text-xl font-semibold text-white mb-3 group-hover:text-cyan-400 transition-colors">${flow.title}</h3>
+                    <p class="text-slate-400 text-sm mb-6 h-10 line-clamp-2">${flow.description}</p>
+                    <div class="flex space-x-3">
+                        <button onclick="startFlow('${flow.id}', 'agent_runner')" class="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white py-2.5 px-4 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors">
+                            ${ICONS.play} <span>Atender Llamada</span>
+                        </button>
+                        <button onclick="startFlow('${flow.id}', 'visualizer')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 px-4 rounded-lg font-medium transition-colors border border-slate-600" title="Ver mapa de decisiones">
+                            ${ICONS.gitMerge}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- Lógica del Modo Agente (Runner) ---
+        function renderRunnerNode() {
+            const flow = initialFlows.find(f => f.id === selectedFlowId);
+            if (!flow) return;
+
+            els.runnerFlowTitle.textContent = flow.title;
+            const node = flow.nodes[currentNodeId];
+
+            els.runnerBackBtn.classList.toggle('hidden', flowHistory.length === 0);
+
+            if (!node) {
+                els.runnerContent.innerHTML = `<p class="text-red-400">Error: Nodo no encontrado.</p>`;
+                return;
+            }
+
+            // Eliminar clases de animación para reiniciarla, forzar reflow y volver a agregarla
+            els.runnerContent.classList.remove('animate-fade-in');
+            void els.runnerContent.offsetWidth; // Forzar reflow
+            els.runnerContent.classList.add('animate-fade-in');
+
+            if (node.type === 'question') {
+                let optionsHtml = node.options.map(opt => `
+                    <button onclick="handleOptionClick('${opt.next}')" class="group relative overflow-hidden bg-slate-800 hover:bg-cyan-600 border border-slate-700 hover:border-cyan-500 text-white text-lg font-medium py-5 px-6 rounded-xl transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transform hover:-translate-y-1">
+                        <span class="relative z-10">${opt.label}</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </button>
+                `).join('');
+
+                els.runnerContent.innerHTML = `
+                    <div class="inline-block bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 border border-blue-500/30">
+                        Pregunta al Cliente
+                    </div>
+                    <h3 class="text-3xl font-semibold text-white mb-10 leading-tight">${node.text}</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                        ${optionsHtml}
+                    </div>
+                `;
+            } else if (node.type === 'answer') {
+                els.runnerContent.innerHTML = `
+                    <div class="py-4">
+                        <div class="flex justify-center mb-6">${ICONS.checkCircle}</div>
+                        <div class="inline-block bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-green-500/30">
+                            Resolución / Guion Final
+                        </div>
+                        <div class="bg-slate-800 border-l-4 border-green-500 rounded-r-xl p-8 text-left shadow-lg">
+                            <p class="text-2xl text-slate-100 leading-relaxed font-light">${node.text}</p>
+                        </div>
+                        <button onclick="navigate('dashboard')" class="mt-12 bg-slate-700 hover:bg-slate-600 text-white py-3 px-8 rounded-xl font-medium transition-colors">
+                            Finalizar y Atender Otro Cliente
+                        </button>
+                    </div>
+                `;
+            }
+
+            // Renderizar Breadcrumbs
+            let breadcrumbsHtml = flowHistory.map((_, index) => `
+                <div class="flex items-center text-xs text-slate-500">
+                    <span class="w-2 h-2 rounded-full bg-slate-700 mr-2"></span> Paso ${index + 1}
+                    <span class="mx-2 text-slate-700">/</span>
+                </div>
+            `).join('');
+            
+            breadcrumbsHtml += `
+                <div class="flex items-center text-xs text-cyan-400 font-bold">
+                    <span class="w-2 h-2 rounded-full bg-cyan-500 mr-2 shadow-[0_0_8px_rgba(6,182,212,0.8)] animate-pulse"></span> Actual
+                </div>
+            `;
+            els.runnerBreadcrumbs.innerHTML = breadcrumbsHtml;
+        }
+
+        // --- Lógica del Visualizador (Árbol) ---
+        function renderVisualizer() {
+            const flow = initialFlows.find(f => f.id === selectedFlowId);
+            if (!flow) return;
+            
+            els.visualizerFlowTitle.textContent = `Mapa de Decisiones: ${flow.title}`;
+            els.visualizerTree.innerHTML = buildTreeHTML(flow.nodes, 'root', new Set());
+        }
+
+        function buildTreeHTML(nodes, nodeId, visited) {
+            const node = nodes[nodeId];
+            if (!node) return '';
+
+            // Evitar loops infinitos
+            if (visited.has(nodeId)) {
+                return `
+                    <div class="p-3 border border-dashed border-slate-600 rounded-lg text-slate-400 text-sm italic bg-slate-800/50">
+                        ⮑ Vuelve a: ${nodeId}
+                    </div>
+                `;
+            }
+            
+            // Crear nueva instancia de set para las ramas hijas
+            const newVisited = new Set(visited).add(nodeId);
+            const isQuestion = node.type === 'question';
+
+            let html = `
+                <div class="flex flex-col items-start relative ml-8 border-l-2 border-slate-700/50 pl-6 pb-6 mt-2">
+                    <div class="absolute -left-[9px] top-4 w-4 h-4 rounded-full border-4 border-slate-900 ${isQuestion ? 'bg-blue-500' : 'bg-green-500'}"></div>
+                    
+                    <div class="w-80 rounded-xl p-4 shadow-md ${isQuestion ? 'bg-blue-950/40 border border-blue-800/50' : 'bg-green-950/30 border border-green-800/50'}">
+                        <div class="text-[10px] uppercase font-bold text-slate-500 mb-1 tracking-wider">ID: ${node.id}</div>
+                        <p class="text-sm font-medium text-slate-200">${node.text}</p>
+                    </div>
+            `;
+
+            if (isQuestion && node.options) {
+                html += `<div class="mt-4 flex flex-col space-y-4 w-full">`;
+                node.options.forEach(opt => {
+                    html += `
+                        <div class="flex flex-col relative w-full">
+                            <div class="flex items-center mb-2">
+                                <div class="w-12 border-t-2 border-dashed border-slate-700 mr-2"></div>
+                                <div class="bg-slate-800 text-xs text-cyan-300 px-3 py-1 rounded-md border border-slate-700 font-semibold shadow-sm">
+                                    Resp: ${opt.label}
+                                </div>
+                            </div>
+                            <div class="ml-14">
+                                ${buildTreeHTML(nodes, opt.next, newVisited)}
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        // --- Acciones del Usuario ---
+        function navigate(tab) {
+            activeTab = tab;
+            if (tab === 'dashboard') selectedFlowId = null;
+            updateUI();
+        }
+
+        function startFlow(flowId, mode) {
+            selectedFlowId = flowId;
+            activeTab = mode;
+            if (mode === 'agent_runner') {
+                currentNodeId = 'root';
+                flowHistory = [];
+            }
+            updateUI();
+        }
+
+        function handleOptionClick(nextNodeId) {
+            flowHistory.push(currentNodeId);
+            currentNodeId = nextNodeId;
+            renderRunnerNode();
+        }
+
+        function handleBack() {
+            if (flowHistory.length > 0) {
+                currentNodeId = flowHistory.pop();
+                renderRunnerNode();
+            }
+        }
+
+        function resetRunner() {
+            currentNodeId = 'root';
+            flowHistory = [];
+            renderRunnerNode();
+        }
+
+        // Iniciar aplicación
+        init();
+
+    </script>
+</body>
+</html>
