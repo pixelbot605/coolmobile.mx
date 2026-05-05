@@ -24,14 +24,37 @@
             background-image: url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%2306b6d4" fill-opacity="0.03" fill-rule="evenodd"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E');
         }
 
+        /* Custom Scrollbar para el contenedor interno */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.3); 
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
         /* Ocultar elementos */
         .hidden { display: none !important; }
     </style>
 </head>
 <body class="flex h-screen bg-slate-950 text-slate-100 font-sans overflow-hidden">
 
+    <!-- Mobile Sidebar Backdrop -->
+    <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/80 z-40 hidden md:hidden"></div>
+
     <!-- Sidebar -->
-    <div class="w-72 bg-slate-900 border-r border-slate-800 flex flex-col shadow-xl z-10 flex-shrink-0">
+    <div id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-300 ease-in-out z-50 w-72 bg-slate-900 border-r border-slate-800 flex flex-col shadow-xl flex-shrink-0 h-full">
+        <button onclick="toggleSidebar()" class="md:hidden absolute top-6 right-4 text-slate-400 hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
         <div class="p-6 flex items-center space-x-3">
             <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/30 text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -62,10 +85,23 @@
     </div>
 
     <!-- Main Content Area -->
-    <div class="flex-1 overflow-auto bg-slate-950/90 bg-texture bg-blend-overlay" id="main-content">
+    <div class="flex-1 overflow-auto bg-slate-950/90 bg-texture bg-blend-overlay w-full relative" id="main-content">
         
+        <!-- Mobile Header -->
+        <div class="md:hidden bg-slate-900 border-b border-slate-800 p-4 flex items-center justify-between sticky top-0 z-20 shadow-sm">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-lg flex items-center justify-center text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <span class="font-bold text-white text-lg tracking-tight">Cool Mobile</span>
+            </div>
+            <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white p-2 bg-slate-800 rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+
         <!-- VISTA: DASHBOARD -->
-        <div id="view-dashboard" class="max-w-6xl mx-auto p-8 animate-fade-in">
+        <div id="view-dashboard" class="max-w-6xl mx-auto p-4 md:p-8 animate-fade-in">
             <header class="mb-10">
                 <h2 class="text-3xl font-bold text-white mb-2">Catálogo de Procedimientos</h2>
                 <p class="text-slate-400">Selecciona el problema que reporta el cliente para iniciar el flujo de atención.</p>
@@ -76,7 +112,7 @@
         </div>
 
         <!-- VISTA: AGENT RUNNER -->
-        <div id="view-runner" class="hidden h-full flex flex-col max-w-4xl mx-auto p-8 animate-zoom-in">
+        <div id="view-runner" class="hidden h-full flex flex-col max-w-4xl mx-auto p-4 md:p-8 animate-zoom-in">
             <!-- Cabecera del Flujo -->
             <div class="flex items-center justify-between bg-slate-900 p-4 rounded-t-2xl border-b border-slate-800 shadow-sm flex-shrink-0">
                 <div>
@@ -89,16 +125,28 @@
             </div>
 
             <!-- Contenedor Principal de la Pregunta/Respuesta -->
-            <div class="flex-1 bg-slate-900 border border-t-0 border-slate-800 rounded-b-2xl p-8 shadow-2xl flex flex-col justify-center relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl"></div>
+            <div class="flex-1 bg-slate-900 border border-t-0 border-slate-800 rounded-b-2xl shadow-2xl flex flex-col relative overflow-hidden min-h-[50vh]">
+                <!-- Fondo decorativo -->
+                <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none z-0"></div>
                 
-                <button id="runner-back-btn" onclick="handleBack()" class="hidden absolute top-6 left-6 text-slate-400 hover:text-white flex items-center space-x-2 bg-slate-800/50 hover:bg-slate-700 px-3 py-1.5 rounded-lg transition-colors text-sm z-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-                    <span>Paso anterior</span>
-                </button>
+                <!-- Área con scroll -->
+                <div class="flex-1 overflow-y-auto custom-scrollbar relative z-10 p-4 md:p-8 flex flex-col">
+                    
+                    <!-- Botón Sticky Atrás -->
+                    <div class="sticky top-0 z-30 flex justify-start">
+                        <button id="runner-back-btn" onclick="handleBack()" class="hidden text-slate-400 hover:text-white flex items-center space-x-2 bg-slate-800/90 backdrop-blur-md border border-slate-700 hover:bg-slate-700 px-3 py-1.5 rounded-lg transition-colors text-sm shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                            <span>Paso anterior</span>
+                        </button>
+                    </div>
 
-                <div id="runner-content" class="max-w-2xl mx-auto w-full text-center mt-8 z-10">
-                    <!-- Contenido del nodo inyectado por JS -->
+                    <!-- Contenedor de Contenido (Centrado dinámico) -->
+                    <div class="m-auto w-full max-w-2xl py-6 relative z-10">
+                        <div id="runner-content" class="w-full text-center">
+                            <!-- Contenido del nodo inyectado por JS -->
+                        </div>
+                    </div>
+
                 </div>
             </div>
             
@@ -109,7 +157,7 @@
         </div>
 
         <!-- VISTA: VISUALIZER (Tree Map Diagram) -->
-        <div id="view-visualizer" class="hidden p-8 animate-fade-in">
+        <div id="view-visualizer" class="hidden p-4 md:p-8 animate-fade-in">
             <header class="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-slate-900 p-6 rounded-2xl border border-slate-800 gap-4">
                 <div>
                     <h2 id="visualizer-flow-title" class="text-2xl font-bold text-white mb-1">Mapa de Decisiones</h2>
@@ -215,38 +263,38 @@
                 nodes: {
                     'root': {
                         id: 'root', type: 'question',
-                        text: '¿De qué compañía es el número actual del cliente? <br><span class="text-sm text-slate-400 font-normal mt-2 block">(Recuerda: No aplica si ya es de la red Altán)</span>',
+                        text: '¡Hola con gusto lo ayudaremos! 👋<br><br>Te explico rápidamente:<br>📶 Obtén CUÁDRUPLE de GB el primer mes<br>📶 Y DOBLE de GB durante los siguientes 11 meses<br><br>Para aplicar la promoción, tu número debe ser de alguna de estas compañías:<br>📱 Telcel<br>📱 AT&T<br>📱 Movistar<br>📱 Otros<br><br><span class="text-red-400 font-bold block mb-4">❗ No aplica si ya eres de la red Altán</span>¿De qué compañía es tu número?',
                         options: [{ label: 'Telcel / AT&T / Movistar / Otras', next: 'n_porta' }, { label: 'Red Altán (Bait, Pillofon, etc.)', next: 'n_altan' }]
                     },
                     'n_altan': {
                         id: 'n_altan', type: 'answer',
-                        text: 'Respuesta al cliente: "Lo sentimos, esta promoción no aplica para líneas que ya son de la red Altán. Si deseas, te puedo ofrecer otras promociones para un número nuevo."'
+                        text: '"Lo sentimos, esta promoción no aplica para líneas que ya son de la red Altán. Si deseas, te puedo ofrecer otras promociones para un número nuevo."'
                     },
                     'n_porta': {
                         id: 'n_porta', type: 'question',
-                        text: '<span class="text-green-400 font-bold block mb-2">¡Sí aplica para la promoción!</span><span class="text-sm text-slate-300 font-normal block mb-6">Vigencia: 1 al 13 de mayo | Beneficio: 1er mes CUÁDRUPLE de GB, Meses 2-12 DOBLE de GB.</span>Dile al cliente: "Antes de comprar tu SIM, necesitamos verificar que tu equipo sea compatible. ¿Me compartes tu IMEI marcando al *#06#?"',
+                        text: '<span class="text-green-400 font-bold block mb-2">¡Sí aplica para la promoción!</span><span class="text-sm text-slate-300 font-normal block mb-6">Vigencia: 1 al 13 de mayo | Beneficio: 1er mes CUÁDRUPLE de GB, Meses 2-12 DOBLE de GB.</span>"Antes de comprar tu SIM, necesitamos verificar que tu equipo sea compatible. ¿Me compartes tu IMEI marcando al *#06#?"',
                         options: [{ label: 'El equipo SÍ es compatible', next: 'n_comp' }, { label: 'El equipo NO es compatible', next: 'n_incomp' }]
                     },
                     'n_incomp': {
                         id: 'n_incomp', type: 'answer',
-                        text: 'Respuesta al cliente: "Tu equipo no es compatible con la red. Debes contar con un equipo liberado y compatible con la Banda 28 para poder usar nuestro servicio."'
+                        text: '"Tu equipo no es compatible con la red. Debes contar con un equipo liberado y compatible con la Banda 28 para poder usar nuestro servicio."'
                     },
                     'n_comp': {
                         id: 'n_comp', type: 'question',
-                        text: 'Dile al cliente: "Perfecto, tu equipo sí es compatible. Puedes conseguir tu SIM aquí en TikTok Shop, Mercado Libre o Amazon. <span class="text-cyan-400">Te recomiendo TikTok porque ahorita tiene cupones y te sale más económico.</span> ¿En qué medio te gustaría adquirirlo?"',
+                        text: '"Perfecto, tu equipo sí es compatible. Puedes conseguir tu SIM aquí en TikTok Shop, Mercado Libre o Amazon. <span class="text-cyan-400 font-bold block mt-2">💡 Te recomiendo TikTok porque ahorita tiene cupones y te sale más económico.</span><br>¿En qué medio te gustaría adquirirlo?"',
                         options: [{ label: 'TikTok Shop', next: 'n_tk' }, { label: 'Mercado Libre', next: 'n_ml' }, { label: 'Amazon', next: 'n_amz' }]
                     },
                     'n_tk': {
                         id: 'n_tk', type: 'answer',
-                        text: 'Envía este mensaje al cliente:<br><br><span class="text-cyan-300 font-normal">"Te paso el link para que la compres ahora y asegures la promoción en TikTok Shop:<br>👉 https://www.tiktok.com/@coolmobile"</span>'
+                        text: 'Envía este mensaje al cliente:<br><br><span class="text-cyan-300 font-normal">"Te paso el link para que la compres ahora y asegures la promoción en TikTok Shop:<br>👉 https://vt.tiktok.com/ZS9FLghnaS65U-awD9i/"</span>'
                     },
                     'n_ml': {
                         id: 'n_ml', type: 'answer',
-                        text: 'Envía este mensaje al cliente:<br><br><span class="text-yellow-300 font-normal">"Te paso el link para que la compres ahora y asegures la promoción en Mercado Libre:<br>👉 https://www.mercadolibre.com.mx/cool-mobile"</span>'
+                        text: 'Envía este mensaje al cliente:<br><br><span class="text-yellow-300 font-normal">"Te paso el link para que la compres ahora y asegures la promoción en Mercado Libre:<br>👉 https://www.mercadolibre.com.mx/sim-cool-mobile-cool-kids-2gb-con-redes-sociales-imitadas/up/MLMU3562227080?pdp_filters=seller_id%3A1032424934#polycard_client=search-desktop&be_origin=backend&search_layout=grid&position=1&type=product&tracking_id=f3400279-df3b-4d10-948e-d91b69f91057&wid=MLM2559939145&sid=search"</span>'
                     },
                     'n_amz': {
                         id: 'n_amz', type: 'answer',
-                        text: 'Envía este mensaje al cliente:<br><br><span class="text-orange-300 font-normal">"Te paso el link para que la compres ahora y asegures la promoción en Amazon:<br>👉 https://www.amazon.com.mx/cool-mobile"</span>'
+                        text: 'Envía este mensaje al cliente:<br><br><span class="text-orange-300 font-normal">"Te paso el link para que la compres ahora y asegures la promoción en Amazon:<br>👉 https://www.amazon.com.mx/dp/B0GJV22XRG"</span>'
                     }
                 }
             }
@@ -257,6 +305,7 @@
         let selectedFlowId = null;
         let currentNodeId = 'root';
         let flowHistory = [];
+        let isSidebarOpen = false;
 
         // --- Referencias al DOM ---
         const els = {
@@ -359,18 +408,18 @@
 
             if (node.type === 'question') {
                 let optionsHtml = node.options.map(opt => `
-                    <button onclick="handleOptionClick('${opt.next}')" class="group relative overflow-hidden bg-slate-800 hover:bg-cyan-600 border border-slate-700 hover:border-cyan-500 text-white text-lg font-medium py-5 px-6 rounded-xl transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transform hover:-translate-y-1">
+                    <button onclick="handleOptionClick('${opt.next}')" class="group relative overflow-hidden bg-slate-800 hover:bg-cyan-600 border border-slate-700 hover:border-cyan-500 text-white text-base md:text-lg font-medium py-3 px-4 md:py-5 md:px-6 rounded-xl transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transform hover:-translate-y-1">
                         <span class="relative z-10">${opt.label}</span>
                         <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </button>
                 `).join('');
 
                 els.runnerContent.innerHTML = `
-                    <div class="inline-block bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 border border-blue-500/30">
+                    <div class="inline-block bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 md:mb-6 border border-blue-500/30">
                         Pregunta al Cliente
                     </div>
-                    <h3 class="text-3xl font-semibold text-white mb-10 leading-tight">${node.text}</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                    <h3 class="text-xl md:text-3xl font-semibold text-white mb-6 md:mb-10 leading-relaxed md:leading-tight">${node.text}</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-6 md:mt-8">
                         ${optionsHtml}
                     </div>
                 `;
@@ -381,10 +430,10 @@
                         <div class="inline-block bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-green-500/30">
                             Resolución / Guion Final
                         </div>
-                        <div class="bg-slate-800 border-l-4 border-green-500 rounded-r-xl p-8 text-left shadow-lg">
-                            <p class="text-2xl text-slate-100 leading-relaxed font-light">${node.text}</p>
+                        <div class="bg-slate-800 border-l-4 border-green-500 rounded-r-xl p-5 md:p-8 text-left shadow-lg">
+                            <p class="text-lg md:text-2xl text-slate-100 leading-relaxed font-light">${node.text}</p>
                         </div>
-                        <button onclick="navigate('dashboard')" class="mt-12 bg-slate-700 hover:bg-slate-600 text-white py-3 px-8 rounded-xl font-medium transition-colors">
+                        <button onclick="navigate('dashboard')" class="mt-8 md:mt-12 bg-slate-700 hover:bg-slate-600 text-white py-3 px-8 rounded-xl font-medium transition-colors">
                             Finalizar y Atender Otro Cliente
                         </button>
                     </div>
@@ -467,10 +516,26 @@
             return html;
         }
 
+        // --- Funciones del Mobile Sidebar ---
+        function toggleSidebar() {
+            isSidebarOpen = !isSidebarOpen;
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            
+            if (isSidebarOpen) {
+                sidebar.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+        }
+
         // --- Acciones del Usuario ---
         function navigate(tab) {
             activeTab = tab;
             if (tab === 'dashboard') selectedFlowId = null;
+            if (window.innerWidth < 768 && isSidebarOpen) toggleSidebar();
             updateUI();
         }
 
@@ -481,6 +546,7 @@
                 currentNodeId = 'root';
                 flowHistory = [];
             }
+            if (window.innerWidth < 768 && isSidebarOpen) toggleSidebar();
             updateUI();
         }
 
