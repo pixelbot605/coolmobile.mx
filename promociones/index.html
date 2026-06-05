@@ -132,23 +132,25 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
-        /* --- EFECTO TICKET CON BORDES DENTADOS --- */
-        .jagged-edge {
+        /* --- ESTILOS NUEVOS PARA PROMO DE JUNIO --- */
+        .soccer-field-bg {
+            background: linear-gradient(to bottom, #4ade80 0%, #22c55e 50%, #16a34a 100%);
             position: relative;
-            background-color: #ffffff;
         }
-        .jagged-edge::after {
-            content: "";
+        .soccer-field-lines {
             position: absolute;
-            bottom: -12px;
-            left: 0;
-            width: 100%;
-            height: 12px;
-            background-image: linear-gradient(135deg, #ffffff 50%, transparent 50%), linear-gradient(225deg, #ffffff 50%, transparent 50%);
-            background-position: left bottom;
-            background-size: 16px 12px;
-            background-repeat: repeat-x;
-            z-index: 10;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.4) 2px, transparent 2px),
+                linear-gradient(to bottom, rgba(255,255,255,0.4) 2px, transparent 2px);
+            background-size: 100% 20px, 20px 100%;
+            pointer-events: none;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         @media (max-width: 768px) {
@@ -303,182 +305,158 @@
                 <p class="text-lg md:text-xl text-white font-medium text-center mb-14 drop-shadow-md max-w-2xl mx-auto">Entérate de nuestras últimas ofertas y contáctanos directamente por WhatsApp.</p>
 
                 <!-- ========================================== -->
-                <!-- BANNER PROMOCIÓN CUÁDRUPLE DE GB -->
+                <!-- BANNER PROMOCIÓN JUNIO: DOBLE DATOS (FÚTBOL) -->
                 <!-- ========================================== -->
-                <div class="w-full bg-gradient-to-br from-[#0c4b59] to-[#002835] rounded-3xl shadow-2xl p-6 md:p-10 mb-16 relative overflow-hidden border border-[#57C5B6]/20">
+                <div class="w-full bg-gradient-to-br from-[#0c4b59] to-[#003242] rounded-[3rem] shadow-2xl p-6 md:p-12 mb-16 relative overflow-hidden border border-[#57C5B6]/30 group">
                     
-                    <!-- Decoraciones de fondo abstracto -->
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-[#57C5B6] opacity-10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 w-80 h-80 bg-[#0E8388] opacity-10 rounded-full blur-[60px] translate-y-1/3 -translate-x-1/4 pointer-events-none"></div>
+                    <!-- Decoraciones de fondo -->
+                    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-white opacity-5 rounded-full blur-[100px] pointer-events-none transform translate-x-1/3 -translate-y-1/3 group-hover:scale-110 transition-transform duration-1000"></div>
 
-                    <!-- Encabezado de la promo -->
-                    <div class="relative z-10 text-center mb-12">
-                        <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-white italic tracking-tight drop-shadow-lg flex justify-center items-center gap-2 flex-wrap">
-                            cuádruple <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#57C5B6] to-[#BCEAD5] font-sans font-light not-italic text-6xl md:text-8xl align-middle transform -rotate-3">X4</span> de GB
-                        </h2>
-                        <p class="text-xl md:text-3xl text-white font-semibold mt-1 drop-shadow-md">al hacer portabilidad</p>
+                    <div class="flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
                         
-                        <div class="mt-8 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
-                            <p class="text-lg md:text-2xl text-[#CBE4DE]">y durante los siguientes</p>
-                            <div class="text-3xl md:text-4xl font-bold text-white bg-[#0E8388]/60 px-5 py-2 rounded-2xl border border-[#57C5B6]/30 shadow-inner">11 meses</div>
-                            <p class="text-lg md:text-2xl text-[#CBE4DE]">obtendrás el</p>
+                        <!-- Columna Izquierda: Textos Principales -->
+                        <div class="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left pt-4">
+                            <h2 class="text-4xl md:text-5xl lg:text-[4rem] font-bold text-white tracking-tight uppercase leading-none">
+                                Recibe Doble
+                            </h2>
+                            <h1 class="text-7xl md:text-8xl lg:text-[7rem] font-black text-white leading-none mt-2 title-main tracking-tighter">
+                                DATOS
+                            </h1>
+                            
+                            <div class="mt-8 flex flex-col sm:flex-row items-center gap-4 bg-white/10 rounded-2xl px-8 py-4 backdrop-blur-sm border border-white/20">
+                                <p class="text-xl md:text-2xl text-white font-medium">Recargando desde:</p>
+                                <span class="text-6xl md:text-7xl font-black text-white">$100</span>
+                            </div>
+
+                            <div class="mt-10">
+                                <p class="text-2xl text-white font-medium mb-4 flex items-center gap-2">
+                                    para:
+                                    <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                                </p>
+                                <!-- Logos de plataformas -->
+                                <div class="flex flex-col sm:flex-row items-center gap-6 bg-black/30 rounded-2xl p-6 border border-white/10">
+                                    <div class="flex items-center gap-4">
+                                        <!-- Vix Simulado -->
+                                        <div class="text-3xl font-black text-[#ff6600] tracking-tighter flex items-center bg-white px-3 py-1 rounded-lg">
+                                            V<span class="text-[#0055ff]">i</span>x
+                                        </div>
+                                        <!-- Kuali Simulado -->
+                                        <div class="text-xl font-black tracking-tight text-white bg-gradient-to-r from-purple-600 to-blue-500 px-3 py-1 rounded-lg">
+                                            Kuali<span class="font-normal text-yellow-300">Digital</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <!-- YouTube Simulado -->
+                                        <div class="flex items-center bg-white px-3 py-1 rounded-lg">
+                                            <svg class="w-8 h-8 text-red-600 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                                            <span class="font-bold text-black text-xl tracking-tight">YouTube</span>
+                                        </div>
+                                        <!-- TikTok Simulado -->
+                                        <div class="flex items-center bg-black px-3 py-1 rounded-lg border border-white/20">
+                                            <svg class="w-6 h-6 mr-1" viewBox="0 0 24 24" fill="white">
+                                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" fill="#00f2fe" transform="translate(-1,-1)"></path>
+                                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" fill="#ff0050" transform="translate(1,1)"></path>
+                                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" fill="white"></path>
+                                            </svg>
+                                            <span class="font-bold text-white text-xl tracking-tight">TikTok</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div class="mt-4 bg-[#0E8388] inline-block px-8 py-3 rounded-xl transform -skew-x-12 shadow-lg">
-                            <p class="text-3xl md:text-5xl font-black text-white transform skew-x-12 tracking-wide">
-                                DOBLE <span class="text-xl md:text-2xl font-semibold opacity-90">durante 11 meses</span>
+
+                        <!-- Columna Derecha: Ilustración del Teléfono/Cancha -->
+                        <div class="w-full lg:w-1/2 flex justify-center lg:justify-end relative mt-12 lg:mt-0">
+                            <!-- Teléfono Simulado -->
+                            <div class="relative w-[300px] h-[550px] md:w-[350px] md:h-[600px] bg-black rounded-[3rem] border-[6px] border-gray-800 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] overflow-hidden transform rotate-6 transition-transform hover:rotate-3 duration-500">
+                                
+                                <!-- Muesca del teléfono -->
+                                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-black rounded-b-3xl z-30 flex justify-center items-end pb-1">
+                                    <div class="w-12 h-1.5 bg-gray-800 rounded-full"></div>
+                                </div>
+
+                                <!-- Pantalla: Cancha de fútbol -->
+                                <div class="absolute inset-0 soccer-field-bg z-10 flex flex-col justify-center items-center">
+                                    <!-- Líneas de la cancha (centro) -->
+                                    <div class="w-full h-1 bg-white/40 absolute top-1/2 -translate-y-1/2"></div>
+                                    <div class="w-32 h-32 border-4 border-white/40 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                                    <div class="w-2 h-2 bg-white/80 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                                    
+                                    <!-- Área grande (abajo) -->
+                                    <div class="w-48 h-32 border-4 border-b-0 border-white/40 absolute bottom-0 left-1/2 -translate-x-1/2"></div>
+                                    <!-- Área pequeña (abajo) -->
+                                    <div class="w-24 h-12 border-4 border-b-0 border-white/40 absolute bottom-0 left-1/2 -translate-x-1/2"></div>
+                                    <!-- Semicírculo área -->
+                                    <div class="w-24 h-24 border-4 border-white/40 rounded-full absolute bottom-20 left-1/2 -translate-x-1/2 clip-path-semicircle" style="clip-path: circle(50% at 50% 0);"></div>
+
+                                    <!-- Área grande (arriba) -->
+                                    <div class="w-48 h-32 border-4 border-t-0 border-white/40 absolute top-0 left-1/2 -translate-x-1/2"></div>
+                                    
+                                    <!-- Portería Simulada 3D -->
+                                    <div class="absolute top-10 flex flex-col items-center z-20">
+                                        <!-- Marco Frontal -->
+                                        <div class="w-32 h-16 border-t-4 border-l-4 border-r-4 border-white shadow-lg relative">
+                                            <!-- Red (fondo rayado) -->
+                                            <div class="absolute inset-0 opacity-40" style="background-image: linear-gradient(45deg, white 25%, transparent 25%, transparent 75%, white 75%, white), linear-gradient(45deg, white 25%, transparent 25%, transparent 75%, white 75%, white); background-size: 8px 8px; background-position: 0 0, 4px 4px;"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tarjeta SIM en la cancha -->
+                                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-10 z-20 w-48 bg-[#008f8e] rounded-xl p-3 shadow-[10px_10px_20px_rgba(0,0,0,0.5)] transform -rotate-12 hover:rotate-0 transition-transform duration-300 border border-white/20">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-8 bg-yellow-400 rounded flex items-center justify-center">
+                                                <svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-12a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-16a2 2 0 0 0-2-2zm-3 15h-6v-2h6v2zm0-4h-6v-2h6v2zm0-4h-6v-2h6v2z"/></svg>
+                                            </div>
+                                            <div class="text-[8px] text-white font-bold leading-tight font-mono opacity-80 text-right w-full">
+                                                COOL MOBILE<br>
+                                                COOL MOBILE<br>
+                                                COOL MOBILE<br>
+                                                COOL MOBILE<br>
+                                                COOL MOBILE
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Balón de Fútbol -->
+                                    <div class="absolute bottom-32 left-1/2 -translate-x-1/2 z-30 animate-[pulse_2s_ease-in-out_infinite]">
+                                        <div class="w-20 h-20 bg-white rounded-full shadow-[inset_-5px_-5px_15px_rgba(0,0,0,0.3),_10px_15px_20px_rgba(0,0,0,0.6)] relative overflow-hidden flex items-center justify-center">
+                                            <!-- Pentágonos negros simplificados -->
+                                            <div class="w-6 h-6 bg-black clip-path-pentagon absolute"></div>
+                                            <div class="w-4 h-4 bg-black clip-path-pentagon absolute top-2 left-2 rotate-45"></div>
+                                            <div class="w-4 h-4 bg-black clip-path-pentagon absolute top-2 right-2 -rotate-45"></div>
+                                            <div class="w-5 h-5 bg-black clip-path-pentagon absolute bottom-3 left-4 rotate-12"></div>
+                                            <div class="w-5 h-5 bg-black clip-path-pentagon absolute bottom-3 right-4 -rotate-12"></div>
+                                            <style>
+                                                .clip-path-pentagon { clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); }
+                                            </style>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer de la Promo (Legales) -->
+                    <div class="mt-16 md:mt-20 border-t border-white/20 pt-6 relative z-10 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div class="text-center md:text-left">
+                            <p class="text-xl font-bold text-white tracking-wide bg-[#0E8388] px-4 py-1 rounded inline-block mb-2 shadow-sm">Vig del 3 Junio al 31 Julio del 2026</p>
+                            <p class="text-[10px] md:text-xs text-[#BCEAD5]/80 leading-relaxed max-w-3xl">
+                                El bono adicional solo aplica para plataformas Vix, Youtube, Tiktok, Kualidigital. Tarifas registrada en IFT: Cool XoXo: 2516318, Cool OMG: 2516320, Cool Kids: 2516321, Cool Teens: 2516322, Cool Flexible: 2516323, Cool Total: 2516325, Cool Power: 2516326
                             </p>
                         </div>
                         
-                        <p class="text-xs md:text-sm text-[#BCEAD5] mt-6 tracking-wider uppercase font-semibold max-w-2xl mx-auto">
-                            Promoción válida exclusivamente para portabilidad desde líneas Telcel, Movistar y AT&T.
-                        </p>
-                    </div>
-
-                    <!-- Tarjetas de Planes Grid -->
-                    <div class="relative z-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-12 gap-x-4 mt-16 mb-12">
-                        
-                        <!-- Plan $300 -->
-                        <div class="bg-white rounded-[2rem] pt-10 pb-6 px-2 text-center flex flex-col items-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform transition-transform hover:-translate-y-2 relative border-b-[6px] border-[#3a90ab]">
-                            <div class="bg-gradient-to-r from-[#3a90ab] to-[#0E8388] text-white text-2xl font-bold py-2 w-4/5 rounded-full absolute -top-5 left-1/2 -translate-x-1/2 shadow-lg border border-white/20">
-                                $300
-                            </div>
-                            <div class="text-5xl lg:text-6xl font-black text-[#003242] leading-none tracking-tighter">140<span class="text-2xl lg:text-3xl">GB</span></div>
-                            <div class="text-[#f59e0b] text-xs font-bold uppercase mt-2 tracking-widest">✨ Primer mes</div>
-                            
-                            <div class="w-3/4 h-px bg-gray-200 my-4"></div>
-                            
-                            <div class="text-4xl font-black text-[#3a90ab] leading-none">70<span class="text-xl">GB</span></div>
-                            <div class="text-[10px] font-semibold text-gray-500 mt-2 leading-tight uppercase px-2">✨ en 2da recarga<br>durante 11 meses</div>
-                        </div>
-
-                        <!-- Plan $250 -->
-                        <div class="bg-white rounded-[2rem] pt-10 pb-6 px-2 text-center flex flex-col items-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform transition-transform hover:-translate-y-2 relative border-b-[6px] border-[#3a90ab]">
-                            <div class="bg-gradient-to-r from-[#3a90ab] to-[#0E8388] text-white text-2xl font-bold py-2 w-4/5 rounded-full absolute -top-5 left-1/2 -translate-x-1/2 shadow-lg border border-white/20">
-                                $250
-                            </div>
-                            <div class="text-5xl lg:text-6xl font-black text-[#003242] leading-none tracking-tighter">96<span class="text-2xl lg:text-3xl">GB</span></div>
-                            <div class="text-[#f59e0b] text-xs font-bold uppercase mt-2 tracking-widest">✨ Primer mes</div>
-                            
-                            <div class="w-3/4 h-px bg-gray-200 my-4"></div>
-                            
-                            <div class="text-4xl font-black text-[#3a90ab] leading-none">48<span class="text-xl">GB</span></div>
-                            <div class="text-[10px] font-semibold text-gray-500 mt-2 leading-tight uppercase px-2">✨ en 2da recarga<br>durante 11 meses</div>
-                        </div>
-
-                        <!-- Plan $190 -->
-                        <div class="bg-white rounded-[2rem] pt-10 pb-6 px-2 text-center flex flex-col items-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform transition-transform hover:-translate-y-2 relative border-b-[6px] border-[#3a90ab]">
-                            <div class="bg-gradient-to-r from-[#3a90ab] to-[#0E8388] text-white text-2xl font-bold py-2 w-4/5 rounded-full absolute -top-5 left-1/2 -translate-x-1/2 shadow-lg border border-white/20">
-                                $190
-                            </div>
-                            <div class="text-5xl lg:text-6xl font-black text-[#003242] leading-none tracking-tighter">48<span class="text-2xl lg:text-3xl">GB</span></div>
-                            <div class="text-[#f59e0b] text-xs font-bold uppercase mt-2 tracking-widest">✨ Primer mes</div>
-                            
-                            <div class="w-3/4 h-px bg-gray-200 my-4"></div>
-                            
-                            <div class="text-4xl font-black text-[#3a90ab] leading-none">24<span class="text-xl">GB</span></div>
-                            <div class="text-[10px] font-semibold text-gray-500 mt-2 leading-tight uppercase px-2">✨ en 2da recarga<br>durante 11 meses</div>
-                        </div>
-
-                        <!-- Plan $150 -->
-                        <div class="bg-white rounded-[2rem] pt-10 pb-6 px-2 text-center flex flex-col items-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform transition-transform hover:-translate-y-2 relative border-b-[6px] border-[#3a90ab]">
-                            <div class="bg-gradient-to-r from-[#3a90ab] to-[#0E8388] text-white text-2xl font-bold py-2 w-4/5 rounded-full absolute -top-5 left-1/2 -translate-x-1/2 shadow-lg border border-white/20">
-                                $150
-                            </div>
-                            <div class="text-5xl lg:text-6xl font-black text-[#003242] leading-none tracking-tighter">16<span class="text-2xl lg:text-3xl">GB</span></div>
-                            <div class="text-[#f59e0b] text-xs font-bold uppercase mt-2 tracking-widest">✨ Primer mes</div>
-                            
-                            <div class="w-3/4 h-px bg-gray-200 my-4"></div>
-                            
-                            <div class="text-4xl font-black text-[#3a90ab] leading-none">8<span class="text-xl">GB</span></div>
-                            <div class="text-[10px] font-semibold text-gray-500 mt-2 leading-tight uppercase px-2">✨ en 2da recarga<br>durante 11 meses</div>
-                        </div>
-
-                        <!-- Plan $100 -->
-                        <div class="bg-white rounded-[2rem] pt-10 pb-6 px-2 text-center flex flex-col items-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform transition-transform hover:-translate-y-2 relative border-b-[6px] border-[#3a90ab]">
-                            <div class="bg-gradient-to-r from-[#3a90ab] to-[#0E8388] text-white text-2xl font-bold py-2 w-4/5 rounded-full absolute -top-5 left-1/2 -translate-x-1/2 shadow-lg border border-white/20">
-                                $100
-                            </div>
-                            <div class="text-5xl lg:text-6xl font-black text-[#003242] leading-none tracking-tighter">8<span class="text-2xl lg:text-3xl">GB</span></div>
-                            <div class="text-[#f59e0b] text-xs font-bold uppercase mt-2 tracking-widest">✨ Primer mes</div>
-                            
-                            <div class="w-3/4 h-px bg-gray-200 my-4"></div>
-                            
-                            <div class="text-4xl font-black text-[#3a90ab] leading-none">4<span class="text-xl">GB</span></div>
-                            <div class="text-[10px] font-semibold text-gray-500 mt-2 leading-tight uppercase px-2">✨ en 2da recarga<br>durante 11 meses</div>
-                        </div>
-
-                    </div>
-
-                    <!-- Beneficios Adicionales y Footer de la Promo -->
-                    <div class="relative z-10 flex flex-col lg:flex-row justify-between items-center lg:items-end gap-8 bg-black/20 rounded-2xl p-6 backdrop-blur-sm border border-white/10">
-                        
-                        <!-- Lista de Beneficios -->
-                        <div class="w-full lg:w-auto text-center lg:text-left">
-                            <ul class="text-white text-base md:text-lg font-medium space-y-3">
-                                <li class="flex items-center justify-center lg:justify-start">
-                                    <svg class="w-5 h-5 text-[#57C5B6] mr-3 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                                    Redes Sociales <strong class="ml-1 tracking-wide">ILIMITADAS</strong>
-                                </li>
-                                <li class="flex items-center justify-center lg:justify-start">
-                                    <svg class="w-5 h-5 text-[#57C5B6] mr-3 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                                    Llamadas y SMS <strong class="ml-1 tracking-wide">ILIMITADOS</strong>
-                                </li>
-                                <li class="flex items-center justify-center lg:justify-start">
-                                    <svg class="w-5 h-5 text-[#57C5B6] mr-3 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                                    Comparte <strong class="ml-1 tracking-wide">DATOS</strong>
-                                </li>
-                                <li class="flex items-center justify-center lg:justify-start">
-                                    <svg class="w-5 h-5 text-[#57C5B6] mr-3 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                                    Acumulación <strong class="ml-1 tracking-wide">GB</strong>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Botón y Vigencia -->
-                        <div class="flex flex-col items-center">
-                            <a href="https://wa.me/5215540777727?text=Hola,%20me%20interesa%20la%20promoción%20de%20cuádruple%20de%20GB%20por%20portabilidad." target="_blank" 
-                               class="bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 px-8 rounded-full shadow-[0_10px_20px_rgba(37,211,102,0.3)] transition-all transform hover:scale-105 flex items-center mb-4">
-                                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                                ¡Lo quiero!
-                            </a>
-                            <p class="text-white font-bold text-lg tracking-wide bg-[#003242] px-4 py-1 rounded-full">Vig del 25 May al 2 Junio del 2026</p>
-                        </div>
-                        
-                        <!-- Disponibilidad -->
-                        <div class="w-full lg:w-auto flex flex-col items-center lg:items-end">
-                            <p class="text-[#BCEAD5] text-sm mb-3 font-medium">Adquiérelo en:</p>
-                            <div class="flex flex-wrap justify-center gap-3">
-                                <a href="https://vt.tiktok.com/ZSxVDEdtK/?page=TikTokShop&utm_campaign=client_share&utm_source=whatsapp&share_app_id=1233" target="_blank" class="bg-black/40 hover:bg-[#ff0050]/20 text-white hover:text-[#00f2fe] text-xs font-bold px-4 py-2 rounded border border-white/20 transition-all hover:scale-105 shadow-sm">
-                                    TikTok Shop
-                                </a>
-                                <a href="https://listado.mercadolibre.com.mx/_CustId_1032424934?item_id=MLM2584545487&category_id=MLM189728&seller_id=1032424934&client=recoview-selleritems&recos_listing=true" target="_blank" class="bg-black/40 hover:bg-[#fff159]/20 text-yellow-400 hover:text-yellow-300 text-xs font-bold px-4 py-2 rounded border border-white/20 transition-all hover:scale-105 shadow-sm">
-                                    Mercado Libre
-                                </a>
-                                <a href="https://www.amazon.com.mx/dp/B0GJV22XRG" target="_blank" class="bg-black/40 hover:bg-[#ff9900]/20 text-white hover:text-[#ff9900] text-xs font-bold px-4 py-2 rounded border border-white/20 transition-all hover:scale-105 shadow-sm">
-                                    Amazon
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Avisos Importantes: Envío y Compatibilidad -->
-                    <div class="relative z-10 mt-8 bg-gradient-to-r from-[#003242]/80 to-transparent border-l-4 border-[#f59e0b] rounded-r-xl p-4 md:p-5 flex flex-col sm:flex-row items-start gap-4 shadow-md">
-                        <svg class="w-8 h-8 text-[#f59e0b] shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        <div class="text-[#BCEAD5] text-sm md:text-base leading-relaxed">
-                            <p class="mb-2"><span class="font-bold text-white uppercase tracking-wide">¡Anticipa tu compra!</span> Adquiérelo lo antes posible para asegurar que el envío llegue a tiempo y puedas activar tu línea dentro de la fecha de vigencia de la promoción.</p>
-                            <p><span class="font-bold text-white uppercase tracking-wide">Verifica tu equipo:</span> Antes de comprar, asegúrate de validar la compatibilidad de tu celular consultándolo con nuestro equipo de <a href="https://wa.me/5215540777727" target="_blank" class="text-[#57C5B6] hover:text-[#f59e0b] underline font-semibold transition-colors">Atención al Cliente</a>.</p>
-                        </div>
-                    </div>
-
-                    <!-- Textos legales pequeños -->
-                    <div class="relative z-10 mt-6 text-[10px] text-[#BCEAD5]/60 leading-tight text-center md:text-left">
-                       Promoción válida exclusivamente para activacion o recarga. Tarifa registrada en Ift Cool XoXo 2514321, COOL OMG 2514322, COOL KIDS 2514326, COOL TEENS MAX 2514330, COOL FLEXIBLE 2514333, COOL TOTAL 2514336, COOL POWER 2514338 Vig del 25 May al 2 Junio del 2026. Promoción válida exclusivamente para portabilidad desde líneas Telcel, Movistar y AT&T. Promoción válida generando la portabilidad dentro de los primeros 5 días. Tarifa registrada en Ift: Cool Teen max: 2512654, Cool Xoxo: 2512651, Cool Kids: 2512653, Cool Flexible: 2512656, Cool Total: 2512658, Cool Power: 2512659, Cool OMG 2512652. Vig del 1 Mayo al 31 Junio del 2026.
+                        <!-- Botón CTA para WhatsApp -->
+                        <a href="https://wa.me/5215540777727?text=Hola,%20me%20interesa%20la%20promoción%20de%20Doble%20Datos%20para%20apps." target="_blank" 
+                           class="bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 px-6 rounded-full shadow-[0_10px_20px_rgba(37,211,102,0.3)] transition-all transform hover:scale-105 flex items-center shrink-0">
+                            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                            ¡Aprovechar Promo!
+                        </a>
                     </div>
                 </div>
                 <!-- ========================================== -->
-                <!-- FIN BANNER PROMOCIÓN -->
+                <!-- FIN BANNER PROMOCIÓN JUNIO -->
                 <!-- ========================================== -->
 
 
@@ -643,208 +621,13 @@
                             <span class="text-sm md:text-base font-bold text-[#BCEAD5]">Vig del 1 Mayo al 31 Junio del 2026</span>
                         </div>
                         <p class="text-[10px] md:text-xs text-[#CBE4DE]/80 leading-relaxed max-w-4xl mx-auto">
-                            Promoción válida exclusivamente para portabilidad desde líneas Telcel, Movistar y AT&T. Promoción válida generando la portabilidad dentro de los primeros 5 días. Tarifa registrada en Ift: Cool Teen max: 2512654, Cool Xoxo: 2512651, Cool Kids: 2512653, Cool Flexible: 2512656, Cool Total: 2512658, Cool Power: 2512659, Cool OMG 2512652. Vig del 1 Mayo al 31 Junio del 2026
+                            Promoción válida exclusivamente para portabilidad desde líneas Telcel, Movistar y AT&T. Promoción válida generando la portabilidad dentro de los primeros 5 días. Tarifa registrada en Ift: Cool Teen max: 2512654, Cool Xoxo: 2512651, Cool Kids: 2512653, Cool Flexible: 2512656, Cool Total: 2512658, Cool Power: 2512659
                         </p>
                     </div>
 
                 </div>
                 <!-- ========================================== -->
                 <!-- FIN NUEVA SECCIÓN DE PLANES -->
-                <!-- ========================================== -->
-
-
-                <!-- ========================================== -->
-                <!-- BANNER PROMOCIÓN DOBLE DATOS (TICKET) -->
-                <!-- ========================================== -->
-                <div class="w-full bg-[#0a637c] rounded-3xl shadow-2xl p-6 md:p-12 mb-16 relative overflow-visible border border-[#57C5B6]/20">
-                    
-                    <!-- Textura de fondo sutil -->
-                    <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E');"></div>
-
-                    <div class="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12 relative z-10">
-                        
-                        <!-- Columna Izquierda: Textos Principales -->
-                        <div class="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left pt-4 lg:pt-16">
-                            <h2 class="text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight">Activa o Recarga y</h2>
-                            <h1 class="text-6xl md:text-[5.5rem] lg:text-[7rem] font-black text-white leading-[0.9] mt-2 title-main tracking-tighter">
-                                RECIBE<br>DOBLE<br>DATOS
-                            </h1>
-                            
-                            <ul class="text-white text-xl md:text-2xl mt-10 space-y-3 font-medium inline-block mx-auto lg:mx-0 text-left">
-                                <li class="flex items-center">
-                                    <span class="w-2.5 h-2.5 bg-[#57C5B6] rounded-full mr-4 shadow-[0_0_8px_#57C5B6]"></span>
-                                    Comparte <strong class="ml-2 font-black tracking-wide">DATOS</strong>
-                                </li>
-                                <li class="flex items-center">
-                                    <span class="w-2.5 h-2.5 bg-[#57C5B6] rounded-full mr-4 shadow-[0_0_8px_#57C5B6]"></span>
-                                    Acumulación <strong class="ml-2 font-black tracking-wide">GB</strong>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Columna Derecha: Diseño del Ticket -->
-                        <div class="w-full lg:w-1/2 max-w-md relative mt-8 lg:mt-0">
-                            <!-- Ranura (Slot) de la impresora -->
-                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-11/12 h-10 bg-gradient-to-b from-gray-200 to-gray-400 rounded-full shadow-[0_5px_15px_rgba(0,0,0,0.5)] z-20 flex justify-center items-center border-b-4 border-gray-500">
-                                <div class="w-[90%] h-3 bg-black rounded-full shadow-inner opacity-90"></div>
-                            </div>
-
-                            <!-- Papel del Ticket -->
-                            <div class="jagged-edge w-[90%] mx-auto rounded-t-xl pt-14 pb-8 px-5 sm:px-8 shadow-[0_20px_40px_rgba(0,0,0,0.6)] relative z-10 flex flex-col items-center mt-5">
-                                
-                                <!-- Sim Logo (Estilizado) -->
-                                <div class="bg-gradient-to-br from-[#0c4b59] to-[#57C5B6] w-24 h-14 rounded-lg flex items-center justify-center shadow-md mb-6 relative overflow-hidden">
-                                    <div class="absolute right-0 top-0 bottom-0 w-1/2 opacity-20" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, white 2px, white 4px);"></div>
-                                    <svg class="w-8 h-8 text-yellow-400 z-10" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-12a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-16a2 2 0 0 0-2-2zm-3 15h-6v-2h6v2zm0-4h-6v-2h6v2zm0-4h-6v-2h6v2z"/></svg>
-                                </div>
-
-                                <!-- Filas de Datos -->
-                                <div class="w-full space-y-5">
-                                    
-                                    <!-- 2GB -->
-                                    <div class="flex items-center justify-between border-b border-dashed border-gray-300 pb-3">
-                                        <div class="flex flex-col w-20">
-                                            <div class="text-2xl font-black text-gray-800 tracking-tighter">2<span class="text-xl">GB</span> <span class="text-gray-400 font-normal mx-0.5">=</span></div>
-                                            <div class="text-[10px] text-yellow-500 font-bold uppercase tracking-wider">✨ 30 días</div>
-                                        </div>
-                                        <div class="text-3xl font-black text-gray-800 border-2 border-gray-800 rounded-full px-4 py-1 tracking-tighter">4<span class="text-2xl">GB</span></div>
-                                        <div class="bg-[#e11d48] text-white font-black text-lg px-2 py-1 rounded shadow-sm flex items-baseline w-16 justify-center"><span class="text-sm mr-0.5">$</span>100</div>
-                                    </div>
-
-                                    <!-- 4GB -->
-                                    <div class="flex items-center justify-between border-b border-dashed border-gray-300 pb-3">
-                                        <div class="flex flex-col w-20">
-                                            <div class="text-2xl font-black text-gray-800 tracking-tighter">4<span class="text-xl">GB</span> <span class="text-gray-400 font-normal mx-0.5">=</span></div>
-                                            <div class="text-[10px] text-yellow-500 font-bold uppercase tracking-wider">✨ 30 días</div>
-                                        </div>
-                                        <div class="text-3xl font-black text-gray-800 border-2 border-gray-800 rounded-full px-4 py-1 tracking-tighter">8<span class="text-2xl">GB</span></div>
-                                        <div class="bg-[#e11d48] text-white font-black text-lg px-2 py-1 rounded shadow-sm flex items-baseline w-16 justify-center"><span class="text-sm mr-0.5">$</span>150</div>
-                                    </div>
-
-                                    <!-- 12GB -->
-                                    <div class="flex items-center justify-between border-b border-dashed border-gray-300 pb-3">
-                                        <div class="flex flex-col w-20">
-                                            <div class="text-2xl font-black text-gray-800 tracking-tighter">12<span class="text-xl">GB</span> <span class="text-gray-400 font-normal mx-0.5">=</span></div>
-                                            <div class="text-[10px] text-yellow-500 font-bold uppercase tracking-wider">✨ 30 días</div>
-                                        </div>
-                                        <div class="text-3xl font-black text-gray-800 border-2 border-gray-800 rounded-full px-3 py-1 tracking-tighter">24<span class="text-2xl">GB</span></div>
-                                        <div class="bg-[#e11d48] text-white font-black text-lg px-2 py-1 rounded shadow-sm flex items-baseline w-16 justify-center"><span class="text-sm mr-0.5">$</span>190</div>
-                                    </div>
-
-                                    <!-- 24GB -->
-                                    <div class="flex items-center justify-between border-b border-dashed border-gray-300 pb-3">
-                                        <div class="flex flex-col w-20">
-                                            <div class="text-2xl font-black text-gray-800 tracking-tighter">24<span class="text-xl">GB</span> <span class="text-gray-400 font-normal mx-0.5">=</span></div>
-                                            <div class="text-[10px] text-yellow-500 font-bold uppercase tracking-wider">✨ 30 días</div>
-                                        </div>
-                                        <div class="text-3xl font-black text-gray-800 border-2 border-gray-800 rounded-full px-3 py-1 tracking-tighter">48<span class="text-2xl">GB</span></div>
-                                        <div class="bg-[#e11d48] text-white font-black text-lg px-2 py-1 rounded shadow-sm flex items-baseline w-16 justify-center"><span class="text-sm mr-0.5">$</span>250</div>
-                                    </div>
-
-                                    <!-- 35GB -->
-                                    <div class="flex items-center justify-between border-b border-dashed border-gray-300 pb-3">
-                                        <div class="flex flex-col w-20">
-                                            <div class="text-2xl font-black text-[#881337] tracking-tighter">35<span class="text-xl">GB</span> <span class="text-gray-400 font-normal mx-0.5">=</span></div>
-                                            <div class="text-[10px] text-yellow-500 font-bold uppercase tracking-wider">✨ 30 días</div>
-                                        </div>
-                                        <div class="text-3xl font-black text-gray-800 border-2 border-gray-800 rounded-full px-3 py-1 tracking-tighter">70<span class="text-2xl">GB</span></div>
-                                        <div class="bg-[#e11d48] text-white font-black text-lg px-2 py-1 rounded shadow-sm flex items-baseline w-16 justify-center"><span class="text-sm mr-0.5">$</span>300</div>
-                                    </div>
-                                </div>
-
-                                <!-- Footer del Ticket -->
-                                <div class="text-center w-full mt-5">
-                                    <p class="text-[10px] font-bold text-[#9f1239] uppercase mb-3 tracking-wide">Redes Sociales, llamadas y SMS <span class="font-black text-lg block leading-tight">ILIMITADOS</span></p>
-                                    
-                                    <!-- Íconos de Redes (Mocks estilizados) -->
-                                    <div class="flex justify-center gap-1.5 flex-wrap mb-5 text-2xl">
-                                        <span>📱</span><span>💬</span><span>📸</span><span>🐦</span><span>👻</span><span>▶️</span>
-                                    </div>
-                                    
-                                    <!-- Código de Barras Simulado -->
-                                    <div class="flex justify-center items-end h-10 w-full gap-[2px] opacity-80">
-                                        <div class="w-1 bg-gray-800 h-full"></div>
-                                        <div class="w-2 bg-gray-800 h-full"></div>
-                                        <div class="w-0.5 bg-gray-800 h-full"></div>
-                                        <div class="w-3 bg-gray-800 h-full"></div>
-                                        <div class="w-1 bg-gray-800 h-4/5"></div>
-                                        <div class="w-1.5 bg-gray-800 h-full"></div>
-                                        <div class="w-0.5 bg-gray-800 h-full"></div>
-                                        <div class="w-2.5 bg-gray-800 h-full"></div>
-                                        <div class="w-1 bg-gray-800 h-4/5"></div>
-                                        <div class="w-0.5 bg-gray-800 h-full"></div>
-                                        <div class="w-2 bg-gray-800 h-full"></div>
-                                        <div class="w-3 bg-gray-800 h-full"></div>
-                                        <div class="w-1.5 bg-gray-800 h-4/5"></div>
-                                        <div class="w-0.5 bg-gray-800 h-full"></div>
-                                        <div class="w-2 bg-gray-800 h-full"></div>
-                                        <div class="w-1 bg-gray-800 h-full"></div>
-                                        <div class="w-2 bg-gray-800 h-4/5"></div>
-                                        <div class="w-1.5 bg-gray-800 h-full"></div>
-                                        <div class="w-0.5 bg-gray-800 h-full"></div>
-                                        <div class="w-1 bg-gray-800 h-full"></div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sección Inferior: Descarga y Compra -->
-                    <div class="mt-16 md:mt-24 border-t border-white/20 pt-10 flex flex-col xl:flex-row justify-center lg:justify-between items-center gap-10 xl:gap-4 relative z-10 px-4">
-                        
-                        <!-- Dónde Comprar -->
-                        <div class="flex flex-col items-center xl:items-start">
-                            <h3 class="text-2xl text-white font-bold mb-6 tracking-wide text-center xl:text-left">Adquiere y Activa en:</h3>
-                            <div class="flex flex-wrap justify-center xl:justify-start gap-4">
-                                <a href="https://vt.tiktok.com/ZSxVDEdtK/?page=TikTokShop&utm_campaign=client_share&utm_source=whatsapp&share_app_id=1233" target="_blank" class="bg-black/40 hover:bg-[#ff0050]/20 text-white hover:text-[#00f2fe] px-5 py-3 rounded-xl border border-white/20 transition-all hover:-translate-y-1 shadow-md flex items-center font-bold">
-                                    TikTok Shop
-                                </a>
-                                <a href="https://listado.mercadolibre.com.mx/_CustId_1032424934?item_id=MLM2584545487&category_id=MLM189728&seller_id=1032424934&client=recoview-selleritems&recos_listing=true" target="_blank" class="bg-[#ffe600]/10 hover:bg-[#ffe600]/30 text-[#ffe600] px-5 py-3 rounded-xl border border-[#ffe600]/50 transition-all hover:-translate-y-1 shadow-md flex items-center font-bold">
-                                    Mercado Libre
-                                </a>
-                                <a href="https://www.amazon.com.mx/dp/B0GJV22XRG" target="_blank" class="bg-black/40 hover:bg-[#ff9900]/20 text-white hover:text-[#ff9900] px-5 py-3 rounded-xl border border-white/20 transition-all hover:-translate-y-1 shadow-md flex items-center font-bold">
-                                    Amazon
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Info de App -->
-                        <div class="flex flex-col items-center xl:items-end">
-                            <h3 class="text-2xl text-white font-bold mb-6 tracking-wide text-center xl:text-right">Recarga en la App:</h3>
-                            <div class="bg-white rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-5 shadow-[0_10px_25px_rgba(0,0,0,0.3)] w-full max-w-md">
-                                <div class="w-16 h-16 bg-gradient-to-tr from-[#003242] to-[#0E8388] rounded-[1rem] flex items-center justify-center shrink-0 shadow-inner">
-                                    <!-- Logo Placeholder -->
-                                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                </div>
-                                <div class="text-center sm:text-left flex-1">
-                                    <h4 class="font-black text-xl text-gray-900 leading-tight">CoolMobile</h4>
-                                    <p class="text-sm text-gray-500 font-medium">Productividad</p>
-                                </div>
-                                <div class="flex flex-row sm:flex-col gap-2 shrink-0">
-                                    <a href="https://play.google.com/store/apps/details?id=com.coolmobileapp" target="_blank" class="bg-black text-white text-[10px] font-bold px-3 py-1.5 rounded flex items-center justify-center hover:bg-gray-800 transition-colors border border-gray-700">
-                                        Google Play
-                                    </a>
-                                    <a href="https://apps.apple.com/mx/app/coolmobile/id6757841586" target="_blank" class="bg-black text-white text-[10px] font-bold px-3 py-1.5 rounded flex items-center justify-center hover:bg-gray-800 transition-colors border border-gray-700">
-                                        App Store
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Info Legales -->
-                    <div class="mt-12 text-center lg:text-left relative z-10">
-                        <p class="text-base md:text-lg font-bold text-white mb-2 tracking-wide">Vig del 25 May al 2 Junio del 2026</p>
-                        <p class="text-[10px] md:text-xs text-[#CBE4DE]/70 leading-relaxed">
-                            Promoción válida exclusivamente para activacion o recarga. Tarifa registrada en Ift Cool XoXo 2514321, COOL OMG 2514322, COOL KIDS 2514326, COOL TEENS MAX 2514330, COOL FLEXIBLE 2514333, COOL TOTAL 2514336, COOL POWER 2514338
-                        </p>
-                        <p class="text-sm font-bold text-[#57C5B6] mt-4">MÁS INFORMACIÓN <a href="tel:5540777727" class="hover:underline">55 4077 7727</a></p>
-                    </div>
-
-                </div>
-                <!-- ========================================== -->
-                <!-- FIN BANNER PROMOCIÓN DOBLE DATOS -->
                 <!-- ========================================== -->
 
 
@@ -866,7 +649,7 @@
                         </div>
                     </div>
                     
-                    <a href="https://vt.tiktok.com/ZSxVDEdtK/?page=TikTokShop&utm_campaign=client_share&utm_source=whatsapp&share_app_id=1233" target="_blank" class="z-10 bg-white text-black hover:bg-gray-200 font-bold py-3 px-8 rounded-full transition-transform hover:scale-105 shadow-[0_4px_14px_rgba(255,255,255,0.25)] flex-shrink-0 text-center w-full md:w-auto">
+                    <a href="#" target="_blank" class="z-10 bg-white text-black hover:bg-gray-200 font-bold py-3 px-8 rounded-full transition-transform hover:scale-105 shadow-[0_4px_14px_rgba(255,255,255,0.25)] flex-shrink-0 text-center w-full md:w-auto">
                         Ir a TikTok Shop
                     </a>
                 </div>
