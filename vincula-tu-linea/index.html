@@ -64,6 +64,17 @@
             max-height: 500px; /* Altura suficiente para el contenido */
             opacity: 1;
         }
+
+        /* Color dorado para acentos de la imagen */
+        .text-gold {
+            color: #E2B86B;
+        }
+        .bg-gold {
+            background-color: #E2B86B;
+        }
+        .border-gold {
+            border-color: #E2B86B;
+        }
     </style>
 </head>
 <body>
@@ -75,6 +86,7 @@
                     <a href="/index.html" class="flex-shrink-0">
                         <img src="logo.png" alt="Logo Cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
                     </a>
+                    
                     <div class="hidden lg:flex lg:space-x-8">
                         <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
                             <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
@@ -87,7 +99,7 @@
                                 <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
                             </div>
                         </div>
-                            <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
                             <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
                                 Internet
                                 <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -140,6 +152,7 @@
                 </div>
             </div>
 
+            <!-- Menú Móvil -->
             <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#0c4b59] z-40"
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 scale-95"
@@ -147,7 +160,6 @@
                  x-transition:leave="transition ease-in duration-150"
                  x-transition:leave-start="opacity-100 scale-100"
                  x-transition:leave-end="opacity-0 scale-95">
-                <!-- Mobile menu content same as before -->
                 <div class="px-2 pt-20 pb-3 space-y-1 sm:px-3">
                     <div class="absolute top-4 right-4">
                         <button @click="openMenu = false" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
@@ -202,201 +214,373 @@
 
     <!-- Contenido Principal: Comunicado Vinculación -->
     <div class="container mx-auto max-w-5xl p-4 sm:p-8 pt-32 sm:pt-40">
-        <div class="bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-100">
+        <div class="bg-gray-50 shadow-2xl rounded-3xl overflow-hidden border border-gray-100">
             
-            <!-- Banner / Header del Comunicado -->
-            <div class="bg-gradient-to-r from-[#0c4b59] to-[#0E8388] p-8 sm:p-12 text-center text-white relative overflow-hidden">
-                <!-- Decorative Circles -->
-                <div class="absolute top-0 left-0 -mt-10 -ml-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
-                <div class="absolute bottom-0 right-0 -mb-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
-
-                <div class="relative z-10">
-                    <div class="inline-block p-3 bg-white/20 rounded-full mb-4">
-                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <h1 class="text-3xl sm:text-5xl font-black mb-4 tracking-tight">
-                        Vincula tu línea Cool Mobile
+            <!-- Banner / Header del Comunicado (Estilo inspirado en la imagen) -->
+            <div class="bg-[#051c24] p-8 sm:p-14 text-center text-white relative overflow-hidden flex flex-col items-center">
+                <!-- Efecto de gradiente radial de fondo -->
+                <div class="absolute inset-0 bg-gradient-to-b from-[#0c4b59]/80 to-transparent"></div>
+                
+                <div class="relative z-10 w-full max-w-3xl">
+                    <h1 class="text-4xl sm:text-6xl font-black mb-2 tracking-tight uppercase leading-tight">
+                        VINCULA <br> TU LÍNEA <br> <span class="text-gold">TELEFÓNICA</span>
                     </h1>
-                    <p class="text-lg sm:text-xl font-medium text-[#BCEAD5] max-w-2xl mx-auto">
-                        A partir del 9 de enero, es obligatorio registrar tu línea.
+                    <div class="h-1 w-24 bg-gold mx-auto mb-6"></div>
+                    <p class="text-lg sm:text-2xl font-medium text-gray-200 max-w-2xl mx-auto">
+                        Consulta tu fecha límite según el <strong>último dígito</strong> de tu celular y vincula tu línea.
                     </p>
                 </div>
             </div>
 
-            <main class="p-6 sm:p-12 text-gray-800">
+            <main class="p-6 sm:p-12 text-gray-800 bg-[#082a36]">
                 
-                <!-- Sección Informativa Principal -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <!-- Calendario de Fechas (Nuevo) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                     
-                    <!-- Columna Izquierda: El Por Qué -->
-                    <div class="info-card bg-gray-50 p-8 rounded-2xl border border-gray-100 h-full flex flex-col">
-                        <div class="flex items-center mb-4 text-[#0E8388]">
-                            <svg class="w-8 h-8 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                            <h2 class="text-xl font-bold">¿Por qué debo vincular mi línea?</h2>
+                    <!-- Agosto -->
+                    <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col">
+                        <div class="bg-[#0c4b59] text-white py-4 px-6 font-bold flex items-center justify-center gap-3 text-lg">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            AGOSTO
                         </div>
-                        <p class="text-gray-600 mb-4 flex-grow">
+                        <div class="p-6 flex-grow flex flex-col justify-center space-y-6">
+                            <div class="flex items-center gap-5 pb-5 border-b-2 border-gray-100">
+                                <div class="w-14 h-14 rounded-full bg-[#051c24] text-white flex items-center justify-center text-3xl font-black">0</div>
+                                <div class="text-gray-800 font-medium text-lg">15 agosto</div>
+                            </div>
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 rounded-full bg-[#051c24] text-white flex items-center justify-center text-3xl font-black">1</div>
+                                <div class="text-gray-800 font-medium text-lg">31 agosto</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Septiembre -->
+                    <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col">
+                        <div class="bg-[#0c4b59] text-white py-4 px-6 font-bold flex items-center justify-center gap-3 text-lg">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            SEPTIEMBRE
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-center space-y-6">
+                            <div class="flex items-center gap-5 pb-5 border-b-2 border-gray-100">
+                                <div class="w-14 h-14 rounded-full bg-[#051c24] text-white flex items-center justify-center text-3xl font-black">2</div>
+                                <div class="text-gray-800 font-medium text-lg">15 septiembre</div>
+                            </div>
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 rounded-full bg-[#051c24] text-white flex items-center justify-center text-3xl font-black">3</div>
+                                <div class="text-gray-800 font-medium text-lg">30 septiembre</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Octubre -->
+                    <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col">
+                        <div class="bg-[#0c4b59] text-white py-4 px-6 font-bold flex items-center justify-center gap-3 text-lg">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            OCTUBRE
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-center space-y-6">
+                            <div class="flex items-center gap-5 pb-5 border-b-2 border-gray-100">
+                                <div class="w-14 h-14 rounded-full bg-[#051c24] text-white flex items-center justify-center text-3xl font-black">4</div>
+                                <div class="text-gray-800 font-medium text-lg">15 octubre</div>
+                            </div>
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 rounded-full bg-[#051c24] text-white flex items-center justify-center text-3xl font-black">5</div>
+                                <div class="text-gray-800 font-medium text-lg">31 octubre</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Noviembre -->
+                    <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col">
+                        <div class="bg-[#0c4b59] text-white py-4 px-6 font-bold flex items-center justify-center gap-3 text-lg">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            NOVIEMBRE
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-center space-y-6">
+                            <div class="flex items-center gap-5 pb-5 border-b-2 border-gray-100">
+                                <div class="w-14 h-14 rounded-full bg-[#051c24] text-white flex items-center justify-center text-3xl font-black">6</div>
+                                <div class="text-gray-800 font-medium text-lg">15 noviembre</div>
+                            </div>
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 rounded-full bg-[#051c24] text-white flex items-center justify-center text-3xl font-black">7</div>
+                                <div class="text-gray-800 font-medium text-lg">30 noviembre</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diciembre -->
+                    <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col">
+                        <div class="bg-[#0c4b59] text-white py-4 px-6 font-bold flex items-center justify-center gap-3 text-lg">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            DICIEMBRE
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-center space-y-6">
+                            <div class="flex items-center gap-5 pb-5 border-b-2 border-gray-100">
+                                <div class="w-14 h-14 rounded-full bg-[#051c24] text-white flex items-center justify-center text-3xl font-black">8</div>
+                                <div class="text-gray-800 font-medium text-lg">15 diciembre</div>
+                            </div>
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 rounded-full bg-[#051c24] text-white flex items-center justify-center text-3xl font-black">9</div>
+                                <div class="text-gray-800 font-medium text-lg">31 diciembre</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aviso Suspensión -->
+                    <div class="bg-transparent border border-gold rounded-[2rem] overflow-hidden flex flex-col justify-center items-center p-8 text-center">
+                        <div class="text-gold mb-4">
+                            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                        </div>
+                        <p class="text-white text-xl md:text-2xl font-medium leading-tight">
+                            Al finalizar cada <br> periodo, se <br><span class="text-gold font-bold">suspenderán</span> las <br> líneas no vinculadas.
+                        </p>
+                    </div>
+
+                </div>
+                
+                <!-- Beneficios e Información Relevante (Row) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-white">
+                    <!-- Seguridad -->
+                    <div class="flex items-center gap-4 bg-[#0c4b59]/50 border border-gray-600 rounded-xl p-5">
+                        <div class="text-gold shrink-0">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Más seguridad</h3>
+                            <p class="text-sm text-gray-300">Protegemos tu línea y tus datos.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Evita Bloqueos -->
+                    <div class="flex items-center gap-4 bg-[#0c4b59]/50 border border-gray-600 rounded-xl p-5">
+                        <div class="text-gold shrink-0">
+                            <svg class="w-10 h-10 transform -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Evita bloqueos</h3>
+                            <p class="text-sm text-gray-300">Vincula tu línea a tiempo.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Fácil y rápido -->
+                    <div class="flex items-center gap-4 bg-[#0c4b59]/50 border border-gray-600 rounded-xl p-5">
+                        <div class="text-gold shrink-0">
+                            <div class="border-2 border-gold rounded-full p-1">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Es rápido y fácil</h3>
+                            <p class="text-sm text-gray-300">Solo necesitas tu número de celular.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call to Action / Botón -->
+                <div class="text-center bg-[#051c24] rounded-2xl p-8 sm:p-12 border border-gold/30 mb-8 shadow-xl">
+                    <h3 class="text-2xl font-bold text-white mb-6">El trámite es 100% en línea y gratuito</h3>
+                    <div class="inline-block relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-gold to-[#0E8388] rounded-full blur opacity-50 group-hover:opacity-100 transition duration-200"></div>
+                        <a href="https://rnu.altanredes.com/coolmobile/vinculatulinea" class="relative block bg-transparent text-white font-black text-xl px-12 py-5 rounded-full border-2 border-white hover:bg-[#0c4b59] hover:border-[#0c4b59] hover:text-white transition-all duration-300">
+                            AQUÍ REGISTRATE
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Barra Información Importante -->
+                <div class="flex flex-col md:flex-row items-center gap-6 bg-[#e6e8e8] text-gray-800 rounded-xl p-6">
+                    <div class="text-[#051c24] shrink-0">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <div class="flex-grow text-center md:text-left">
+                        <h4 class="font-bold text-lg mb-1">INFORMACIÓN IMPORTANTE</h4>
+                        <p class="text-sm">Consulta tu fecha límite según el último dígito de tu número y realiza la vinculación antes de la fecha indicada.</p>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-3 border-t md:border-t-0 md:border-l border-gray-400 pt-4 md:pt-0 md:pl-6 text-sm">
+                        <svg class="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                        <p class="max-w-[150px]">Ten a la mano tu número de celular para vincular tu línea.</p>
+                    </div>
+                </div>
+
+            </main>
+            
+            <!-- NUEVA SECCIÓN: ¿Por qué y Qué Necesitas? -->
+            <div class="bg-white px-6 sm:px-10 py-12 border-b border-gray-100">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Tarjeta Izquierda: ¿Por qué debo vincular? -->
+                    <div class="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.06)] flex flex-col h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="text-[#0c4b59] shrink-0">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-bold text-[#0c4b59] leading-tight">
+                                ¿Por qué debo vincular mi línea?
+                            </h2>
+                        </div>
+                        <p class="text-gray-600 text-lg mb-8 flex-grow">
                             Por disposición oficial en México, <strong>todas las líneas móviles deben estar registradas</strong> a nombre de una persona física o moral.
                         </p>
-                        <div class="bg-white p-3 rounded-lg border border-gray-200 text-xs text-gray-500 flex items-center">
-                            <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div class="bg-white p-4 border border-gray-200 rounded-xl flex items-center text-sm text-gray-500 mt-auto shadow-sm">
+                            <svg class="w-5 h-5 mr-3 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
                             Publicado en el Diario Oficial de la Federación.
                         </div>
                     </div>
 
-                    <!-- Columna Derecha: Requisitos -->
-                    <div class="info-card bg-[#BCEAD5]/20 p-8 rounded-2xl border border-[#BCEAD5] h-full flex flex-col">
-                        <div class="flex items-center mb-4 text-[#0c4b59]">
-                            <svg class="w-8 h-8 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg>
-                            <h2 class="text-xl font-bold">¿Qué necesitas?</h2>
+                    <!-- Tarjeta Derecha: ¿Qué necesitas? -->
+                    <div class="bg-[#f0fcf5] p-8 rounded-[2rem] border border-[#d1f0df] shadow-[0_8px_30px_rgba(209,240,223,0.3)] flex flex-col h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="text-[#0c4b59] shrink-0">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-bold text-[#0c4b59] leading-tight">
+                                ¿Qué necesitas?
+                            </h2>
                         </div>
-                        <p class="text-gray-600 mb-4">Para vincular tu línea (SIM o eSIM) a tu nombre, ten a la mano:</p>
-                        <ul class="space-y-3">
-                            <li class="flex items-start">
-                                <svg class="w-5 h-5 text-[#0E8388] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span><strong>Nombre completo</strong></span>
+                        <p class="text-gray-700 text-lg mb-6">
+                            Para vincular tu línea (SIM o eSIM) a tu nombre, ten a la mano:
+                        </p>
+                        <ul class="space-y-4 text-[#1a2b34] font-bold text-lg">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-[#0E8388] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Nombre completo
                             </li>
-                            <li class="flex items-start">
-                                <svg class="w-5 h-5 text-[#0E8388] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span><strong>CURP o RFC</strong></span>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-[#0E8388] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                CURP o RFC
                             </li>
-                            <li class="flex items-start">
-                                <svg class="w-5 h-5 text-[#0E8388] mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span><strong>Identificación oficial vigente:</strong><br><span class="text-sm text-gray-500">• INE o Pasaporte (Mexicanos)<br>• Pasaporte (Extranjeros)</span></span>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-[#0E8388] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <div>
+                                    Identificación oficial vigente:
+                                    <ul class="text-gray-500 font-normal text-base mt-2 space-y-1">
+                                        <li>• INE o Pasaporte (Mexicanos)</li>
+                                        <li>• Pasaporte (Extranjeros)</li>
+                                    </ul>
+                                </div>
                             </li>
                         </ul>
                     </div>
-                </div>
 
-                <!-- Sección de Alerta Importante -->
-                <div class="bg-red-50 border-l-8 border-red-500 p-6 sm:p-8 rounded-r-xl mb-12 shadow-sm">
-                    <div class="flex items-start sm:items-center mb-4">
-                        <div class="p-2 bg-red-100 rounded-full mr-4 flex-shrink-0">
-                            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-red-700">Importante</h3>
-                    </div>
-                    <p class="text-gray-700 font-medium mb-3">Si no registras tu línea dentro del plazo:</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="flex items-center text-red-600 font-semibold bg-white p-3 rounded border border-red-100">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            Se pueden suspender llamadas, SMS y datos
-                        </div>
-                        <div class="flex items-center text-gray-600 bg-white p-3 rounded border border-gray-100">
-                            <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            Solo podrás comunicarte para emergencias y soporte
-                        </div>
-                    </div>
                 </div>
+            </div>
 
-                <!-- Call to Action / Resumen -->
-                <div class="text-center bg-[#f0f9ff] rounded-2xl p-8 sm:p-12 border border-[#BCEAD5]">
-                    <h3 class="text-2xl font-bold text-[#0c4b59] mb-6">El trámite es 100% en línea</h3>
+            <!-- Sección Botones de Gestión -->
+            <div class="bg-white px-6 sm:px-10 pb-12">
+                <div class="max-w-4xl mx-auto bg-[#f8fafc] rounded-3xl p-8 border border-gray-200 shadow-sm text-center">
+                    <h3 class="text-2xl font-bold text-[#0c4b59] mb-3">Gestión de tus Líneas</h3>
+                    <p class="text-gray-600 mb-8 max-w-2xl mx-auto">Si necesitas revisar el estatus de las líneas vinculadas a tu CURP o realizar la desvinculación de un número, utiliza los siguientes enlaces:</p>
                     
-                    <div class="flex flex-wrap justify-center gap-4 sm:gap-8 mb-8 text-gray-600 font-medium">
-                        <span class="flex items-center px-4 py-2 bg-white rounded-full shadow-sm">
-                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Gratuito
-                        </span>
-                        <span class="flex items-center px-4 py-2 bg-white rounded-full shadow-sm">
-                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                            Rápido
-                        </span>
-                        <span class="flex items-center px-4 py-2 bg-white rounded-full shadow-sm">
-                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                            Seguro
-                        </span>
-                    </div>
-
-                    <div class="inline-block relative group">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-[#0E8388] to-[#57C5B6] rounded-full blur opacity-50 group-hover:opacity-100 transition duration-200"></div>
-                        <a href="https://rnu.altanredes.com/coolmobile/vinculatulinea" class="relative block bg-white text-[#0c4b59] font-black text-xl px-12 py-5 rounded-full border-2 border-[#0E8388] hover:bg-[#0E8388] hover:text-white transition-all duration-300">
-                            Aquí registrate
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-5">
+                        <!-- Botón Consulta -->
+                        <a href="https://rnu.altanredes.com/consulta" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-[#0E8388] text-white font-bold px-8 py-3.5 rounded-full hover:bg-[#57C5B6] transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            Consulta tus líneas (CURP)
+                        </a>
+                        
+                        <!-- Botón Desvincular -->
+                        <a href="https://rnu.altanredes.com/OMV/desvinculatulinea" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-white text-[#0c4b59] font-bold px-8 py-3.5 rounded-full border-2 border-[#0c4b59] hover:bg-[#0c4b59] hover:text-white transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-1">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                            Desvincular línea
                         </a>
                     </div>
                 </div>
-                               <!-- Sección de Preguntas Frecuentes (Nueva) -->
-                <div class="mb-12 p-8">
-                    <h3 class="text-2xl font-bold text-[#0c4b59] mb-6 flex items-center">
-                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Preguntas Frecuentes
-                    </h3>
+            </div>
+
+            <!-- Sección de Preguntas Frecuentes -->
+            <div class="bg-white p-8">
+                <h3 class="text-2xl font-bold text-[#0c4b59] mb-6 flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Preguntas Frecuentes
+                </h3>
+                
+                <div x-data="{ active: null }" class="space-y-3">
                     
-                    <div x-data="{ active: null }" class="space-y-3">
-                        
-                        <!-- Pregunta 1 -->
-                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
-                            <button @click="active = (active === 1 ? null : 1)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
-                                <span class="font-bold text-gray-800">¿Qué hago si no reconozco una línea?</span>
-                                <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 1 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
-                            <div class="accordion-content bg-white" :class="{ 'active': active === 1 }" x-show="active === 1" x-collapse>
-                                <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
-                                    Podrás contactar a soporte al 55 4077 7727 a realizar la aclaración. Para ello, deberás presentar tu identificación oficial vigente (Credencial para votar, Pasaporte o Documento Nacional de Identificación). Una vez validada tu identidad, se procederá con la aclaración. En caso de ser procedente, se realizará la desvinculación correspondiente.
-                                </div>
+                    <!-- Pregunta 1 -->
+                    <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="active = (active === 1 ? null : 1)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
+                            <span class="font-bold text-gray-800">¿Qué hago si no reconozco una línea?</span>
+                            <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 1 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content bg-white" :class="{ 'active': active === 1 }" x-show="active === 1" x-cloak>
+                            <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
+                                Podrás contactar a soporte al 55 4077 7727 a realizar la aclaración. Para ello, deberás presentar tu identificación oficial vigente (Credencial para votar, Pasaporte o Documento Nacional de Identificación). Una vez validada tu identidad, se procederá con la aclaración. En caso de ser procedente, se realizará la desvinculación correspondiente.
                             </div>
                         </div>
-
-                        <!-- Pregunta 2 -->
-                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
-                            <button @click="active = (active === 2 ? null : 2)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
-                                <span class="font-bold text-gray-800">¿La desvinculación implica la terminación de mi servicio?</span>
-                                <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 2 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
-                            <div class="accordion-content bg-white" :class="{ 'active': active === 2 }" x-show="active === 2" x-collapse>
-                                <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
-                                    No, la desvinculación solo tiene el efecto de disociar la identificación oficial con fotografía y CURP de la línea; por lo que tu servicios continuará vigente hasta que ocurra alguna causa de terminación. En este caso, el servicio será suspendido hasta que la línea sea nuevamente registrada con una identificación oficial vigente con fotografía y CURP.<br><br>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pregunta 3 -->
-                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
-                            <button @click="active = (active === 3 ? null : 3)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
-                                <span class="font-bold text-gray-800">¿Cuánto tiempo tengo para registrar mi línea?</span>
-                                <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 3 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
-                            <div class="accordion-content bg-white" :class="{ 'active': active === 3 }" x-show="active === 3" x-collapse>
-                                <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
-                                    Tienes hasta el <strong>30 de junio de 2026</strong>. A partir del <strong>01 de julio de 2026</strong>, todas las líneas que no estén registradas serán suspendidas hasta que se realice el registro.
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pregunta 4 -->
-                        <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
-                            <button @click="active = (active === 4 ? null : 4)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
-                                <span class="font-bold text-gray-800">¿Qué pasa si no registro mi identificación oficial con CURP con mi línea?</span>
-                                <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 4 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
-                            <div class="accordion-content bg-white" :class="{ 'active': active === 4 }" x-show="active === 4" x-collapse>
-                                <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
-                                    No podrás utilizar tu servicio hasta que realices el registro. Durante la suspensión del servicio, únicamente podrás realizar llamadas a los números de emergencia.<br><br>
-                                </div>
-                            </div>
-                        </div>
-
-                         <!-- Pregunta 5 -->
-                         <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
-                            <button @click="active = (active === 5 ? null : 5)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
-                                <span class="font-bold text-gray-800">¿Aplica para todos los usuarios móviles?</span>
-                                <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 5 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
-                            <div class="accordion-content bg-white" :class="{ 'active': active === 5 }" x-show="active === 5" x-collapse>
-                                <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
-                                    Sí, aplica para todos los usuarios de Prepago que le permita hacer uso de servicios de voz (llamadas), envío de mensajes de texto SMS y/o realizar llamadas a través de Internet.
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="active = (active === 2 ? null : 2)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
+                            <span class="font-bold text-gray-800">¿La desvinculación implica la terminación de mi servicio?</span>
+                            <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 2 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content bg-white" :class="{ 'active': active === 2 }" x-show="active === 2" x-cloak>
+                            <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
+                                No, la desvinculación solo tiene el efecto de disociar la identificación oficial con fotografía y CURP de la línea; por lo que tu servicios continuará vigente hasta que ocurra alguna causa de terminación. En este caso, el servicio será suspendido hasta que la línea sea nuevamente registrada con una identificación oficial vigente con fotografía y CURP.<br><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="active = (active === 3 ? null : 3)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
+                            <span class="font-bold text-gray-800">¿Cuánto tiempo tengo para registrar mi línea?</span>
+                            <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 3 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content bg-white" :class="{ 'active': active === 3 }" x-show="active === 3" x-cloak>
+                            <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
+                                Tu fecha límite depende del último dígito de tu número celular. Por favor, <strong>revisa el calendario interactivo en la parte superior</strong> de esta página para conocer el periodo exacto de tu línea. Al finalizar cada periodo correspondiente, todas las líneas que no estén registradas serán suspendidas.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="active = (active === 4 ? null : 4)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
+                            <span class="font-bold text-gray-800">¿Qué pasa si no registro mi identificación oficial con CURP con mi línea?</span>
+                            <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 4 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content bg-white" :class="{ 'active': active === 4 }" x-show="active === 4" x-cloak>
+                            <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
+                                No podrás utilizar tu servicio hasta que realices el registro. Durante la suspensión del servicio, únicamente podrás realizar llamadas a los números de emergencia.<br><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 5 -->
+                    <div class="border border-gray-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="active = (active === 5 ? null : 5)" class="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-center focus:outline-none">
+                            <span class="font-bold text-gray-800">¿Aplica para todos los usuarios móviles?</span>
+                            <svg class="w-5 h-5 text-[#0E8388] transform transition-transform duration-200" :class="{ 'rotate-180': active === 5 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content bg-white" :class="{ 'active': active === 5 }" x-show="active === 5" x-cloak>
+                            <div class="px-6 py-4 text-gray-600 border-t border-gray-100 text-sm leading-relaxed">
+                                Sí, aplica para todos los usuarios de Prepago que le permita hacer uso de servicios de voz (llamadas), envío de mensajes de texto SMS y/o realizar llamadas a través de Internet.
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+            </div>
 
-
-            </main>
         </div>
     </div>
 
-    <!-- Footer (pie de página) CONSERVADO -->
+    <!-- Footer (pie de página) -->
     <footer class="footer">
         <div class="container mx-auto px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -450,10 +634,10 @@
                 <div>
                     <h4 class="footer-title">Descarga Nuestras Apps</h4>
                     <div class="space-y-6">
-                            <a href="https://apps.apple.com/mx/app/coolmobile/id6757841586" class="store-button">
+                            <a href="https://apps.apple.com/mx/app/coolmobile/id6757841586" class="store-button block">
                                 <img src="img/appstore.png" class="rounded-lg" alt="Download on the App Store" onerror="this.onerror=null;this.src='https://placehold.co/120x40/black/white?text=AppStore';">
                             </a>
-                            <a href="https://play.google.com/store/apps/details?id=com.coolmobileapp" class="store-button">
+                            <a href="https://play.google.com/store/apps/details?id=com.coolmobileapp" class="store-button block mt-2">
                                 <img src="img/googleplay.png" class="rounded-lg" alt="Get it on Google Play" onerror="this.onerror=null;this.src='https://placehold.co/120x40/black/white?text=GooglePlay';">
                             </a>
                     </div>
@@ -461,7 +645,6 @@
             </div>
         </div>
     </footer>
-
 
     <!-- Chat Simplificado -->
     <div class="fixed bottom-5 right-5 z-50">
