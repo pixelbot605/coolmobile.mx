@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturación - Cool Mobile</title>
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.png" type="image/png">
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fuentes y scripts para Header/Footer/Chat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg, #3a90ab, #ffffff, #3a6777, #1c5264, #003242, #000707);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+        }
+
+        [x-cloak] { display: none !important; }
+
+        .footer {
+            background-color: #000707;
+            color: #BCEAD5;
+            padding: 4rem 0;
+            border-top: 2px solid #0E8388;
+        }
+        .footer-link { transition: color 0.2s ease-in-out; }
+        .footer-link:hover { color: #57C5B6; }
+        .footer-title { color: #CBE4DE; font-weight: 600; margin-bottom: 1rem; }
+        
+        .store-button { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .store-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Estilos adicionales para los inputs del formulario */
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #d1d5db;
+            background-color: #f9fafb;
+            color: #374151;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+        .form-input:focus {
+            border-color: #0E8388;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(14, 131, 136, 0.2);
+        }
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+    
+</head>
+<body>
+    <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+        <header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
+                :class="{ 'bg-[#0c4b59] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-24">
+                    <a href="/index.html" class="flex-shrink-0">
+                        <img src="logo.png" alt="Logo Cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                    </a>
+                    <div class="hidden lg:flex lg:space-x-8">
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Telefonía
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                                <a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia-simcard</a>
+                                <a href="/telefonia-eSIM/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia eSIM</a>
+                                <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
+                            </div>
+                        </div>
+                            <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Internet
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                                <a href="/internet-de-casa/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">En casa</a>
+                                <a href="/internet-movil/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Mifi</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Consulta
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                                <a href="/portabilidad/index.html" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Portabilidad</a>
+                                <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Compatibilidad</a>
+                                <a href="/manual-configuraciones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Manual</a>
+                                <a href="/puntos-de-recarga/localiza/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Puntos de recarga</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Contacto
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                                <a href="/faqs/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Faqs</a>
+                                <a href="/contacto/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Contactos</a>
+                            </div>
+                        </div>
+                        <a href="/vincula-tu-linea/" class="text-[#BCEAD5] hover:text-[#57C5B6] px-3 py-2 rounded-md font-medium transition-colors duration-200">Vincula tu línea</a>
+                    </div>
+
+                    <a href="https://www.coolmobile-app.com/" class="hidden lg:block bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105">
+                        Recargas
+                    </a>
+
+                    <div class="lg:hidden flex items-center">
+                        <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                            <span class="sr-only">Abrir menú principal</span>
+                            <svg class="h-6 w-6" x-show="!openMenu" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                            <svg class="h-6 w-6" x-show="openMenu" x-cloak fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#0c4b59] z-40"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95">
+                <!-- Mobile menu content same as before -->
+                <div class="px-2 pt-20 pb-3 space-y-1 sm:px-3">
+                    <div class="absolute top-4 right-4">
+                        <button @click="openMenu = false" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
+                            <span class="sr-only">Cerrar menú principal</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Telefonía</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="/telefonia_simcard/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia-simcard</a>
+                            <a href="/telefonia-eSIM/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Telefonia eSIM</a>
+                            <a href="/promociones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Promociones</a>
+                        </div>
+                    </div>
+                    <a href="/internet-de-casa/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet de Casa</a>
+                    <a href="/internet-movil/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Internet Móvil</a>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Consulta</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="/portabilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Portabilidad</a>
+                            <a href="/compatibilidad/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Compatibilidad</a>
+                            <a href="/manual-configuraciones/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Manual</a>
+                            <a href="/puntos-de-recarga/localiza/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Puntos de recarga</a>
+                        </div>
+                    </div>
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">
+                            <span>Contacto</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak x-transition class="pl-6 space-y-1">
+                            <a href="/faqs/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Faqs</a>
+                            <a href="/contacto/" class="block px-3 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">Contactos</a>
+                        </div>
+                    </div>
+                    <a href="/vincula-tu-linea/" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Vincula tu línea</a>
+                    <div class="pt-4 border-t border-[#BCEAD5]">
+                        <a href="https://www.coolmobile-app.com/" class="block text-center bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 w-full">
+                            Recargas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+    <!-- Contenido Principal: Formulario de Facturación -->
+    <div class="container mx-auto max-w-4xl p-4 sm:p-8 pt-32 sm:pt-40 pb-20">
+        <div class="bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-100">
+            
+            <!-- Agregamos variables de estado de AlpineJS (isSubmitting, isSuccess) -->
+            <main class="p-6 sm:p-12 text-gray-800" x-data="{ isSubmitting: false, isSuccess: false }">
+                
+                <!-- El encabezado original se oculta si ya fue exitoso -->
+                <div class="text-center mb-10" x-show="!isSuccess" x-transition>
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#BCEAD5] text-[#0E8388] mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-black text-gray-900 mb-4 tracking-tight">
+                        Solicitud de Facturación
+                    </h1>
+                    <p class="text-gray-500 max-w-2xl mx-auto">
+                        Por favor, completa el siguiente formulario con tus datos fiscales correctos. Tu factura será procesada y enviada al correo proporcionado.
+                    </p>
+                </div>
+                
+                <!-- Formulario -->
+                <!-- Agregamos prevent y la petición de Fetch para enviarlo sin recargar la página -->
+                <form action="https://formsubmit.co/ajax/j.gonzalez@coolmobile.mx" 
+                      method="POST" 
+                      enctype="multipart/form-data" 
+                      class="space-y-8"
+                      x-show="!isSuccess"
+                      x-transition
+                      @submit.prevent="
+                          isSubmitting = true;
+                          fetch($el.action, {
+                              method: 'POST',
+                              body: new FormData($el),
+                              headers: { 'Accept': 'application/json' }
+                          })
+                          .then(res => {
+                              if(res.ok) {
+                                  isSuccess = true; 
+                                  isSubmitting = false; 
+                                  window.scrollTo({top: 0, behavior: 'smooth'}); 
+                              } else {
+                                  throw new Error('Fallo en el envío');
+                              }
+                          })
+                          .catch(err => { 
+                              alert('Hubo un problema de comunicación, pero tu solicitud podría haberse enviado. Por favor intenta de nuevo más tarde o contacta a soporte.'); 
+                              isSubmitting = false; 
+                          });
+                      ">
+                    
+                    <!-- Configuraciones ocultas de FormSubmit -->
+                    <!-- Ya no necesitamos _next porque lo manejamos en la misma página -->
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="Nueva Solicitud de Facturación - Sitio Web">
+                    <input type="text" name="_honey" style="display:none">
+
+                    <!-- SECCIÓN 1: Datos Fiscales -->
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                        <h2 class="text-xl font-bold text-[#0c4b59] mb-4 flex items-center">
+                            <span class="bg-[#0E8388] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">1</span>
+                            Datos Fiscales
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="md:col-span-2">
+                                <label for="razon_social" class="form-label">Razón Social / Nombre Completo *</label>
+                                <input type="text" id="razon_social" name="Razon_Social" required placeholder="Ej. Juan Pérez García / Empresa SA de CV" class="form-input">
+                            </div>
+                            
+                            <div>
+                                <label for="rfc" class="form-label">RFC *</label>
+                                <input type="text" id="rfc" name="RFC" required placeholder="XXXX000000XXX" class="form-input uppercase">
+                            </div>
+
+                            <div>
+                                <label for="cp" class="form-label">Código Postal Fiscal *</label>
+                                <input type="text" id="cp" name="Codigo_Postal" required placeholder="00000" class="form-input" maxlength="5">
+                            </div>
+
+                            <div>
+                                <label for="regimen" class="form-label">Régimen Fiscal *</label>
+                                <select id="regimen" name="Regimen_Fiscal" required class="form-input">
+                                    <option value="" disabled selected>Selecciona tu régimen...</option>
+                                    <option value="601">601 - General de Ley Personas Morales</option>
+                                    <option value="603">603 - Personas Morales con Fines no Lucrativos</option>
+                                    <option value="605">605 - Sueldos y Salarios e Ingresos Asimilados a Salarios</option>
+                                    <option value="606">606 - Arrendamiento</option>
+                                    <option value="612">612 - Personas Físicas con Actividades Empresariales y Profesionales</option>
+                                    <option value="626">626 - Régimen Simplificado de Confianza (RESICO)</option>
+                                    <option value="Otro">Otro Régimen</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="uso_cfdi" class="form-label">Uso de CFDI *</label>
+                                <select id="uso_cfdi" name="Uso_CFDI" required class="form-input">
+                                    <option value="" disabled selected>Selecciona el uso de CFDI...</option>
+                                    <option value="G01">G01 - Adquisición de mercancías</option>
+                                    <option value="G03">G03 - Gastos en general</option>
+                                    <option value="I08">I08 - Equipo de computo y accesorios</option>
+                                    <option value="D04">D04 - Donativos</option>
+                                    <option value="P01">P01 - Por definir</option>
+                                    <option value="S01">S01 - Sin efectos fiscales</option>
+                                    <option value="CP01">CP01 - Pagos</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECCIÓN 2: Detalles de Contacto y Compra -->
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                        <h2 class="text-xl font-bold text-[#0c4b59] mb-4 flex items-center">
+                            <span class="bg-[#0E8388] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">2</span>
+                            Detalles de Compra
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="email" class="form-label">Correo Electrónico (Para recibir PDF y XML) *</label>
+                                <input type="email" id="email" name="Correo_Electronico" required placeholder="tu@correo.com" class="form-input">
+                            </div>
+
+                            <div>
+                                <label for="numero_recarga" class="form-label">Número de la recarga *</label>
+                                <input type="tel" id="numero_recarga" name="Numero_Recarga" required placeholder="10 dígitos" pattern="[0-9]{10}" title="Ingresa un número de 10 dígitos" class="form-input">
+                            </div>
+
+                            <div>
+                                <label for="plan" class="form-label">Nombre del plan *</label>
+                                <select id="plan" name="Nombre_Plan" required class="form-input">
+                                    <option value="" disabled selected>Selecciona tu plan...</option>
+                                    <option value="Cool Mix">Cool Mix</option>
+                                    <option value="Cool WTF">Cool WTF</option>
+                                    <option value="Cool XoXo">Cool XoXo</option>
+                                    <option value="Cool OMG">Cool OMG</option>
+                                    <option value="Cool Kids">Cool Kids</option>
+                                    <option value="Cool Teens Max">Cool Teens Max</option>
+                                    <option value="Cool Flexible">Cool Flexible</option>
+                                    <option value="Cool Total">Cool Total</option>
+                                    <option value="Cool Power">Cool Power</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="monto" class="form-label">Monto Exacto Pagado ($) *</label>
+                                <input type="number" step="0.01" id="monto" name="Monto_Pagado" required placeholder="0.00" class="form-input">
+                            </div>
+
+                            <div>
+                                <label for="fecha_recarga" class="form-label">Fecha de la Recarga *</label>
+                                <input type="date" id="fecha_recarga" name="Fecha_Recarga" required class="form-input text-gray-500">
+                            </div>
+
+                            <div>
+                                <label for="forma_pago" class="form-label">Forma de Pago *</label>
+                                <select id="forma_pago" name="Forma_Pago" required class="form-input">
+                                    <option value="" disabled selected>Selecciona forma de pago...</option>
+                                    <option value="01 - Efectivo">01 - Efectivo</option>
+                                    <option value="28 - Tarjeta de Debito">28 - Tarjeta de Débito</option>
+                                    <option value="04 - Tarjeta de Credito">04 - Tarjeta de Crédito</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECCIÓN 3: Adjuntar Archivos -->
+                    <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100">
+                        <h2 class="text-xl font-bold text-[#0c4b59] mb-4 flex items-center">
+                            <span class="bg-[#0E8388] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">3</span>
+                            Archivo Adjunto
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="comprobante" class="form-label">Comprobante de Pago / Ticket (Imagen o PDF)</label>
+                                <input type="file" id="comprobante" name="Archivo_Ticket_Pago" accept=".jpg, .jpeg, .png, .pdf" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#BCEAD5] file:text-[#0E8388] hover:file:bg-[#a3d9c0] transition-all cursor-pointer">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón de Envío -->
+                    <div class="pt-6">
+                        <button type="submit" 
+                                :disabled="isSubmitting"
+                                :class="{ 'opacity-75 cursor-not-allowed': isSubmitting, 'hover:-translate-y-1 hover:shadow-xl': !isSubmitting }"
+                                class="w-full bg-[#0E8388] hover:bg-[#0c4b59] text-white text-lg font-bold py-4 px-8 rounded-2xl transition-all shadow-lg transform flex justify-center items-center">
+                            
+                            <!-- Estado normal -->
+                            <span x-show="!isSubmitting" class="flex items-center">
+                                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                                Enviar Solicitud de Facturación
+                            </span>
+                            
+                            <!-- Estado cargando -->
+                            <span x-show="isSubmitting" x-cloak class="flex items-center">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                Procesando envío...
+                            </span>
+                        </button>
+                        <p class="text-xs text-center text-gray-400 mt-4">
+                            Tus datos están protegidos.
+                        </p>
+                    </div>
+
+                </form>
+
+                <!-- MENSAJE DE ÉXITO (Oculto inicialmente) -->
+                <div x-show="isSuccess" x-cloak x-transition.opacity.duration.500ms class="text-center py-12 px-4">
+                    <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-green-100 text-green-500 mb-6 shadow-inner">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-6 tracking-tight">¡Solicitud Enviada!</h2>
+                    
+                    <div class="bg-gray-50 border-l-4 border-green-500 p-6 rounded-r-2xl mb-8 max-w-2xl mx-auto text-left">
+                        <p class="text-gray-700 text-lg mb-2">
+                            Hemos recibido tu información fiscal correctamente.
+                        </p>
+                        <p class="text-gray-600 font-medium">
+                            La factura será enviada al correo proporcionado en un lapso <span class="text-[#0E8388] font-bold">no mayor a 24-48 horas hábiles</span>.
+                        </p>
+                        <p class="text-sm text-gray-500 mt-4">
+                            De lo contrario, por favor contacta con nuestro equipo de atención al cliente.
+                        </p>
+                    </div>
+
+                    <!-- Botón de WhatsApp -->
+                    <a href="https://wa.me/525540777727?text=Hola,%20tengo%20una%20duda%20sobre%20mi%20solicitud%20de%20facturaci%C3%B3n" 
+                       target="_blank" 
+                       class="inline-flex items-center justify-center bg-[#25D366] hover:bg-[#1da851] text-white text-lg font-bold py-3 px-8 rounded-full transition-all shadow-lg transform hover:-translate-y-1">
+                        <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                        Atención al cliente
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer (pie de página) -->
+    <footer class="footer">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Columna 1: Contacto -->
+                <div>
+                    <img src="https://placehold.co/200x50/000707/BCEAD5?text=Cool+Mobile" alt="Cool Mobile Logo" class="mb-4">
+                    <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
+                    <p class="mb-2">Atención al cliente de 9:00 a 21:00 hrs (lun–vie) y de 9:00 a 18:00 hrs (sáb–dom)</p>
+                    <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
+                    <p>C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
+                </div>
+                <!-- Columna 2: Mapa del Sitio -->
+                <div>
+                    <h4 class="footer-title">Mapa del Sitio</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/index.html" class="footer-link">Inicio</a></li>
+                        <li><a href="https://www.coolmobile-app.com/" class="footer-link">Recargas</a></li>
+                        <li><a href="/portabilidad/" class="footer-link">Portabilidad</a></li>
+                        <li><a href="/cobertura/" class="footer-link">Cobertura</a></li>
+                        <li><a href="/compatibilidad/" class="footer-link">Revisar Compatibilidad</a></li>
+                        <li><a href="/contacto/" class="footer-link">Contacto</a></li>
+                    </ul>
+                </div>
+                <!-- Columna 3: Acerca de y Legal -->
+                <div>
+                    <h4 class="footer-title">Acerca</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/nosotros/" class="footer-link">Nosotros</a></li>
+                        <li><a href="/faqs/" class="footer-link">FAQs</a></li>
+                        <li><a href="/avisos-de-privacidad/" class="footer-link">Avisos de Privacidad</a></li>
+                        <li><a href="/terminos-de-condiciones/" class="footer-link">Términos y Condiciones</a></li>
+                        <div x-data="{ open: false }">
+                            <button @click="open = !open" class="flex items-center footer-link w-full">
+                                <span>Legal</span>
+                                <svg class="w-4 h-4 ml-1 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="pl-4 mt-2 space-y-2">
+                                <a href="contrato-de-adhesion-prepago/" class="block footer-link text-sm">Contrato de Adhesión Prepago</a>
+                                <a href="/codigo-de-politicas-de-gestion-de-trafico/" class="block footer-link text-sm">Código de Políticas de Gestión de Tráfico</a>
+                                <a href="/carta-de-derecho/" class="block footer-link text-sm">Carta de Derechos</a>
+                                <a href="/politica-de-uso-justo/" class="block footer-link text-sm">Política de Uso Justo</a>
+                                <a href="/codigo-de-practicas-comerciales/" class="block footer-link text-sm">Código de Prácticas Comerciales</a>
+                                <a href="/registro-de-tarifas/" class="block footer-link text-sm">Registro de Tarifas</a>
+                                <a href="/colaboracion-en-materia-de-seguridad/" class="block footer-link text-sm">Colaboración en materia de seguridad y justicia</a>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+                <!-- Columna 4: Descarga App -->
+                <div>
+                    <h4 class="footer-title">Descarga Nuestras Apps</h4>
+                    <div class="space-y-6">
+                        <a href="https://apps.apple.com/mx/app/coolmobile/id6757841586" class="store-button block">
+                            <img src="img/appstore.png" class="rounded-lg max-w-full" alt="Download on the App Store" onerror="this.onerror=null;this.src='https://placehold.co/150x45/000000/FFFFFF?text=App+Store';">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.coolmobileapp" class="store-button block">
+                            <img src="img/googleplay.png" class="rounded-lg max-w-full" alt="Get it on Google Play" onerror="this.onerror=null;this.src='https://placehold.co/150x45/000000/FFFFFF?text=Google+Play';">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Simplificado -->
+    <div class="fixed bottom-5 right-5 z-50">
+        <button @click="isChatOpen = !isChatOpen" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-width="2"></path></svg>
+        </button>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                bg.style.backgroundPosition = `50% ${Math.min(scrollPercentage, 100)}%`;
+            }
+        });
+    </script>
+</body>
+</html>

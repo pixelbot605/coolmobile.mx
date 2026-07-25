@@ -1,30 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Todo el <head> se conserva igual para mantener estilos y librerías -->
     <link rel="icon" href="favicon.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- El título de la página se actualiza -->
     <title>Telefonia Sim Card - Cool Mobile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Fuente 'Roboto' agregada para los nuevos estilos de pestañas -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     
-    <!-- Todos los estilos se conservan -->
     <style>
         html {
             height: 100%;
         }
         body {
             font-family: 'Poppins', sans-serif;
-            /* Fondo degradado conservado */
             background: linear-gradient(180deg,  #67bbbb, #BCEAD5, #406c6c, #568d8d, #BCEAD5, #CBE4DE);
             background-size: 100% 400%;
             background-attachment: fixed;
@@ -34,13 +29,11 @@
 
         [x-cloak] { display: none !important; }
         
-        /* Estilos de Swiper (slider) - Se pueden dejar, no afectan */
         .swiper-button-next,
         .swiper-button-prev { display: none; }
         .swiper-pagination-bullet-active { background-color: #57C5B6; }
         .swiper-slide { background-size: cover; background-position: center; }
 
-        /* Estilos de Título Conservados */
         .text-3d, .title-outline {
             text-shadow:
                 -1.5px -1.5px 0 #2C3333, 1.5px -1.5px 0 #2C3333,
@@ -48,7 +41,6 @@
                 4px 4px 8px rgba(0,0,0,0.5);
         }
         
-        /* Estilos del Chat (modal) Conservados */
         #chat-modal #chatbox {
             border: 1px solid #4B5563; padding: 1rem; height: 400px;
             overflow-y: scroll; margin-bottom: 1rem; background-color: #3C4248;
@@ -68,7 +60,6 @@
         }
         #chat-modal #chat-button:hover { background-color: #57C5B6; transform: scale(1.05); }
 
-        /* Estilos de Imagen Interactiva (no se usa, pero no afecta) */
         .cursor-follow-container {
             width: 100%; max-width: 600px; height: 380px; overflow: hidden;
             position: relative; margin: auto; border-radius: 0.75rem;
@@ -82,7 +73,6 @@
             position: absolute; top: 0; left: 0; object-fit: cover;
         }
 
-        /* Estilos Carrusel 3D (no se usa, pero no afecta) */
         .mi-carrusel-widget {
             display: flex; align-items: center; justify-content: center; padding: 20px;
         }
@@ -110,13 +100,11 @@
         .mi-carrusel-widget .icon-cards__item:nth-child(2) { transform: rotateY(120deg) translateZ(150px); }
         .mi-carrusel-widget .icon-cards__item:nth-child(3) { transform: rotateY(240deg) translateZ(150px); }
         
-        /* Estilos Bloque de Video (no se usa, pero no afecta) */
         .video-bloque { width: 450px; text-align: center; transition: transform 0.3s ease; }
         .video-bloque:hover { transform: scale(1.05); }
         .video-bloque video { width: 100%; border-radius: 12px; display: block; }
         .video-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 90px; }
         
-        /* Estilos Cool Mobile (no se usa, pero no afecta) */
         #cool-mobile-section h2 {
             color: #CBE4DE; font-size: 1.75rem; line-height: 1.2;
             font-family: 'Poppins', sans-serif !important;
@@ -133,7 +121,6 @@
         }
         #cool-mobile-section .cool-mobile-btn:hover { background-color: #57C5B6; }
 
-        /* Estilos Puntos de Recarga (no se usa, pero no afecta) */
         #recharge-widget { font-family: 'Montserrat', sans-serif; }
         #recharge-widget h3 {
             font-family: 'Montserrat', sans-serif !important;
@@ -156,7 +143,6 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Estilos App Download (no se usa, pero no afecta) */
         #app-download-section h3 {
             font-family: 'Poppins', sans-serif !important;
             color: #CBE4DE;
@@ -168,7 +154,6 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
         
-        /* Estilos Footer Conservados */
         .footer {
             background-color: #000707;
             color: #BCEAD5;
@@ -187,145 +172,85 @@
             margin-bottom: 1rem;
         }
 
-        /* Estilos Burbuja Chat Conservados */
         .chat-bubble-options {
             transition: all 0.3s ease-out;
         }
 
-        /* Estilos Modal Chat Conservados */
         .chat-modal-overlay {
              background-color: rgba(0, 0, 0, 0.6);
-             z-index: 999; /* Lower than modal content */
+             z-index: 999;
         }
         .chat-modal-content {
             z-index: 9999;
-            max-height: 90vh; /* Limit modal height */
+            max-height: 90vh;
         }
 
-        /* Estilos Mobile Responsive Conservados */
+        .iframe-modal-content {
+            z-index: 9999;
+            height: 85vh; /* Altura grande para que se vea el portal completo */
+            width: 100%;
+            max-width: 1000px; /* Ancho máximo para pantallas grandes */
+            background-color: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
         @media (max-width: 768px) {
             .video-bloque { width: 90%; }
             .video-container { gap: 20px; }
-            #app-download-section .grid {
-                align-items: center; 
-            }
-             #app-download-section .text-content-column {
-                 align-items: center; /* Center text content */
-            }
-             .interactive-carousel-grid {
-                 grid-template-columns: 1fr; /* Una columna en móvil */
-            }
-            /* Ajustar el padding-top del main en móvil */
-            main {
-                padding-top: 8rem; /* Más espacio para el header fijo */
-            }
-            /* Ajustar grid de Tiendas/App en móvil */
-            .tiendas-app-grid {
-                grid-template-columns: 1fr; /* Una columna en móvil */
-            }
-            /* Ajustar botones de pestañas en móvil */
-            .tab-buttons {
-                flex-wrap: wrap; /* Permitir que los botones pasen a la siguiente línea */
-                gap: 5px; /* Reducir espacio */
-            }
-            .tab-buttons button {
-                font-size: 14px; /* Reducir tamaño de fuente */
-                padding: 8px 12px;
-            }
+            #app-download-section .grid { align-items: center; }
+             #app-download-section .text-content-column { align-items: center; }
+             .interactive-carousel-grid { grid-template-columns: 1fr; }
+            main { padding-top: 8rem; }
+            .tiendas-app-grid { grid-template-columns: 1fr; }
+            .tab-buttons { flex-wrap: wrap; gap: 5px; }
+            .tab-buttons button { font-size: 14px; padding: 8px 12px; }
         }
          @media (max-width: 640px) {
             .logo-carousel-item { width: 120px; margin: 0 0.5rem; }
-            .chat-modal-content {
-                width: 95%; /* Make modal wider on small screens */
-            }
-             .chat-modal-container {
-                align-items: flex-start; /* Align modal top on mobile */
-                padding-top: 4rem; /* Add some top padding */
-            }
+            .chat-modal-content { width: 95%; }
+             .chat-modal-container { align-items: flex-start; padding-top: 4rem; }
         }
 
-        /* Ajustar el padding superior del main para que la imagen no quede bajo el header */
-        main {
-            padding-top: 6rem; /* Ajustar según la altura de tu header si es necesario */
-        }
+        main { padding-top: 6rem; }
 
-        /* INICIO: Estilos para las nuevas pestañas */
         .tab-container {
-          text-align: center;
-          font-family: sans-serif;
-          position: relative;
-          /* Asegura que el contenedor ocupe el espacio vertical de su contenido activo */
-          min-height: 400px; /* Ajustar si es necesario */
+          text-align: center; font-family: sans-serif; position: relative;
+          min-height: 400px;
         }
 
         .tab-buttons {
-          display: flex;
-          justify-content: center;
-          gap: 10px;
-          margin-bottom: 30px;
+          display: flex; justify-content: center; gap: 10px; margin-bottom: 30px;
         }
 
         .tab-buttons button {
-          padding: 10px 15px;
-          border: none;
-          cursor: pointer;
-          background-color: #2E4F4F;
-          color: white;
-          border-radius: 30px;
-          font-size: 18px;
-          font-family: 'Roboto', serif;
+          padding: 10px 15px; border: none; cursor: pointer; background-color: #2E4F4F;
+          color: white; border-radius: 30px; font-size: 18px; font-family: 'Roboto', serif;
           transition: transform 0.2s ease, background-color 0.2s ease;
         }
 
-        .tab-buttons button:hover {
-          background-color: #0E8388; /* Color hover del header */
-          transform: translateY(-2px);
-        }
-
-        .tab-buttons button:focus {
-          outline: none;
-          box-shadow: none;
-        }
-
-        .tab-buttons button.active {
-          background-color: #dbd89f; /* Color activo de ejemplo */
-          color: #2E4F4F;
-        }
+        .tab-buttons button:hover { background-color: #0E8388; transform: translateY(-2px); }
+        .tab-buttons button:focus { outline: none; box-shadow: none; }
+        .tab-buttons button.active { background-color: #dbd89f; color: #2E4F4F; }
 
         .tab-content {
-          display: none;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 20px;
-          opacity: 0;
-          transition: opacity 0.5s ease;
-          pointer-events: none;
-          position: absolute; /* Oculta los inactivos sin ocupar espacio */
-          width: 100%;
-          left: 0;
-          top: 100px; /* Posición inicial debajo de los botones */
+          display: none; flex-wrap: wrap; justify-content: center; gap: 20px;
+          opacity: 0; transition: opacity 0.5s ease; pointer-events: none;
+          position: absolute; width: 100%; left: 0; top: 100px;
         }
 
         .tab-content.active {
-          display: flex;
-          opacity: 1;
-          pointer-events: auto;
-          position: relative; /* El activo ocupa espacio */
-          top: 0; /* Resetea la posición */
+          display: flex; opacity: 1; pointer-events: auto; position: relative; top: 0;
         }
 
         .plan-card {
-          max-width: 250px;
-          border-radius: 20px;
-          overflow: hidden;
-          opacity: 0;
-          transform: translateY(30px);
-          animation: slideIn 0.6s ease forwards;
+          max-width: 250px; border-radius: 20px; overflow: hidden; opacity: 0;
+          transform: translateY(30px); animation: slideIn 0.6s ease forwards;
         }
 
-        .tab-content.active .plan-card {
-          animation: slideIn 0.6s ease forwards;
-        }
+        .tab-content.active .plan-card { animation: slideIn 0.6s ease forwards; }
 
         .plan-card:nth-child(1) { animation-delay: 0.1s; }
         .plan-card:nth-child(2) { animation-delay: 0.2s; }
@@ -334,109 +259,43 @@
         .plan-card:nth-child(5) { animation-delay: 0.5s; }
 
         @keyframes slideIn {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          to { opacity: 1; transform: translateY(0); }
         }
 
-        .plan-card a {
-          display: block;
-          text-decoration: none;
-        }
+        .plan-card a { display: block; text-decoration: none; }
+        .plan-card img { max-width: 100%; border-radius: 10px; transition: transform 0.3s ease; }
+        .plan-card img:hover { transform: scale(1.03); }
 
-        .plan-card img {
-          max-width: 100%;
-          border-radius: 10px;
-          transition: transform 0.3s ease;
-        }
-
-        .plan-card img:hover {
-          transform: scale(1.03);
-        }
-        /* FIN: Estilos para las nuevas pestañas */
-
-        /* Estilos de las cajas cristalinas */
         .glass-box {
             background-color: rgba(46, 79, 79, 0.7); 
             backdrop-filter: blur(10px); 
             border: 1px solid rgba(203, 228, 222, 0.3); 
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
-            border-radius: 15px; 
-            padding: 2rem;
-            transition: all 0.3s ease;
-            height: 100%; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+            border-radius: 15px; padding: 2rem;
+            transition: all 0.3s ease; height: 100%; 
+            display: flex; flex-direction: column; align-items: center; text-align: center;
         }
 
-        .glass-box h3, .glass-box p, .glass-box a {
-            color: #000000; 
-        }
-        .glass-box .text-gray-800, .glass-box .text-gray-900 {
-             color: #000000; 
-        }
+        .glass-box h3, .glass-box p, .glass-box a { color: #000000; }
+        .glass-box .text-gray-800, .glass-box .text-gray-900 { color: #000000; }
 
-        /* Estilos para el nuevo input de IMEI */
-        #imei-input::placeholder {
-            color: #BCEAD5;
-            opacity: 0.7;
-        }
+        .fade-in { animation: fadeIn 0.6s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* INICIO: Estilos para el modal de resultado IMEI */
-        .fade-in {
-          animation: fadeIn 0.6s ease-in-out;
+        /* Ajuste específico para el iframe para asegurar que el portal se vea completo */
+        .iframe-container {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 2px solid #0E8388;
+            height: 500px;
+            width: 100%;
         }
-
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        .boton-resultado {
-          margin-top: 15px;
-          background-color: #0E8388; 
-          color: white;
-          padding: 10px 25px;
-          font-size: 16px;
-          border: none;
-          border-radius: 5px;
-          text-decoration: none;
-          display: inline-block;
-          font-weight: bold;
-          transition: background-color 0.2s ease, transform 0.2s ease;
-          margin-left: 5px; 
-          margin-right: 5px;
-          cursor: pointer; 
-        }
-        .boton-resultado:hover {
-          background-color: #57C5B6; 
-          transform: translateY(-2px);
-        }
-
-        .respuesta-imagen {
-          max-width: 180px;
-          margin-top: 15px;
-          border-radius: 10px;
-        }
-
-        /* Estilos para el contenido del modal de resultado */
-        #resultado-imei {
-            color: #CBE4DE; 
-            font-size: 18px; 
-            min-height: 40px;
-        }
-        #resultado-imei p {
-            color: #CBE4DE; 
-            margin-bottom: 0.75rem;
-        }
-        /* FIN: Estilos para el modal de resultado IMEI */
     </style>
 </head>
 <body>
-    <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false, isResultModalOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false" @open-result-modal.window="isResultModalOpen = true" @close-result-modal.window="isResultModalOpen = false">
+    <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false, isIframeOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false" @open-iframe-modal.window="isIframeOpen = true" @close-iframe-modal.window="isIframeOpen = false">
         <header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
                 :class="{ 'bg-[#0c4b59] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -516,7 +375,6 @@
                  x-transition:leave="transition ease-in duration-150"
                  x-transition:leave-start="opacity-100 scale-100"
                  x-transition:leave-end="opacity-0 scale-95">
-                <!-- Mobile menu content same as before -->
                 <div class="px-2 pt-20 pb-3 space-y-1 sm:px-3">
                     <div class="absolute top-4 right-4">
                         <button @click="openMenu = false" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#CBE4DE] hover:text-white hover:bg-gray-700 focus:outline-none">
@@ -569,45 +427,39 @@
             </div>
         </header>
 
-        <!-- INICIO: Nuevo contenido principal para la página "Telefonia Sim Card" -->
         <main class="pt-24 pb-16 min-h-screen">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                <!-- INICIO: Nueva sección 2 Columnas (Info eSIM + Imagen) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-8">
-                    <!-- Columna 1: Texto y Formulario -->
+                    <!-- Columna 1: Texto e Iframe Altán -->
                     <div class="text-white md:text-left">
                         <h1 class="text-4xl lg:text-4xl font-bold title-outline mb-4">Escoge tu recarga ideal, ahora todas aplican:</h1>
-                        <p class="text-lg text-[#2C3333] mb-6">✅ Llamadas y SMS <span class="font-bold text-black">ILIMITADAS</span></p>
-                        <p class="text-lg text-[#2C3333] mb-6">✅ Redes sociales <span class="font-bold text-black">ILIMITADAS</span></p>
-                        <p class="text-lg text-[#2C3333] mb-6">✅ Todos comparten <span class="font-bold text-black">DATOS</span></p>
-                        <p class="text-lg text-[#2C3333] mb-6">✅ <span class="font-bold text-black">Sin planes</span> forzosos</p>                     
+                        <p class="text-lg text-[#2C3333] mb-2">✅ Llamadas y SMS <span class="font-bold text-black">ILIMITADAS</span></p>
+                        <p class="text-lg text-[#2C3333] mb-2">✅ Redes sociales <span class="font-bold text-black">ILIMITADAS</span></p>
+                        <p class="text-lg text-[#2C3333] mb-2">✅ Todos comparten <span class="font-bold text-black">DATOS</span></p>
+                        <p class="text-lg text-[#2C3333] mb-2">✅ <span class="font-bold text-black">Sin planes</span> forzosos</p>                     
                         <p class="text-lg text-[#2C3333] mb-6">✅ <span class="font-bold text-black">Acumulación</span> de GB</p>
-                        <p class="text-sm text-[#2C3333] mb-4">Revisa tu compatibilidad. Obtén el IMEI de tu teléfono marcando al <span class="font-bold text-black">*#06#</span></p>
+                        <p class="text-sm text-[#2C3333] mb-2">Revisa tu compatibilidad. (Obtén tu IMEI marcando <span class="font-bold text-black">*#06#</span>)</p>
                         
-                        <!-- Formulario IMEI -->
-                        <div class="flex flex-col sm:flex-row gap-3">
-                            <input type="tel" id="imei-input" placeholder="Ingresa tu IMEI (15 dígitos)" class="flex-grow p-3 rounded-full bg-[#2E4F4F] border border-[#0E8388] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#57C5B6]" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="15">
-                            <button onclick="consultarIMEI()" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 whitespace-nowrap">
+                        <div class="mt-6">
+                            <button onclick="abrirModalAltan()" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-8 rounded-full transition-all duration-200 transform hover:scale-105 whitespace-nowrap shadow-lg">
                                 Verificar Compatibilidad
                             </button>
                         </div>
                     </div>
+                    
                     <!-- Columna 2: Imagen -->
-                    <div class="flex justify-center items-center">
-                        <img src="img/coolsim.png" alt="SIM" class="rounded-lg  w-full max-w-md">
+                    <div class="flex justify-center items-center h-full">
+                        <img src="img/coolsim.png" alt="SIM" class="rounded-lg w-full max-w-md object-contain" onerror="this.onerror=null;this.src='https://placehold.co/400x400/2C3333/CBE4DE?text=SIM';">
                     </div>
                 </div>
-                <!-- FIN: Nueva sección 2 Columnas -->
 
-                <!-- INICIO: Nuevo módulo de Pestañas -->
                 <div class="mt-8">
-                  <div class="tab-container" id="planes-sim-fisica"> <!-- ID añadido para el scroll -->
+                  <div class="tab-container" id="planes-sim-fisica">
                     <div class="tab-buttons">
                       <button onclick="showTab(event, 'dias')">7 DÍAS</button>
                       <button onclick="showTab(event, 'semanal')">15 DÍAS</button>
                       <button onclick="showTab(event, 'mensual')" class="active">30 DÍAS</button>
-                      <!-- Nuevos botones -->
                       <button onclick="showTab(event, '3meses')">3 MESES</button>
                       <button onclick="showTab(event, '6meses')">6 MESES</button>
                       <button onclick="showTab(event, '12meses')">12 MESES</button>
@@ -616,12 +468,12 @@
                     <div id="dias" class="tab-content">
                       <div class="plan-card">
                         <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Mix" target="_blank">
-                          <img src="img/mix.png" alt="Plan Mix">
+                          <img src="img/mix.png" alt="Plan Mix" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Mix';">
                         </a>
                       </div>
                       <div class="plan-card">
                         <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20WTF" target="_blank">
-                          <img src="img/wtf.png" alt="Plan WTF">
+                          <img src="img/wtf.png" alt="Plan WTF" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+WTF';">
                         </a>
                       </div>
                     </div>
@@ -629,12 +481,12 @@
                     <div id="semanal" class="tab-content">
                       <div class="plan-card">
                         <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Xoxo" target="_blank">
-                          <img src="img/xoxo.png" alt="Plan xoxo">
+                          <img src="img/xoxo.png" alt="Plan xoxo" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Xoxo';">
                         </a>
                       </div>
                       <div class="plan-card">
                         <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Omg" target="_blank">
-                          <img src="img/omg.png" alt="Plan omg">
+                          <img src="img/omg.png" alt="Plan omg" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Omg';">
                         </a>
                       </div>
                     </div>
@@ -642,78 +494,74 @@
                     <div id="mensual" class="tab-content active">
                       <div class="plan-card">
                         <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids" target="_blank">
-                          <img src="img/kids.png" alt="Plan kids">
+                          <img src="img/kids.png" alt="Plan kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Kids';">
                         </a>
                       </div>
                       <div class="plan-card">
                         <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Teens" target="_blank">
-                          <img src="img/teens.png" alt="Plan teens">
+                          <img src="img/teens.png" alt="Plan teens" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Teens';">
                         </a>
                       </div>
                       <div class="plan-card">
                         <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Flexible" target="_blank">
-                          <img src="img/flexible.png" alt="Plan Flexible">
+                          <img src="img/flexible.png" alt="Plan Flexible" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Flexible';">
                         </a>
                       </div>
                       <div class="plan-card">
                         <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Total" target="_blank">
-                          <img src="img/total.png" alt="Plan Total">
+                          <img src="img/total.png" alt="Plan Total" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Total';">
                         </a>
                       </div>
                       <div class="plan-card">
                         <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Power" target="_blank">
-                          <img src="img/power.png" alt="Plan Power">
+                          <img src="img/power.png" alt="Plan Power" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Power';">
                         </a>
                       </div>
                     </div>
 
-                    <!-- Nuevos contenidos de pestañas -->
                     <div id="3meses" class="tab-content">
                         <div class="plan-card">
                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%203%20meses" target="_blank">
-                            <img src="img/kids3meses.png" alt="Plan 3 Meses kids">
+                            <img src="img/kids3meses.png" alt="Plan 3 Meses kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=3+Meses';">
                           </a>
                         </div>
                         <div class="plan-card">
                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%203%20meses" target="_blank">
-                            <img src="img/teens3meses.png" alt="Plan 3 Meses teens">
+                            <img src="img/teens3meses.png" alt="Plan 3 Meses teens" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=3+Meses';">
                           </a>
                         </div>
                     </div>
                     <div id="6meses" class="tab-content">
                         <div class="plan-card">
                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%206%20meses" target="_blank">
-                            <img src="img/kids6meses.png" alt="Plan 6 Meses kids">
+                            <img src="img/kids6meses.png" alt="Plan 6 Meses kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=6+Meses';">
                           </a>
                         </div>
                         <div class="plan-card">
                            <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%206%20meses" target="_blank">
-                            <img src="img/teens6meses.png" alt="Plan 6 Meses 2">
+                            <img src="img/teens6meses.png" alt="Plan 6 Meses 2" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=6+Meses';">
                           </a>
                         </div>
                     </div>
                     <div id="12meses" class="tab-content">
                          <div class="plan-card">
                            <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%2012%20meses" target="_blank">
-                            <img src="img/kids12meses.png" alt="Plan 12 Meses 1">
+                            <img src="img/kids12meses.png" alt="Plan 12 Meses 1" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=12+Meses';">
                           </a>
                         </div>
                         <div class="plan-card">
                            <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%2012%20meses" target="_blank">
-                            <img src="img/teens12meses.png" alt="Plan 12 Meses 2">
+                            <img src="img/teens12meses.png" alt="Plan 12 Meses 2" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=12+Meses';">
                           </a>
                         </div>
                     </div>
 
-                  </div> <!-- Cierre de tab-container -->
+                  </div> 
 
-                  <!-- INICIO: Botones de Adquisición de SIM -->
                   <div class="mt-12 text-center fade-in">
                       <h3 class="text-2xl font-bold text-[#CBE4DE] mb-6 title-outline">Adquiere tu SIM Física en:</h3>
                       <div class="flex flex-wrap justify-center gap-4">
                           
-                          <!-- Amazon -->
-                          <!-- Reemplaza el '#' en el atributo href con el enlace real de tu tienda -->
                           <a href="https://www.amazon.com.mx/dp/B0GJV22XRG" target="_blank" class="flex items-center gap-2 bg-[#FF9900] hover:bg-[#e68a00] text-black font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg">
                               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
@@ -721,8 +569,6 @@
                               Amazon
                           </a>
                           
-                          <!-- Mercado Libre -->
-                          <!-- Reemplaza el '#' en el atributo href con el enlace real de tu tienda -->
                           <a href="https://listado.mercadolibre.com.mx/_CustId_1032424934?item_id=MLM2584545487&category_id=MLM189728&seller_id=1032424934&client=recoview-selleritems&recos_listing=true" target="_blank" class="flex items-center gap-2 bg-[#FFE600] hover:bg-[#e5cf00] text-[#2D3277] font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg">
                               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
@@ -730,8 +576,6 @@
                               Mercado Libre
                           </a>
                           
-                          <!-- TikTokShop -->
-                          <!-- Reemplaza el '#' en el atributo href con el enlace real de tu tienda -->
                           <a href="https://vt.tiktok.com/ZS9FLghnaS65U-awD9i/" target="_blank" class="flex items-center gap-2 bg-black hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg border border-gray-700">
                               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                   <path d="M12.53.02C13.84 0 15.14.01 16.44.06c.15 1.5.83 2.92 1.83 3.97.99 1.05 2.37 1.63 3.85 1.65v3.47c-1.35-.01-2.67-.39-3.81-1.09-.01 1.48-.02 2.96-.02 4.45 0 3.79-2.91 6.96-6.68 7.33-3.77.37-7.23-2.1-8.15-5.78-.92-3.68.73-7.53 3.99-9.28.32-.17.66-.31 1.01-.42v3.6c-.95.3-1.74 1.02-2.14 1.95-.4 1.01-.29 2.16.29 3.07.57.92 1.55 1.48 2.64 1.51 1.48.05 2.82-.93 3.23-2.36.19-.66.21-1.37.21-2.06V.02z"/>
@@ -740,31 +584,22 @@
                           </a>
                       </div>
                   </div>
-                  <!-- FIN: Botones de Adquisición de SIM -->
 
-                  <!-- INICIO: Leyenda de Términos y Condiciones -->
                   <p class="text-center text-xs text-[#2C3333] opacity-80 mt-8">
                     *REDES SOCIALES ILIMITADOS CON POLÍTICA DE USO JUSTO, CONSULTE TÉRMINOS Y CONDICIONES, MÁS INFORMACIÓN EN COOLMOBILE.MX / TARIFAS REGISTRADAS en IFT
                   </p>
-                  <!-- FIN: Leyenda de Términos y Condiciones -->
                 </div>
-                <!-- FIN: Nuevo módulo de Pestañas -->
             </div>
         </main>
-        <!-- FIN: Nuevo contenido principal -->
 
-        <!-- INICIO: Nueva sección de 2 columnas (Tiendas y App) -->
         <section class="bg-transparent py-16">
             <div class="container mx-auto px-4">
-                <!-- Grid principal de 2 columnas -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start tiendas-app-grid">
                     
-                    <!-- Columna 1: Tiendas Afiliadas -->
-                    <!-- Aplica la clase glass-box aquí -->
                     <div id="recharge-widget">
                         <div class="w-full flex flex-col items-center text-center">
                             <a href="https://www.paynet.com.mx" target="_blank">
-                                <img src="img/paynet.png" alt="Logo de Paynet" class="mb-4 max-w-full h-auto">
+                                <img src="img/paynet.png" alt="Logo de Paynet" class="mb-4 max-w-full h-auto" onerror="this.onerror=null;this.src='https://placehold.co/200x50/2C3333/CBE4DE?text=Paynet';">
                             </a>
                             <h3 class="text-2xl sm:text-3xl font-bold mb-6 title-outline">TIENDAS AFILIADAS</h3>
                             <a href="https://www.paynet.com.mx" target="_blank">
@@ -793,44 +628,36 @@
                         </div>
                     </div>
 
-                    <!-- Columna 2: Descarga App -->
-                    <!-- Aplica la clase glass-box aquí -->
                     <div id="app-download-section" >
-                        <!-- Contenido simplificado: Título e Imagen -->
                         <h3 class="text-2xl text-center sm:text-3xl font-bold mb-6 title-outline">Descarga Nuestra Nueva App</h3>
                         
                         <div class="flex justify-center items-center p-4 md:p-6 rounded-2xl ">
-                            <img src="img/appcool.png" alt="App Preview" class="rounded-lg w-full h-full object-contain" style="max-height: 250px;">
-                        
+                            <img src="img/appcool.png" alt="App Preview" class="rounded-lg w-full h-full object-contain" style="max-height: 250px;" onerror="this.onerror=null;this.src='https://placehold.co/200x250/2C3333/CBE4DE?text=App';">
                         </div>
                         <div class="flex justify-center space-x-4 mx-auto max-w-md">
                             <a href="https://apps.apple.com/mx/app/coolmobile/id6757841586" class="store-button">
-                                <img src="img/appstore.png" class="rounded-lg" alt="Download on the App Store">
+                                <img src="img/appstore.png" class="rounded-lg" alt="Download on the App Store" onerror="this.onerror=null;this.src='https://placehold.co/120x40/2C3333/CBE4DE?text=App+Store';">
                             </a>
                             <a href="https://play.google.com/store/apps/details?id=com.coolmobileapp" class="store-button">
-                                <img src="img/googleplay.png" class="rounded-lg" alt="Get it on Google Play">
+                                <img src="img/googleplay.png" class="rounded-lg" alt="Get it on Google Play" onerror="this.onerror=null;this.src='https://placehold.co/120x40/2C3333/CBE4DE?text=Google+Play';">
                             </a>
                         </div>
                     </div>
 
-                </div> <!-- Fin del grid principal de 2 columnas -->
+                </div>
             </div>
         </section>
-        <!-- FIN: Nueva sección de 2 columnas -->
 
-        <!-- Footer (pie de página) CONSERVADO -->
         <footer class="footer">
             <div class="container mx-auto px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Columna 1: Contacto -->
                     <div>
-                        <img src="footer.png" alt="Cool Mobile Logo" class="mb-4">
+                        <img src="footer.png" alt="Cool Mobile Logo" class="mb-4" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
                         <p class="mb-2"><a href="mailto:contacto@coolmobile.mx" class="footer-link">contacto@coolmobile.mx</a></p>
                         <p class="mb-2">Atención al cliente de 9:00 a 21:00 hrs (lun–vie) y de 9:00 a 18:00 hrs (sáb–dom)</p>
                         <p class="mb-2">Whatsapp: 55 40 77 77 27</p>
                         <p>C. Lago Zurich 219-Piso 12, Torre II Int A,col Amp Granada,Alcadía Miguel Hidalgo, 11529 Ciudad de México, CDMX</p>
                     </div>
-                    <!-- Columna 2: Mapa del Sitio -->
                     <div>
                         <h4 class="footer-title">Mapa del Sitio</h4>
                         <ul class="space-y-2">
@@ -842,7 +669,6 @@
                             <li><a href="/contacto/" class="footer-link">Contacto</a></li>
                         </ul>
                     </div>
-                    <!-- Columna 3: Acerca de y Legal -->
                     <div>
                         <h4 class="footer-title">Acerca</h4>
                         <ul class="space-y-2">
@@ -867,16 +693,14 @@
                             </div>
                         </ul>
                     </div>
-                    <!-- Columna 4: Descarga App -->
                     <div>
                         <h4 class="footer-title">Descarga Nuestras Apps</h4>
-                        <!-- Modifica el valor de space-y-6 para ajustar el espacio vertical entre botones. Ej: space-y-4, space-y-8 -->
                         <div class="space-y-6">
                              <a href="https://apps.apple.com/mx/app/coolmobile/id6757841586" class="store-button">
-                                <img src="img/appstore.png" class="rounded-lg" alt="Get it on Google Play">
+                                <img src="img/appstore.png" class="rounded-lg" alt="Get it on Google Play" onerror="this.onerror=null;this.src='https://placehold.co/120x40/2C3333/CBE4DE?text=App+Store';">
                             </a>
                             <a href="https://play.google.com/store/apps/details?id=com.coolmobileapp" class="store-button">
-                                <img src="img/googleplay.png" class="rounded-lg" alt="Download on the App Store">
+                                <img src="img/googleplay.png" class="rounded-lg" alt="Download on the App Store" onerror="this.onerror=null;this.src='https://placehold.co/120x40/2C3333/CBE4DE?text=Google+Play';">
                             </a>
                         </div>
                     </div>
@@ -884,35 +708,31 @@
             </div>
         </footer>
 
-        <!-- Iconos de Redes Sociales (Desktop) CONSERVADOS -->
         <div class="hidden md:flex flex-col space-y-4 fixed left-4 top-1/2 -translate-y-1/2 z-20">
             <a href="https://www.facebook.com/CoolMobileMx" class="p-2 hover:scale-110 transition-transform">
-                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6" onerror="this.onerror=null;this.src='https://placehold.co/24x24/3b5998/FFF?text=F';">
             </a>
             <a href="https://www.instagram.com/coolmobilemx/" class="p-2 hover:scale-110 transition-transform">
-                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6" onerror="this.onerror=null;this.src='https://placehold.co/24x24/E1306C/FFF?text=I';">
             </a>
             <a href="https://www.tiktok.com/@coolmobilemx" class="p-2 hover:scale-110 transition-transform">
-                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6" onerror="this.onerror=null;this.src='https://placehold.co/24x24/000000/FFF?text=T';">
             </a>
         </div>
         
-        <!-- Iconos de Redes Sociales (Móvil) CONSERVADOS -->
         <div class="md:hidden flex justify-center items-center space-x-6 fixed bottom-0 left-0 right-0 bg-[#2C3333] bg-opacity-50 backdrop-blur-sm p-3 z-20">
             <a href="https://www.facebook.com/CoolMobileMx" class="p-2">
-                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6" onerror="this.onerror=null;this.src='https://placehold.co/24x24/3b5998/FFF?text=F';">
             </a>
             <a href="https://www.instagram.com/coolmobilemx/" class="p-2">
-                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6" onerror="this.onerror=null;this.src='https://placehold.co/24x24/E1306C/FFF?text=I';">
             </a>
             <a href="https://www.tiktok.com/@coolmobilemx" class="p-2">
-                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6" onerror="this.onerror=null;this.src='https://placehold.co/24x24/000000/FFF?text=T';">
             </a>
         </div>
 
-        <!-- Burbuja Flotante de Chat CONSERVADA -->
         <div class="fixed bottom-5 right-5 z-50">
-            <!-- Menú de Opciones -->
             <div x-show="chatOptionsOpen" 
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 translate-y-2"
@@ -923,26 +743,22 @@
                  class="chat-bubble-options absolute bottom-16 right-0 mb-2 w-60 bg-[#2E4F4F] rounded-lg shadow-xl py-2"
                  @click.outside="chatOptionsOpen = false"
                  x-cloak>
-                <!-- Opción WhatsApp -->
                 <a href="https://wa.me/5215540777727" target="_blank" class="flex items-center px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M13.545 6.455a4.49 4.49 0 00-6.35 0L6.455 7.19a4.5 4.5 0 106.357 6.357l.735-.735a4.49 4.49 0 000-6.35l-.735.735zm-.707 5.643l-4.95-4.95a3.5 3.5 0 114.95 4.95zm2.121-2.121a1.5 1.5 0 11-2.121-2.121 1.5 1.5 0 012.121 2.121zM10 18.25a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5zm0-1.5a6.75 6.75 0 110-13.5 6.75 6.75 0 010 13.5z"></path></svg>
                    Chat WhatsApp
                 </a>
-                <!-- Opción Asistente Virtual -->
                 <button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-[#BCEAD5] hover:bg-[#0E8388]">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
                     Asistente Virtual
                 </button>
             </div>
 
-            <!-- Botón de la Burbuja -->
             <button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none">
                 <svg x-show="!chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
                 <svg x-show="chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
 
-        <!-- Modal del Chat CONSERVADO -->
         <div x-show="isChatOpen" 
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
@@ -952,10 +768,8 @@
              x-transition:leave-end="opacity-0"
              class="chat-modal-container fixed inset-0 flex items-start justify-center pt-20 p-4 z-[100]" 
              x-cloak>
-            <!-- Overlay -->
             <div class="chat-modal-overlay fixed inset-0" @click="isChatOpen = false"></div>
             
-            <!-- Contenido del Modal -->
             <div id="chat-modal" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col" @click.stop>
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-bold text-[#57C5B6] title-outline">Asistente Virtual</h3>
@@ -971,8 +785,7 @@
             </div>
         </div>
 
-        <!-- INICIO: Modal de Resultado IMEI -->
-        <div x-show="isResultModalOpen" 
+        <div x-show="isIframeOpen" 
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
@@ -981,29 +794,37 @@
              x-transition:leave-end="opacity-0"
              class="chat-modal-container fixed inset-0 flex items-center justify-center p-4 z-[100]" 
              x-cloak>
-            <!-- Overlay -->
-            <div class="chat-modal-overlay fixed inset-0" @click="isResultModalOpen = false"></div>
             
-            <!-- Contenido del Modal -->
-            <div id="resultado-modal-content" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col relative" @click.stop>
-                <button @click="isResultModalOpen = false" class="text-gray-400 hover:text-white absolute top-4 right-4 text-3xl">&times;</button>
-                 <div id="resultado-imei" class="text-center p-4">
-                     <!-- El contenido se insertará aquí por JavaScript -->
-                 </div>
+            <div class="chat-modal-overlay fixed inset-0" @click="isIframeOpen = false"></div>
+            
+            <div class="iframe-modal-content relative shadow-2xl" @click.stop>
+                <!-- Header del Modal -->
+                <div class="bg-[#0c4b59] px-6 py-4 flex justify-between items-center border-b border-[#0E8388]">
+                    <h3 class="text-xl font-bold text-white">Validación de Equipo</h3>
+                    <button @click="isIframeOpen = false" class="text-white hover:text-[#57C5B6] text-3xl font-bold leading-none">&times;</button>
+                </div>
+                <!-- Contenedor del Iframe -->
+                <div class="flex-grow w-full bg-white relative">
+                    <iframe id="iframe-altan" src="" class="absolute inset-0 w-full h-full border-0" title="Validación de IMEI Altan Redes" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
-        <!-- FIN: Modal de Resultado IMEI -->
-    </div> <!-- Fin del div x-data principal -->
 
-    <!-- La librería Swiper se mantiene por si se usa en otro lado, pero la inicialización se elimina -->
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-    <!-- Scripts -->
     <script>
-        // ELIMINADO: Swiper Initialization
-        // var swiper = new Swiper(...);
+        function abrirModalAltan() {
+            // Asignar URL de Altán al iframe
+            const iframe = document.getElementById("iframe-altan");
+            iframe.src = "https://checkimei.altanredes.com/";
 
-        // Chatbot Script (CONSERVADO)
+            // Lanzar el evento de Alpine.js para abrir el modal
+            window.dispatchEvent(new CustomEvent('open-iframe-modal'));
+        }
+
+        // Chatbot Script
         const apiKey = ""; 
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
         const chatbox = document.getElementById('chatbox'); 
@@ -1012,7 +833,7 @@
         function addMessage(text, sender) {
             const messageDiv = document.createElement('p');
             messageDiv.classList.add('mb-2'); 
-            messageDiv.innerHTML = `<strong>${sender === 'user' ? 'Tú' : 'Agente'}:</strong> <span class="block">${text}</span>`; // Make text wrap
+            messageDiv.innerHTML = `<strong>${sender === 'user' ? 'Tú' : 'Agente'}:</strong> <span class="block">${text}</span>`;
             messageDiv.classList.add(sender === 'user' ? 'message-user' : 'message-bot');
             chatbox.appendChild(messageDiv);
             chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
@@ -1026,7 +847,7 @@
             userInput.value = '';
 
             const typingIndicator = document.createElement('p');
-            typingIndicator.className = 'message-bot mb-2'; // Added margin-bottom
+            typingIndicator.className = 'message-bot mb-2';
             typingIndicator.innerHTML = '<strong>Agente:</strong> Escribiendo...';
             chatbox.appendChild(typingIndicator);
              chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
@@ -1039,7 +860,7 @@
 
             let retryCount = 0;
             const maxRetries = 3;
-            const initialDelay = 1000; // 1 second
+            const initialDelay = 1000;
 
             while (retryCount <= maxRetries) {
                 try {
@@ -1056,7 +877,7 @@
                         const delay = initialDelay * Math.pow(2, retryCount);
                         await new Promise(resolve => setTimeout(resolve, delay));
                         retryCount++;
-                        continue; // Retry the fetch
+                        continue;
                     }
                     
                     if (!response.ok) {
@@ -1077,45 +898,37 @@
                         throw new Error('Invalid response structure from API.');
                     }
                     
-                    break; // Exit loop on success
+                    break;
 
                 } catch (error) {
                     console.error('Failed to fetch from Gemini API:', error);
                     typingIndicator.remove();
                     addMessage('Lo siento, encontré un error. Por favor, inténtalo de nuevo más tarde.', 'bot');
-                    break; // Exit loop on error
+                    break;
                 }
             }
         }
 
-        // INICIO: Script para Pestañas
         function showTab(event, tabId) {
-          // Oculta todos los contenidos
           document.querySelectorAll('.tab-content').forEach(tab => {
             tab.classList.remove('active');
-            tab.style.display = "none"; // Asegura que esté oculto
+            tab.style.display = "none";
           });
 
-          // Muestra el seleccionado
           const nextTab = document.getElementById(tabId);
-          if (nextTab) { // Comprueba si existe
-            nextTab.style.display = "flex"; // Muestra como flex
-
-            // Reinicia animaciones de las tarjetas
+          if (nextTab) {
+            nextTab.style.display = "flex";
             nextTab.querySelectorAll('.plan-card').forEach(card => {
               card.style.animation = 'none';
-              card.offsetHeight; // forzar reflow
+              card.offsetHeight;
               card.style.animation = '';
             });
 
-            // Aplica clase activa para animaciones
-            // Usar un pequeño timeout para asegurar que el display:flex se aplique antes de la clase
             setTimeout(() => {
                 nextTab.classList.add('active');
             }, 10); 
           }
 
-          // Cambia estilo del botón activo
           document.querySelectorAll('.tab-buttons button').forEach(button => {
             button.classList.remove('active');
           });
@@ -1125,119 +938,13 @@
           }
         }
 
-        // Mostrar el tab "mensual" al cargar la página
         window.addEventListener('DOMContentLoaded', () => {
           const initialButton = document.querySelector('.tab-buttons button[onclick*="mensual"]');
           if (initialButton) {
             showTab({ target: initialButton }, 'mensual');
           }
         });
-        // FIN: Script para Pestañas
 
-        // INICIO: Script de consulta IMEI (Modificado para nuevos resultados y botones)
-        function consultarIMEI() {
-            const input = document.getElementById("imei-input");
-            const imei = input.value.trim();
-            const resultadoDiv = document.getElementById("resultado-imei");
-            
-            resultadoDiv.innerHTML = "";
-            resultadoDiv.classList.remove("fade-in");
-
-            // Validación
-            if (imei.length < 14 || imei.length > 15) {
-                resultadoDiv.innerHTML = "<span style='color: #F87171;'>⚠️ El IMEI debe tener entre 14 y 15 dígitos.</span>";
-                resultadoDiv.classList.add("fade-in");
-                window.dispatchEvent(new CustomEvent('open-result-modal'));
-                return;
-            }
-
-            // Muestra "Consultando" y abre el modal
-            resultadoDiv.innerHTML = "⏳ Consultando compatibilidad...";
-            resultadoDiv.classList.add("fade-in");
-            window.dispatchEvent(new CustomEvent('open-result-modal'));
-
-            // URL del endpoint
-            fetch(`https://coolmobile.mx/wp-json/consulta-esim/v1/verificar/?imei=${imei}`)
-                .then(response => {
-                    if (!response.ok) {
-                        // Si la respuesta no es OK (ej. 404, 500), asumimos NO compatible
-                        return Promise.resolve({ error: 'No compatible o error de servidor' }); 
-                    }
-                    return response.json(); // Si es OK, procesa el JSON
-                })
-                .then(data => {
-                    resultadoDiv.classList.remove("fade-in");
-                    let htmlContent = '';
-
-                    // Escenario de Error o No Compatible directamente por la API
-                    // O si la API devuelve algo inesperado pero sin 'Sí' o 'No' explícito
-                    if (data.error || (data.esim && data.esim.trim().toLowerCase() !== "sí" && data.esim.trim().toLowerCase() !== "si" && data.esim.trim().toLowerCase() !== "no")) {
-                         htmlContent = `
-                            <div class="fade-in">
-                                <p style="color: #F59E0B;">⚠️ Este dispositivo no es compatible.</p>
-                                <p>Pero no te preocupes, contamos con equipos compatibles y MiFi.</p>
-                                <a href="https://wa.me/5215540777727?text=Hola,%20quisiera%20consultar%20equipos%20compatibles." target="_blank" class="boton-resultado">Consultar equipos compatibles</a>
-                                <a href="/internetmovil" class="boton-resultado">¿Qué es MiFi?</a>
-                            </div>
-                         `;
-                    } else {
-                        const soportaESIM = data.esim.trim().toLowerCase() === "sí" || data.esim.trim().toLowerCase() === "si";
-
-                        // Escenario Compatible + Soporta eSIM
-                        if (soportaESIM) {
-                            htmlContent = `
-                              <div class="fade-in">
-                                <p style="color: #34D399; font-weight: bold;">🎉 ¡Felicidades!</p>
-                                <p>Cuentas con un equipo <strong>compatible y soporta eSIM</strong>.</p>
-                                <button onclick="scrollToPlans()" class="boton-resultado">Comprar SIM Física</button>
-                                <a href="/telefonia/esim" class="boton-resultado">Comprar eSIM</a>
-                              </div>
-                            `;
-                        } 
-                        // Escenario Compatible + NO Soporta eSIM (asumiendo 'No' significa compatible pero sin eSIM)
-                        else { 
-                             htmlContent = `
-                              <div class="fade-in">
-                                <p style="color: #34D399; font-weight: bold;">🎉 ¡Felicidades!</p> 
-                                <p>Cuentas con un equipo <strong>compatible</strong> (pero no soporta eSIM).</p>
-                                <button onclick="scrollToPlans()" class="boton-resultado">Comprar SIM Física</button>
-                              </div>
-                            `;
-                        }
-                    }
-
-                    resultadoDiv.innerHTML = htmlContent;
-                    resultadoDiv.classList.add("fade-in");
-                })
-                .catch((error) => {
-                    console.error("Error en fetch:", error); // Log para depuración
-                    resultadoDiv.innerHTML = "<span style='color: #F87171;'>❌ Error al consultar. Intenta más tarde.</span>";
-                    resultadoDiv.classList.add("fade-in");
-                });
-        }
-        
-        // Función para hacer scroll suave a la sección de planes y cerrar modal
-        function scrollToPlans() {
-            // Dispara el evento para que Alpine cierre el modal
-             window.dispatchEvent(new CustomEvent('close-result-modal'));
-
-            // Espera un poco a que el modal se cierre visualmente y luego hace scroll
-             setTimeout(() => {
-                 const plansSection = document.getElementById('planes-sim-fisica');
-                 if (plansSection) {
-                    plansSection.scrollIntoView({ behavior: 'smooth' });
-                 }
-             }, 300); // 300ms espera, ajusta si es necesario
-        }
-
-        // FIN: Script de consulta IMEI
-
-
-        // ELIMINADO: Interactive Image Script
-        
-        // ELIMINADO: 3D Carousel Script
-       
-        // Scrolling Gradient Script (CONSERVADO)
         window.addEventListener('scroll', () => {
             const bg = document.body;
             const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -1250,8 +957,6 @@
                  bg.style.backgroundPosition = `50% 0%`;
             }
         });
-
-        // ELIMINADO: Adjust image height on app download section...
     </script>
 </body>
 </html>
