@@ -248,6 +248,7 @@
         .plan-card {
           max-width: 250px; border-radius: 20px; overflow: hidden; opacity: 0;
           transform: translateY(30px); animation: slideIn 0.6s ease forwards;
+          position: relative; /* Agregado para posicionar los botones flotantes */
         }
 
         .tab-content.active .plan-card { animation: slideIn 0.6s ease forwards; }
@@ -262,9 +263,57 @@
           to { opacity: 1; transform: translateY(0); }
         }
 
-        .plan-card a { display: block; text-decoration: none; }
-        .plan-card img { max-width: 100%; border-radius: 10px; transition: transform 0.3s ease; }
-        .plan-card img:hover { transform: scale(1.03); }
+        /* Efecto hover sobre la tarjeta y desenfoque */
+        .plan-card img { 
+            max-width: 100%; 
+            border-radius: 10px; 
+            transition: transform 0.3s ease, filter 0.3s ease; 
+            display: block; 
+        }
+        .plan-card:hover img { 
+            transform: scale(1.05); 
+            filter: blur(4px) brightness(0.5); 
+        }
+
+        /* Capa superpuesta (Overlay) con los botones */
+        .plan-overlay {
+            position: absolute;
+            inset: 0; /* Cubre toda la tarjeta */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+        .plan-card:hover .plan-overlay {
+            opacity: 1;
+        }
+
+        /* Estilos de los botones internos */
+        .plan-overlay-btn {
+            width: 80%;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-comprar { background-color: #0E8388; color: white; border: 1px solid #57C5B6; }
+        .btn-comprar:hover { background-color: #57C5B6; transform: scale(1.05); }
+        
+        .btn-recarga { background-color: #57C5B6; color: #1f2937; border: 1px solid #CBE4DE;}
+        .btn-recarga:hover { background-color: #CBE4DE; transform: scale(1.05); }
+        
+        .btn-asesor { background-color: #2C3333; color: white; border: 1px solid #57C5B6; }
+        .btn-asesor:hover { background-color: #4A5568; transform: scale(1.05); }
 
         .glass-box {
             background-color: rgba(46, 79, 79, 0.7); 
@@ -467,92 +516,127 @@
                   
                     <div id="dias" class="tab-content">
                       <div class="plan-card">
-                        <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Mix" target="_blank">
-                          <img src="img/mix.png" alt="Plan Mix" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Mix';">
-                        </a>
+                        <img src="img/mix.png" alt="Plan Mix" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Mix';">
+                        <div class="plan-overlay">                          
+                          <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Mix" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                        </div>
                       </div>
                       <div class="plan-card">
-                        <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20WTF" target="_blank">
-                          <img src="img/wtf.png" alt="Plan WTF" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+WTF';">
-                        </a>
+                        <img src="img/wtf.png" alt="Plan WTF" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+WTF';">
+                        <div class="plan-overlay">
+                          <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20WTF" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                        </div>
                       </div>
                     </div>
                   
                     <div id="semanal" class="tab-content">
                       <div class="plan-card">
-                        <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Xoxo" target="_blank">
-                          <img src="img/xoxo.png" alt="Plan xoxo" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Xoxo';">
-                        </a>
+                        <img src="img/xoxo.png" alt="Plan xoxo" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Xoxo';">
+                        <div class="plan-overlay">
+                          <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Xoxo" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                        </div>
                       </div>
                       <div class="plan-card">
-                        <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Omg" target="_blank">
-                          <img src="img/omg.png" alt="Plan omg" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Omg';">
-                        </a>
+                        <img src="img/omg.png" alt="Plan omg" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Omg';">
+                        <div class="plan-overlay">
+                          <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Omg" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                        </div>
                       </div>
                     </div>
                   
                     <div id="mensual" class="tab-content active">
                       <div class="plan-card">
-                        <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids" target="_blank">
-                          <img src="img/kids.png" alt="Plan kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Kids';">
-                        </a>
+                        <img src="img/kids.png" alt="Plan kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Kids';">
+                        <div class="plan-overlay">
+                          <a href="https://vt.tiktok.com/ZS9hsVrk7bbQ6-R19nM/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
+                          <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                        </div>
                       </div>
                       <div class="plan-card">
-                        <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Teens" target="_blank">
-                          <img src="img/teens.png" alt="Plan teens" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Teens';">
-                        </a>
+                        <img src="img/teens.png" alt="Plan teens" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Teens';">
+                        <div class="plan-overlay">
+                          <a href="https://vt.tiktok.com/ZS9hsV9gQ21B6-gTg8E" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
+                          <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Teens" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                        </div>
                       </div>
                       <div class="plan-card">
-                        <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Flexible" target="_blank">
-                          <img src="img/flexible.png" alt="Plan Flexible" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Flexible';">
-                        </a>
+                        <img src="img/flexible.png" alt="Plan Flexible" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Flexible';">
+                        <div class="plan-overlay">
+                          <a href="https://vt.tiktok.com/ZS9hsVGGMBGyD-WzRI2/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
+                          <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Flexible" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                        </div>
                       </div>
                       <div class="plan-card">
-                        <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Total" target="_blank">
-                          <img src="img/total.png" alt="Plan Total" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Total';">
-                        </a>
+                        <img src="img/total.png" alt="Plan Total" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Total';">
+                        <div class="plan-overlay">
+                          <a href="https://vt.tiktok.com/ZS9hsVobg5heE-lCKUW/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
+                          <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Total" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                        </div>
                       </div>
                       <div class="plan-card">
-                        <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Power" target="_blank">
-                          <img src="img/power.png" alt="Plan Power" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Power';">
-                        </a>
+                        <img src="img/power.png" alt="Plan Power" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Power';">
+                        <div class="plan-overlay">
+                          <a href="https://vt.tiktok.com/ZS9hsqNBefm87-46I5m/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
+                          <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Power" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                        </div>
                       </div>
                     </div>
 
                     <div id="3meses" class="tab-content">
                         <div class="plan-card">
-                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%203%20meses" target="_blank">
                             <img src="img/kids3meses.png" alt="Plan 3 Meses kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=3+Meses';">
-                          </a>
+                            <div class="plan-overlay">
+                              <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                              <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%203%20meses" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                            </div>
                         </div>
                         <div class="plan-card">
-                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%203%20meses" target="_blank">
                             <img src="img/teens3meses.png" alt="Plan 3 Meses teens" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=3+Meses';">
-                          </a>
+                            <div class="plan-overlay">
+                              <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                              <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%203%20meses" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                            </div>
                         </div>
                     </div>
                     <div id="6meses" class="tab-content">
                         <div class="plan-card">
-                          <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%206%20meses" target="_blank">
                             <img src="img/kids6meses.png" alt="Plan 6 Meses kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=6+Meses';">
-                          </a>
+                            <div class="plan-overlay">
+                              <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                              <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%206%20meses" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                            </div>
                         </div>
                         <div class="plan-card">
-                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%206%20meses" target="_blank">
                             <img src="img/teens6meses.png" alt="Plan 6 Meses 2" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=6+Meses';">
-                          </a>
+                            <div class="plan-overlay">
+                              <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                              <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%206%20meses" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                            </div>
                         </div>
                     </div>
                     <div id="12meses" class="tab-content">
                          <div class="plan-card">
-                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%2012%20meses" target="_blank">
                             <img src="img/kids12meses.png" alt="Plan 12 Meses 1" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=12+Meses';">
-                          </a>
+                            <div class="plan-overlay">
+                              <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                              <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Kids%2012%20meses" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                            </div>
                         </div>
                         <div class="plan-card">
-                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%2012%20meses" target="_blank">
                             <img src="img/teens12meses.png" alt="Plan 12 Meses 2" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=12+Meses';">
-                          </a>
+                            <div class="plan-overlay">
+                              <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
+                              <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20TeensMax%2012%20meses" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
+                            </div>
                         </div>
                     </div>
 
@@ -800,7 +884,7 @@
             <div class="iframe-modal-content relative shadow-2xl" @click.stop>
                 <!-- Header del Modal -->
                 <div class="bg-[#0c4b59] px-6 py-4 flex justify-between items-center border-b border-[#0E8388]">
-                    <h3 class="text-xl font-bold text-white">Validación de Equipo</h3>
+                    <h3 class="text-xl font-bold text-white">Validación de Equipo (Altán Redes)</h3>
                     <button @click="isIframeOpen = false" class="text-white hover:text-[#57C5B6] text-3xl font-bold leading-none">&times;</button>
                 </div>
                 <!-- Contenedor del Iframe -->
