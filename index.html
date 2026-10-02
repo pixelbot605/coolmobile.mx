@@ -310,13 +310,39 @@
             <div class="swiper h-full w-full">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide relative">
+                    <div class="absolute inset-0 bg-cover bg-center hidden md:block" style="background-image: url('img/productweb.png');"></div>
+                    <div class="absolute inset-0 bg-cover bg-center block md:hidden" style="background-image: url('img/productwebmovil.png');"></div>    
+                    <div class="w-full h-full flex items-center justify-center relative z-10 bg-black bg-opacity-30">
+                    <div class="text-center max-w-3xl mx-auto px-6">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4 text-[#CBE4DE] text-3d">¡Elige cómo conectarte!</h1>
+                        <p class="text-lg text-[#BCEAD5] mb-8">Elige entre Telefonía, MiFi o Internet en casa.</p>
+            
+                         <!-- Botón modificado para abrir el test -->
+                    <button onclick="abrirTest()" class="inline-block bg-[#57C5B6] hover:bg-[#0E8388] text-[#2C3333] hover:text-white font-bold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg cursor-pointer">
+                            Arma tu test
+                    </button>
+                    </div>
+                     </div>
+            </div>
+                    <div class="swiper-slide relative">
+                        <div class="absolute inset-0 bg-cover bg-center hidden md:block" style="background-image: url('img/sliderportabilidadweb.png');"></div>
+                        <div class="absolute inset-0 bg-cover bg-center block md:hidden" style="background-image: url('img/sliderportabilidadmovil.png');"></div>
+                        <div class="w-full h-full flex items-center justify-center relative z-10 bg-black bg-opacity-30">
+                            <div class="text-center max-w-3xl mx-auto px-6">
+                                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4 text-[#CBE4DE] text-3d">¡Aprovecha esta promoción!</h1>
+                                <p class="text-lg text-[#BCEAD5] mb-8">Realiza tú portabilidad y obtén doble o el triple de megas</p>
+                                <a href="/portabilidad/" class="inline-block bg-[#57C5B6] hover:bg-[#0E8388] text-[#2C3333] font-bold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">Iniciar portabilidad</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide relative">
                         <div class="absolute inset-0 bg-cover bg-center hidden md:block" style="background-image: url('img/vinculaweb.png');"></div>
                         <div class="absolute inset-0 bg-cover bg-center block md:hidden" style="background-image: url('img/vinculaapp.png');"></div>
                         <div class="w-full h-full flex items-center justify-center relative z-10 bg-black bg-opacity-30">
                             <div class="text-center max-w-3xl mx-auto px-6">
                                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4 text-[#CBE4DE] text-3d">¡AVISO IMPORTANTE!</h1>
-                                <p class="text-lg text-[#BCEAD5] mb-8">Consulta tu fecha límite según el último dígito de tu celular y vincula tu línea. !No olvides registrarte!</p>
-                                <a href="/vincula-tu-linea/" class="inline-block bg-[#57C5B6] hover:bg-[#0E8388] text-[#2C3333] font-bold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">Más información</a>
+                                <p class="text-lg text-[#BCEAD5] mb-8">Las líneas telefonicas que terminan en 3 ya vencieron el 30 de septiembre.</p>
+                                <a href="/vincula-tu-linea/" class="inline-block bg-[#57C5B6] hover:bg-[#0E8388] text-[#2C3333] font-bold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">Revisa tu fecha</a>
                             </div>
                         </div>
                     </div>
@@ -328,17 +354,6 @@
                                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4 text-[#CBE4DE] text-3d">Estamos buscando distribuidores</h1>
                                 <p class="text-lg text-[#BCEAD5] mb-8">Beneficios: *30% de ganancia por venta, capacitación continua, acceso a plataforma de gestión y servicio, y asesor personalizado para apoyo constante.</p>
                                 <a href="https://api.whatsapp.com/send/?phone=5215540777727&text=Me+interesa+ser+distribuidor%2C+necesito+m%C3%A1s+informaci%C3%B3n.&type=phone_number&app_absent=0" class="inline-block bg-[#57C5B6] hover:bg-[#0E8388] text-[#2C3333] font-bold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">Quiero ser distribuidor</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide relative">
-                        <div class="absolute inset-0 bg-cover bg-center hidden md:block" style="background-image: url('img/sliderportabilidadweb.png');"></div>
-                        <div class="absolute inset-0 bg-cover bg-center block md:hidden" style="background-image: url('img/sliderportabilidadmovil.png');"></div>
-                        <div class="w-full h-full flex items-center justify-center relative z-10 bg-black bg-opacity-30">
-                            <div class="text-center max-w-3xl mx-auto px-6">
-                                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4 text-[#CBE4DE] text-3d">¡Aprovecha esta promoción!</h1>
-                                <p class="text-lg text-[#BCEAD5] mb-8">Realiza tú portabilidad y obtén doble o el triple de megas</p>
-                                <a href="/portabilidad/" class="inline-block bg-[#57C5B6] hover:bg-[#0E8388] text-[#2C3333] font-bold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">Iniciar portabilidad</a>
                             </div>
                         </div>
                     </div>
@@ -837,7 +852,132 @@
             }
         });
     </script>
+<script>
+// Base de datos de tus productos
+const productos = {
+    telefonia: {
+        titulo: "📱 Telefonía",
+        descripcion: "Ideal para tu celular. Disfruta de comunicación total.",
+        viñetas: [
+            "SIM física o eSIM",
+            "Llamadas y SMS ilimitadas",
+            "Redes sociales ilimitadas",
+            "Comparte datos y acumula GB",
+            "Requiere Registro"
+        ],
+        link: "www.coolmobile.mx/telefonia_simcard" // <-- Agrega tu enlace aquí
+    },
+    mifi: {
+        titulo: "📶 SIM MiFi",
+        descripcion: "Internet móvil puro para llevar a todos lados.",
+        viñetas: [
+            "Internet mediante datos (Sin llamadas/SMS)",
+            "Conecta varios dispositivos por WiFi",
+            "Úsalo en celular, laptop o router portátil",
+            "No requiere Registro"
+        ],
+        link: "www.coolmobile.mx/internet-movil/" // <-- Agrega tu enlace aquí
+    },
+    hbb: {
+        titulo: "🏠 HBB – Internet para casa",
+        descripcion: "Conexión estable para tu hogar, oficina o negocio.",
+        viñetas: [
+            "Módem/router 4G LTE + SIM",
+            "No requiere instalación de fibra",
+            "Depende de la cobertura en tu zona",
+            "No requiere Registro"
+        ],
+        link: "https://www.coolmobile.mx/internet-de-casa/" // <-- Agrega tu enlace aquí
+    }
+};
 
+// Funciones de apertura y cierre del modal
+function abrirTest() {
+    const modal = document.getElementById('modalTest');
+    const caja = document.getElementById('modalBox');
+    
+    modal.classList.remove('hidden');
+    // Pequeño retraso para que la animación de Tailwind funcione
+    setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        caja.classList.remove('scale-95');
+    }, 10);
+    
+    mostrarPregunta1();
+}
+
+function cerrarTest() {
+    const modal = document.getElementById('modalTest');
+    const caja = document.getElementById('modalBox');
+    
+    modal.classList.add('opacity-0');
+    caja.classList.add('scale-95');
+    
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
+}
+
+// Flujo de preguntas
+function mostrarPregunta1() {
+    const contenido = document.getElementById('contenidoTest');
+    contenido.innerHTML = `
+        <h2 class="text-2xl font-bold text-[#2C3333] mb-6">¿Desde dónde vas a navegar principalmente?</h2>
+        <div class="flex flex-col gap-3">
+            <button onclick="mostrarPregunta2()" class="bg-[#CBE4DE] hover:bg-[#57C5B6] text-[#2C3333] font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm">📱 Dispositivo Móvil </button>
+            <button onclick="mostrarResultado('mifi')" class="bg-[#CBE4DE] hover:bg-[#57C5B6] text-[#2C3333] font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm">📶 Router Portátil </button>
+            <button onclick="mostrarResultado('hbb')" class="bg-[#CBE4DE] hover:bg-[#57C5B6] text-[#2C3333] font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm">🏠 Módem Fijo en Casa</button>
+        </div>
+    `;
+}
+
+function mostrarPregunta2() {
+    const contenido = document.getElementById('contenidoTest');
+    contenido.innerHTML = `
+        <button onclick="mostrarPregunta1()" class="text-sm text-[#0E8388] mb-4 hover:underline block text-left">&larr; Volver atrás</button>
+        <h2 class="text-2xl font-bold text-[#2C3333] mb-2">Para tu celular...</h2>
+        <p class="text-gray-600 mb-6">¿Necesitas hacer llamadas/SMS y estás dispuesto a registrarte?</p>
+        <div class="flex flex-col gap-3">
+            <button onclick="mostrarResultado('telefonia')" class="bg-[#CBE4DE] hover:bg-[#57C5B6] text-[#2C3333] font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm">Sí, quiero llamadas, SMS y registrarme</button>
+            <button onclick="mostrarResultado('mifi')" class="bg-[#CBE4DE] hover:bg-[#57C5B6] text-[#2C3333] font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm">No, solo busco datos (sin registro)</button>
+        </div>
+    `;
+}
+
+// Pantalla de Resultado
+function mostrarResultado(claveProducto) {
+    const producto = productos[claveProducto];
+    const contenido = document.getElementById('contenidoTest');
+    
+    // Generar la lista de características
+    const listaHtml = producto.viñetas.map(item => `
+        <li class="flex items-start text-left mb-2 text-gray-600 text-sm">
+            <span class="text-[#57C5B6] mr-2">✔</span> ${item}
+        </li>
+    `).join('');
+
+    contenido.innerHTML = `
+        <span class="text-xs font-bold tracking-widest text-[#0E8388] uppercase mb-1 block">Tu opción ideal</span>
+        <h2 class="text-3xl font-black text-[#2C3333] mb-2">${producto.titulo}</h2>
+        <p class="text-gray-600 mb-6 text-sm">${producto.descripcion}</p>
+        
+        <div class="bg-gray-50 rounded-xl p-5 mb-6 border border-gray-100 shadow-inner">
+            <ul class="m-0 p-0 list-none">
+                ${listaHtml}
+            </ul>
+        </div>
+        
+        <div class="flex gap-3">
+            <button onclick="mostrarPregunta1()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-4 rounded-xl transition-colors">Rehacer test</button>
+            
+            <!-- Aquí está el cambio: Ahora es una etiqueta <a> con href -->
+            <a href="${producto.link}" class="flex-1 bg-[#57C5B6] hover:bg-[#0E8388] text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-lg block text-center flex items-center justify-center">
+                ¡Lo quiero!
+            </a>
+        </div>
+    `;
+}
+</script>
     <!-- SCRIPTS DEL MAPA E INTEGRACIÓN FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -965,6 +1105,23 @@
                 alert("No pudimos obtener tu ubicación. Verifica los permisos de tu navegador.");
             }, { enableHighAccuracy: true });
         };
+        
     </script>
+    <!-- Fondo oscuro del Modal -->
+<div id="modalTest" class="fixed inset-0 bg-black bg-opacity-75 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    
+    <!-- Contenedor del Modal -->
+    <div class="bg-white rounded-2xl max-w-md w-full mx-4 p-8 relative shadow-2xl transform scale-95 transition-transform duration-300" id="modalBox">
+        
+        <!-- Botón Cerrar -->
+        <button onclick="cerrarTest()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 text-3xl font-bold leading-none">&times;</button>
+        
+        <!-- Contenedor dinámico donde aparecerán las preguntas -->
+        <div id="contenidoTest" class="text-center">
+            <!-- El JS inyecta el contenido aquí -->
+        </div>
+
+    </div>
+</div>
 </body>
 </html>

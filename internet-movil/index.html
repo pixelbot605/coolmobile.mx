@@ -410,21 +410,84 @@
                             </li>
                             <li class="flex items-center text-lg text-[#000000]">
                                 <svg class="w-6 h-6 mr-2 text-[#facc15]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> <!-- CAMBIADO: Color de icono -->
-                                Consulta tu cobertura 
+                                Ideal para móviles y portátiles compatibles. 
+                            </li>
+                            <li class="flex items-center text-lg text-[#000000]">
+                                <svg class="w-6 h-6 mr-2 text-[#facc15]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> <!-- CAMBIADO: Color de icono -->
+                                No requiere registro nacional
+                            </li>
+                            <li class="flex items-center text-lg text-[#000000]">
+                                <svg class="w-6 h-6 mr-2 text-[#facc15]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> <!-- CAMBIADO: Color de icono -->
+                                No contiene llamadas ni SMS. 
                             </li>
                             <li class="flex items-center text-lg text-[#000000]">
                                 <svg class="w-6 h-6 mr-2 text-[#facc15]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> <!-- CAMBIADO: Color de icono -->
                                 Conecta hasta 10 dispositivos.
                             </li>
                         </ul>
-                            <div class="flex justify-center">
-                                <a href="#planes-internet-casa" class="mr-4 bg-[#eab308] hover:bg-[#facc15] text-white font-bold py-3 px-8 rounded-full transition-all duration-200 transform hover:scale-105 text-lg"> <!-- CAMBIADO: Colores -->
-                                    Ver Planes
-                                </a>
-                                <a href="#consulta-tu-cobertura" class="bg-[#eab308] hover:bg-[#facc15] text-white font-bold py-3 px-8 rounded-full transition-all duration-200 transform hover:scale-105 text-lg"> <!-- CAMBIADO: Colores -->
-                                    Ver Cobertura
-                                </a>
-                            </div>
+                           <!-- Contenedor de Botones -->
+<div class="flex justify-center flex-wrap gap-4">
+    <a href="#planes-internet-casa" class="bg-[#eab308] hover:bg-[#facc15] text-white font-bold py-3 px-8 rounded-full transition-all duration-200 transform hover:scale-105 text-lg">
+        Ver Planes
+    </a>
+    <a href="#consulta-tu-cobertura" class="bg-[#eab308] hover:bg-[#facc15] text-white font-bold py-3 px-8 rounded-full transition-all duration-200 transform hover:scale-105 text-lg">
+        Ver Cobertura
+    </a>
+    <!-- Nuevo Botón de Compatibilidad -->
+    <button onclick="abrirModalCompatibilidad()" class="bg-[#eab308] hover:bg-[#facc15] text-white font-bold py-3 px-8 rounded-full transition-all duration-200 transform hover:scale-105 text-lg cursor-pointer">
+        Compatibilidad
+    </button>
+</div>
+
+<!-- Ventana Modal Oculta por Defecto -->
+<div id="modalCompatibilidad" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity">
+    
+    <!-- Contenedor del Iframe -->
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden relative">
+        
+        <!-- Header del Modal -->
+        <div class="flex justify-between items-center p-4 border-b border-gray-200 bg-gray-50">
+            <h3 class="text-xl font-bold text-gray-800">Verifica tu Compatibilidad</h3>
+            <button onclick="cerrarModalCompatibilidad()" class="text-gray-500 hover:text-red-600 transition-colors text-3xl leading-none font-bold">
+                &times;
+            </button>
+        </div>
+
+        <!-- Iframe de Altán -->
+        <div class="flex-grow w-full h-full bg-gray-100">
+            <iframe 
+                src="https://checkimei.altanredes.com" 
+                class="w-full h-full border-0" 
+                title="Check IMEI Altán Redes"
+                allow="geolocation">
+            </iframe>
+        </div>
+    </div>
+</div>
+
+<!-- Script para controlar el Modal -->
+<script>
+    function abrirModalCompatibilidad() {
+        const modal = document.getElementById('modalCompatibilidad');
+        modal.classList.remove('hidden');
+        // Prevenir que el fondo haga scroll
+        document.body.style.overflow = 'hidden'; 
+    }
+
+    function cerrarModalCompatibilidad() {
+        const modal = document.getElementById('modalCompatibilidad');
+        modal.classList.add('hidden');
+        // Restaurar el scroll del fondo
+        document.body.style.overflow = 'auto'; 
+    }
+
+    // Cerrar el modal si el usuario hace clic fuera de la ventana blanca
+    document.getElementById('modalCompatibilidad').addEventListener('click', function(event) {
+        if (event.target === this) {
+            cerrarModalCompatibilidad();
+        }
+    });
+</script>
                     </div>
                     <!-- Columna 2: Imagen del Módem -->
                     <div class="flex justify-center items-center">
