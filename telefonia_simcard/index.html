@@ -20,7 +20,7 @@
         }
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(180deg,  #67bbbb, #BCEAD5, #406c6c, #568d8d, #BCEAD5, #CBE4DE);
+            background: linear-gradient(180deg,  #004762, #004762, #003242, #003242, #004762, #000707);
             background-size: 100% 400%;
             background-attachment: fixed;
             transition: background-position 0.2s ease-out;
@@ -36,7 +36,7 @@
 
         .text-3d, .title-outline {
             text-shadow:
-                -1.5px -1.5px 0 #2C3333, 1.5px -1.5px 0 #2C3333,
+                -1.5px -1.5px 0 #ffffff, 1.5px -1.5px 0 #2C3333,
                 -1.5px 1.5px 0 #2C3333, 1.5px 1.5px 0 #2C3333,
                 4px 4px 8px rgba(0,0,0,0.5);
         }
@@ -226,14 +226,14 @@
         }
 
         .tab-buttons button {
-          padding: 10px 15px; border: none; cursor: pointer; background-color: #2E4F4F;
+          padding: 10px 15px; border: none; cursor: pointer; background-color: #0E8388;
           color: white; border-radius: 30px; font-size: 18px; font-family: 'Roboto', serif;
           transition: transform 0.2s ease, background-color 0.2s ease;
         }
 
-        .tab-buttons button:hover { background-color: #0E8388; transform: translateY(-2px); }
+        .tab-buttons button:hover { background-color: #03bcc8; transform: translateY(-2px); }
         .tab-buttons button:focus { outline: none; box-shadow: none; }
-        .tab-buttons button.active { background-color: #dbd89f; color: #2E4F4F; }
+        .tab-buttons button.active { background-color: #ffffff; color: #004761; }
 
         .tab-content {
           display: none; flex-wrap: wrap; justify-content: center; gap: 20px;
@@ -346,7 +346,7 @@
 <body>
     <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false, isIframeOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false" @open-iframe-modal.window="isIframeOpen = true" @close-iframe-modal.window="isIframeOpen = false">
         <header class="text-white fixed top-0 w-full z-50 transition-colors duration-300" 
-                :class="{ 'bg-[#0c4b59] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
+                :class="{ 'bg-[#003242] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-24">
                     <a href="/index.html" class="flex-shrink-0">
@@ -358,7 +358,7 @@
                                 Telefonía
                                 <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#003242] rounded-md shadow-lg py-1 z-40">
                                 <a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia-simcard</a>
                                 <a href="/telefonia-eSIM/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Telefonia eSIM</a>
                                 <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Promociones</a>
@@ -369,7 +369,7 @@
                                 Internet
                                 <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#003242] rounded-md shadow-lg py-1 z-40">
                                 <a href="/internet-de-casa/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">En casa</a>
                                 <a href="/internet-movil/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Mifi</a>
                             </div>
@@ -379,7 +379,7 @@
                                 Consulta
                                 <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#003242] rounded-md shadow-lg py-1 z-40">
                                 <a href="/portabilidad/index.html" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Portabilidad</a>
                                 <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Compatibilidad</a>
                                 <a href="/manual-configuraciones/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Manual</a>
@@ -391,7 +391,7 @@
                                 Contacto
                                 <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#0c4b59] rounded-md shadow-lg py-1 z-40">
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#003242] rounded-md shadow-lg py-1 z-40">
                                 <a href="/faqs/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Faqs</a>
                                 <a href="/contacto/" class="block px-4 py-2 text-sm hover:bg-[#0E8388]">Contactos</a>
                             </div>
@@ -417,7 +417,7 @@
                 </div>
             </div>
 
-            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#0c4b59] z-40"
+            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#003242] z-40"
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 scale-95"
                  x-transition:enter-end="opacity-100 scale-100"
@@ -483,13 +483,13 @@
                     <!-- Columna 1: Texto e Iframe Altán -->
                     <div class="text-white md:text-left">
                         <h1 class="text-4xl lg:text-4xl font-bold title-outline mb-4">Escoge tu recarga ideal, ahora todas aplican:</h1>
-                        <p class="text-lg text-[#2C3333] mb-2">✅ Llamadas y SMS <span class="font-bold text-black">ILIMITADAS</span></p>
-                        <p class="text-lg text-[#2C3333] mb-2">✅ Redes sociales <span class="font-bold text-black">ILIMITADAS</span></p>
-                        <p class="text-lg text-[#2C3333] mb-2">✅ Todos comparten <span class="font-bold text-black">DATOS</span></p>
-                        <p class="text-lg text-[#2C3333] mb-2">✅ Sin plazos <span class="font-bold text-black">forzosos</span></p>
-                        <p class="text-lg text-[#2C3333] mb-2">✅ Requiere <span class="font-bold text-black">registro nacional</span></p>                     
-                        <p class="text-lg text-[#2C3333] mb-6">✅ <span class="font-bold text-black">Acumulación</span> de GB</p>
-                        <p class="text-sm text-[#2C3333] mb-2">Revisa tu compatibilidad. (Obtén tu IMEI marcando <span class="font-bold text-black">*#06#</span>)</p>
+                        <p class="text-lg text-[#dbe5e5] mb-2">✅ Llamadas y SMS <span class="font-bold text-white">ILIMITADAS</span></p>
+                        <p class="text-lg text-[#dbe5e5] mb-2">✅ Redes sociales <span class="font-bold text-white">ILIMITADAS</span></p>
+                        <p class="text-lg text-[#dbe5e5] mb-2">✅ Todos comparten <span class="font-bold text-white">DATOS</span></p>
+                        <p class="text-lg text-[#dbe5e5] mb-2">✅ Sin plazos <span class="font-bold text-white">forzosos</span></p>
+                        <p class="text-lg text-[#dbe5e5] mb-2">✅ Requiere <span class="font-bold text-white">registro nacional</span></p>                     
+                        <p class="text-lg text-[#dbe5e5] mb-6">✅ <span class="font-bold text-white">Acumulación</span> de GB</p>
+                        <p class="text-sm text-[#dbe5e5] mb-2">Revisa tu compatibilidad. (Obtén tu IMEI marcando <span class="font-bold text-white">*#06#</span>)</p>
                         
                         <div class="mt-6">
                             <button onclick="abrirModalAltan()" class="bg-[#0E8388] hover:bg-[#57C5B6] text-white font-bold py-3 px-8 rounded-full transition-all duration-200 transform hover:scale-105 whitespace-nowrap shadow-lg">
@@ -517,14 +517,14 @@
                   
                     <div id="dias" class="tab-content">
                       <div class="plan-card">
-                        <img src="img/mix.png" alt="Plan Mix" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Mix';">
+                        <img src="img/Mix2026.png" alt="Plan Mix" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Mix';">
                         <div class="plan-overlay">                          
                           <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Mix" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
                         </div>
                       </div>
                       <div class="plan-card">
-                        <img src="img/wtf.png" alt="Plan WTF" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+WTF';">
+                        <img src="img/WTF2026.png" alt="Plan WTF" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+WTF';">
                         <div class="plan-overlay">
                           <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20WTF" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
@@ -534,14 +534,14 @@
                   
                     <div id="semanal" class="tab-content">
                       <div class="plan-card">
-                        <img src="img/xoxo.png" alt="Plan xoxo" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Xoxo';">
+                        <img src="img/XoXo2026.png" alt="Plan xoxo" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Xoxo';">
                         <div class="plan-overlay">
                           <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Xoxo" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
                         </div>
                       </div>
                       <div class="plan-card">
-                        <img src="img/omg.png" alt="Plan omg" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Omg';">
+                        <img src="img/OMG2026.png" alt="Plan omg" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Omg';">
                         <div class="plan-overlay">
                           <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
                           <a href="https://wa.me/5215540777727?text=Me%20interesa%20el%20plan%20Omg" target="_blank" class="plan-overlay-btn btn-asesor">Asesor</a>
@@ -551,7 +551,7 @@
                   
                     <div id="mensual" class="tab-content active">
                       <div class="plan-card">
-                        <img src="img/kids.png" alt="Plan kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Kids';">
+                        <img src="img/Kids2026.png" alt="Plan kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Kids';">
                         <div class="plan-overlay">
                           <a href="https://vt.tiktok.com/ZS9hsVrk7bbQ6-R19nM/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
                           <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
@@ -559,7 +559,7 @@
                         </div>
                       </div>
                       <div class="plan-card">
-                        <img src="img/teens.png" alt="Plan teens" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Teens';">
+                        <img src="img/Teens2026.png" alt="Plan teens" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Teens';">
                         <div class="plan-overlay">
                           <a href="https://vt.tiktok.com/ZS9hsV9gQ21B6-gTg8E" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
                           <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
@@ -567,7 +567,7 @@
                         </div>
                       </div>
                       <div class="plan-card">
-                        <img src="img/flexible.png" alt="Plan Flexible" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Flexible';">
+                        <img src="img/Flexible2026.png" alt="Plan Flexible" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Flexible';">
                         <div class="plan-overlay">
                           <a href="https://vt.tiktok.com/ZS9hsVGGMBGyD-WzRI2/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
                           <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
@@ -575,7 +575,7 @@
                         </div>
                       </div>
                       <div class="plan-card">
-                        <img src="img/total.png" alt="Plan Total" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Total';">
+                        <img src="img/Total2026.png" alt="Plan Total" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Total';">
                         <div class="plan-overlay">
                           <a href="https://vt.tiktok.com/ZS9hsVobg5heE-lCKUW/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
                           <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
@@ -583,7 +583,7 @@
                         </div>
                       </div>
                       <div class="plan-card">
-                        <img src="img/power.png" alt="Plan Power" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Power';">
+                        <img src="img/Power2026.png" alt="Plan Power" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=Plan+Power';">
                         <div class="plan-overlay">
                           <a href="https://vt.tiktok.com/ZS9hsqNBefm87-46I5m/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
                           <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
@@ -594,7 +594,7 @@
 
                     <div id="3meses" class="tab-content">
                         <div class="plan-card">
-                            <img src="img/kids3meses.png" alt="Plan 3 Meses kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=3+Meses';">
+                            <img src="img/Kids32026.png" alt="Plan 3 Meses kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=3+Meses';">
                             <div class="plan-overlay">
                             <a href="https://vt.tiktok.com/ZS9hsqNBefm87-46I5m/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
                               <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
@@ -602,7 +602,7 @@
                             </div>
                         </div>
                         <div class="plan-card">
-                            <img src="img/teens3meses.png" alt="Plan 3 Meses teens" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=3+Meses';">
+                            <img src="img/Teens32026.png" alt="Plan 3 Meses teens" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=3+Meses';">
                             <div class="plan-overlay">
                               <a href="https://vt.tiktok.com/ZS9hsqNBefm87-46I5m/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
                               <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
@@ -612,7 +612,7 @@
                     </div>
                     <div id="6meses" class="tab-content">
                         <div class="plan-card">
-                            <img src="img/kids6meses.png" alt="Plan 6 Meses kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=6+Meses';">
+                            <img src="img/Kids62026.png" alt="Plan 6 Meses kids" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=6+Meses';">
                             <div class="plan-overlay">
                               <a href="https://vt.tiktok.com/ZS9hsqNBefm87-46I5m/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
                               <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
@@ -620,7 +620,7 @@
                             </div>
                         </div>
                         <div class="plan-card">
-                            <img src="img/teens6meses.png" alt="Plan 6 Meses 2" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=6+Meses';">
+                            <img src="img/Teens62026.png" alt="Plan 6 Meses teens" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=6+Meses';">
                             <div class="plan-overlay">
                               <a href="https://vt.tiktok.com/ZS9hsqNBefm87-46I5m/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
                               <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
@@ -630,7 +630,7 @@
                     </div>
                     <div id="12meses" class="tab-content">
                          <div class="plan-card">
-                            <img src="img/kids12meses.png" alt="Plan 12 Meses 1" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=12+Meses';">
+                            <img src="img/Kids122026.png" alt="Plan 12 Meses 1" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=12+Meses';">
                             <div class="plan-overlay">
                               <a href="https://vt.tiktok.com/ZS9hsqNBefm87-46I5m/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
                               <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
@@ -638,7 +638,7 @@
                             </div>
                         </div>
                         <div class="plan-card">
-                            <img src="img/teens12meses.png" alt="Plan 12 Meses 2" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=12+Meses';">
+                            <img src="img/Teens122026.png" alt="Plan 12 Meses 2" onerror="this.onerror=null;this.src='https://placehold.co/250x350/2C3333/CBE4DE?text=12+Meses';">
                             <div class="plan-overlay">
                               <a href="https://vt.tiktok.com/ZS9hsqNBefm87-46I5m/" target="_blank" class="plan-overlay-btn btn-comprar">Comprar SIM</a>
                               <a href="https://www.coolmobile-app.com/" target="_blank" class="plan-overlay-btn btn-recarga">Recarga</a>
@@ -653,21 +653,21 @@
                       <h3 class="text-2xl font-bold text-[#CBE4DE] mb-6 title-outline">Adquiere tu SIM Física en:</h3>
                       <div class="flex flex-wrap justify-center gap-4">
                           
-                          <a href="https://www.amazon.com.mx/dp/B0GJV22XRG" target="_blank" class="flex items-center gap-2 bg-[#FF9900] hover:bg-[#e68a00] text-black font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg">
+                          <a href="https://www.amazon.com.mx/dp/B0GJV22XRG" target="_blank" class="flex items-center gap-2 bg-[#ffe2b7] hover:bg-[#e68a00] text-black font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg">
                               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                               </svg>
                               Amazon
                           </a>
                           
-                          <a href="https://listado.mercadolibre.com.mx/_CustId_1032424934?item_id=MLM2584545487&category_id=MLM189728&seller_id=1032424934&client=recoview-selleritems&recos_listing=true" target="_blank" class="flex items-center gap-2 bg-[#FFE600] hover:bg-[#e5cf00] text-[#2D3277] font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg">
+                          <a href="https://listado.mercadolibre.com.mx/_CustId_1032424934?item_id=MLM2584545487&category_id=MLM189728&seller_id=1032424934&client=recoview-selleritems&recos_listing=true" target="_blank" class="flex items-center gap-2 bg-[#fbf5c1] hover:bg-[#e5cf00] text-[#000109] font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg">
                               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                               </svg>
                               Mercado Libre
                           </a>
                           
-                          <a href="https://vt.tiktok.com/ZS9BPFBvwKG5B-JvFil/" target="_blank" class="flex items-center gap-2 bg-black hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg border border-gray-700">
+                          <a href="https://vt.tiktok.com/ZS9BPFBvwKG5B-JvFil/" target="_blank" class="flex items-center gap-2 bg-white hover:bg-red-500 text-black font-bold py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg border border-gray-700">
                               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                   <path d="M12.53.02C13.84 0 15.14.01 16.44.06c.15 1.5.83 2.92 1.83 3.97.99 1.05 2.37 1.63 3.85 1.65v3.47c-1.35-.01-2.67-.39-3.81-1.09-.01 1.48-.02 2.96-.02 4.45 0 3.79-2.91 6.96-6.68 7.33-3.77.37-7.23-2.1-8.15-5.78-.92-3.68.73-7.53 3.99-9.28.32-.17.66-.31 1.01-.42v3.6c-.95.3-1.74 1.02-2.14 1.95-.4 1.01-.29 2.16.29 3.07.57.92 1.55 1.48 2.64 1.51 1.48.05 2.82-.93 3.23-2.36.19-.66.21-1.37.21-2.06V.02z"/>
                               </svg>
@@ -676,8 +676,8 @@
                       </div>
                   </div>
 
-                  <p class="text-center text-xs text-[#2C3333] opacity-80 mt-8">
-                    *REDES SOCIALES ILIMITADOS CON POLÍTICA DE USO JUSTO, CONSULTE TÉRMINOS Y CONDICIONES, MÁS INFORMACIÓN EN COOLMOBILE.MX / TARIFAS REGISTRADAS en IFT
+                  <p class="text-center text-xs text-[#ffffff] opacity-80 mt-8">
+                    *REDES SOCIALES ILIMITADOS CON POLÍTICA DE USO JUSTO, CONSULTE TÉRMINOS Y CONDICIONES, MÁS INFORMACIÓN EN COOLMOBILE.MX / TARIFAS REGISTRADAS EN IFT
                   </p>
                 </div>
             </div>
@@ -694,8 +694,8 @@
                             </a>
                             <h3 class="text-2xl sm:text-3xl font-bold mb-6 title-outline">TIENDAS AFILIADAS</h3>
                             <a href="https://www.paynet.com.mx" target="_blank">
-                                <p class="text-lg text-[#2C3333] mb-8">Genera tu código y realiza tus recargas</p>
-                                <p class="text-lg text-[#2C3333] mb-8">Conoce todo lo que puedes comprar en línea y pagar con efectivo</p>
+                                <p class="text-lg text-[#fafbfb] mb-8">Genera tu código y realiza tus recargas</p>
+                                <p class="text-lg text-[#fafbfb] mb-8">Conoce todo lo que puedes comprar en línea y pagar con efectivo</p>
                             </a>
                             <div class="logo-carousel">
                                 <div class="logo-carousel-inner">
